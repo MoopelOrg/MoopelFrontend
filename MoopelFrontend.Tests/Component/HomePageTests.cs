@@ -40,11 +40,11 @@ public class HomePageTests : IClassFixture<MoopelFrontendFactory>
     public void HomePage_RendersHeading_WhenMounted()
     {
         // Arrange
-        using Bunit.TestContext ctx = new();
+        using Bunit.BunitContext ctx = new();
 
         // Act
         IRenderedComponent<MoopelFrontend.Components.Pages.Home> cut =
-            ctx.RenderComponent<MoopelFrontend.Components.Pages.Home>();
+            ctx.Render<MoopelFrontend.Components.Pages.Home>();
 
         // Assert
         cut.Find("h1").MarkupMatches("<h1>Hello, world!</h1>");
