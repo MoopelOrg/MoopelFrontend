@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
   <Project Path="MoopelFrontend.Client/MoopelFrontend.Client.csproj" />
   <Project Path="MoopelFrontend.Tests/MoopelFrontend.Tests.csproj" />
   <Project Path="MoopelFrontend/MoopelFrontend.csproj" />

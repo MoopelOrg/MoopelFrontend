@@ -1,0 +1,44 @@
+﻿[*.cs]
+
+# CA2016: Forward the 'CancellationToken' parameter to methods
+dotnet_diagnostic.CA2016.severity = error
+
+# CA2017: Logging parameter count mismatch
+dotnet_diagnostic.CA2017.severity = error
+
+# CA2254: Logger message template should be a static expression
+dotnet_diagnostic.CA2254.severity = warning
+
+# IDE0052: Remove unread private members
+dotnet_diagnostic.IDE0052.severity = warning
+
+# IDE0060: Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = warning
+
+# IDE0005: Remove unnecessary using
+dotnet_diagnostic.IDE0005.severity = warning
+
+# CA2208: Instantiate argument exceptions correctly
+dotnet_diagnostic.CA2208.severity = warning
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = error
+
+# CS8613: Nullability of reference types in return type doesn't match implicitly implemented member.
+dotnet_diagnostic.CS8613.severity = error
+
+# IDE0301: Simplify collection initialization
+dotnet_diagnostic.IDE0301.severity = error
+
+# CA2264: Do not pass a non-nullable value to 'ArgumentNullException.ThrowIfNull'
+dotnet_diagnostic.CA2264.severity = error
+
+dotnet_diagnostic.IDE0290.severity = none
+
+dotnet_diagnostic.IDE0008.severity = warning
+
+# IDE0090: Use 'new(...)'
+dotnet_diagnostic.IDE0090.severity = error
+
+# Nullability of reference types in type of parameter
+dotnet_diagnostic.CS8767.severity = error
