@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MoopelFrontend.Client/MoopelFrontend.Client.csproj" />
+  <Project Path="MoopelFrontend/MoopelFrontend.csproj" />
+</Solution>
