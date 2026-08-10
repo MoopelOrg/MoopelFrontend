@@ -1,0 +1,95 @@
+@attribute [Route(PageRoutes.Login)]
+@attribute [AllowAnonymous]
+
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Log in - Moopel</PageTitle>
+
+<section class="page page-narrow">
+    <h1>Log in</h1>
+
+    <EditForm Model="_request" OnValidSubmit="LoginAsync" FormName="login">
+        <DataAnnotationsValidator />
+
+        <div class="form-field">
+            <label for="username">Username</label>
+            <InputText id="username" @bind-Value="_request.Username" autocomplete="username" />
+            <ValidationMessage For="() => _request.Username" />
+        </div>
+
+        <div class="form-field">
+            <label for="password">Password</label>
+            <InputText id="password" type="password" @bind-Value="_request.Password" autocomplete="current-password" />
+            <ValidationMessage For="() => _request.Password" />
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+        {
+            <p class="form-error" role="alert">@_errorMessage</p>
+        }
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" disabled="@_isSubmitting">
+                @(_isSubmitting ? "Logging in…" : "Log in")
+            </button>
+            <button type="button" class="btn btn-secondary" disabled="@_isSubmitting" @onclick="GuestLoginAsync">
+                Continue as guest
+            </button>
+        </div>
+    </EditForm>
+
+    <p class="muted">New to Moopel? <a href="@PageRoutes.Register">Create an account</a></p>
+</section>
+
+@code {
+    private readonly LoginRequest _request = new();
+    private string? _errorMessage;
+    private bool _isSubmitting;
+
+    [SupplyParameterFromQuery(Name = PageRoutes.ReturnUrlParameter)]
+    private string? ReturnUrl { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Already-authenticated users have no business on the login page.
+        if (AuthService.CurrentUser is not null)
+        {
+            NavigationManager.NavigateTo(PageRoutes.Home);
+        }
+    }
+
+    private async Task LoginAsync()
+    {
+        await SubmitAsync(() => AuthService.LoginAsync(_request));
+    }
+
+    private async Task GuestLoginAsync()
+    {
+        await SubmitAsync(() => AuthService.GuestLoginAsync());
+    }
+
+    private async Task SubmitAsync(Func<Task<ApiResult<LoginResult>>> loginAction)
+    {
+        _errorMessage = null;
+        _isSubmitting = true;
+
+        try
+        {
+            ApiResult<LoginResult> result = await loginAction();
+
+            if (result.Success && AuthService.CurrentUser is not null)
+            {
+                NavigationManager.NavigateTo(string.IsNullOrWhiteSpace(ReturnUrl) ? PageRoutes.Home : ReturnUrl);
+                return;
+            }
+
+            // Failed logins return 401 with a LoginResult body whose Error explains why.
+            _errorMessage = result.Value?.Error ?? result.Message ?? "Login failed.";
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+}

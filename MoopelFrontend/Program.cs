@@ -1,3 +1,4 @@
+using MoopelFrontend.Client;
 using MoopelFrontend.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.AddMoopelClientServices(builder.Configuration);
 
 var app = builder.Build();
 

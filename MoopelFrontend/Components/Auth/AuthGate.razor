@@ -1,0 +1,23 @@
+@inject IAuthService AuthService
+
+@if (AuthService.IsInitialized)
+{
+    @ChildContent
+}
+else
+{
+    <div class="auth-loading" role="status">
+        <p>Loading&hellip;</p>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Prerendering is disabled, so JS interop (localStorage) is available here.
+        await AuthService.InitializeAsync();
+    }
+}

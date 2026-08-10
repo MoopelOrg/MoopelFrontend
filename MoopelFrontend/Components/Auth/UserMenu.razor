@@ -1,0 +1,22 @@
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<div class="user-menu">
+    <AuthorizeView>
+        <Authorized>
+            <span class="user-menu-name">@context.User.Identity?.Name</span>
+            <button type="button" class="btn btn-secondary" @onclick="SignOutAsync">Log out</button>
+        </Authorized>
+        <NotAuthorized>
+            <a class="btn btn-primary" href="@PageRoutes.Login">Log in</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code {
+    private async Task SignOutAsync()
+    {
+        await AuthService.SignOutAsync();
+        NavigationManager.NavigateTo(PageRoutes.Home);
+    }
+}

@@ -1,6 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<div class="app-shell">
+    <header class="app-header">
+        <a class="app-brand" href="@PageRoutes.Home">Moopel</a>
+
+        <nav class="app-nav">
+            @foreach (NavItem item in AppNav.Items)
+            {
+                if (item.RequiresAuth)
+                {
+                    <AuthorizeView>
+                        <NavLink class="app-nav-link" href="@item.Href">@item.Label</NavLink>
+                    </AuthorizeView>
+                }
+                else
+                {
+                    <NavLink class="app-nav-link" href="@item.Href" Match="NavLinkMatch.All">@item.Label</NavLink>
+                }
+            }
+        </nav>
+
+        <UserMenu />
+    </header>
+
+    <main class="app-main">
+        @Body
+    </main>
+</div>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.

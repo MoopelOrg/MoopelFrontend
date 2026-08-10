@@ -1,0 +1,79 @@
+@attribute [Route(PageRoutes.Register)]
+@attribute [AllowAnonymous]
+
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create account - Moopel</PageTitle>
+
+<section class="page page-narrow">
+    <h1>Create account</h1>
+
+    <EditForm Model="_request" OnValidSubmit="RegisterAsync" FormName="register">
+        <DataAnnotationsValidator />
+
+        <div class="form-field">
+            <label for="username">Username</label>
+            <InputText id="username" @bind-Value="_request.Username" autocomplete="username" />
+            <ValidationMessage For="() => _request.Username" />
+        </div>
+
+        <div class="form-field">
+            <label for="password">Password</label>
+            <InputText id="password" type="password" @bind-Value="_request.Password" autocomplete="new-password" />
+            <ValidationMessage For="() => _request.Password" />
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+        {
+            <p class="form-error" role="alert">@_errorMessage</p>
+        }
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" disabled="@_isSubmitting">
+                @(_isSubmitting ? "Creating account…" : "Create account")
+            </button>
+        </div>
+    </EditForm>
+
+    <p class="muted">Already have an account? <a href="@PageRoutes.Login">Log in</a></p>
+</section>
+
+@code {
+    private readonly RegistrationRequest _request = new();
+    private string? _errorMessage;
+    private bool _isSubmitting;
+
+    protected override void OnInitialized()
+    {
+        if (AuthService.CurrentUser is not null)
+        {
+            NavigationManager.NavigateTo(PageRoutes.Home);
+        }
+    }
+
+    private async Task RegisterAsync()
+    {
+        _errorMessage = null;
+        _isSubmitting = true;
+
+        try
+        {
+            // Registers and then logs in with the same credentials.
+            ApiResult<LoginResult> result = await AuthService.RegisterAsync(_request);
+
+            if (result.Success && AuthService.CurrentUser is not null)
+            {
+                NavigationManager.NavigateTo(PageRoutes.Home);
+                return;
+            }
+
+            // 400 bodies carry the backend's username/password rule explanations.
+            _errorMessage = result.Value?.Error ?? result.Message ?? "Registration failed.";
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+}

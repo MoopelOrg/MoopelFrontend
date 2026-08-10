@@ -1,0 +1,159 @@
+@attribute [Route(PageRoutes.Notes)]
+@attribute [Authorize]
+
+@inject INotesApiClient NotesApi
+
+<PageTitle>Notes - Moopel</PageTitle>
+
+<section class="page">
+    <h1>Notes</h1>
+
+    <EditForm Model="_newNote" OnValidSubmit="CreateNoteAsync" FormName="create-note">
+        <DataAnnotationsValidator />
+
+        <div class="form-field">
+            <label for="note-title">Title</label>
+            <InputText id="note-title" @bind-Value="_newNote.Title" />
+            <ValidationMessage For="() => _newNote.Title" />
+        </div>
+
+        <div class="form-field">
+            <label for="note-type">Type</label>
+            <InputSelect id="note-type" @bind-Value="_newNote.Type">
+                @foreach (NoteType type in Enum.GetValues<NoteType>())
+                {
+                    <option value="@type">@type</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-field">
+            <label for="note-content">Content</label>
+            <InputTextArea id="note-content" @bind-Value="_newNote.Content" rows="4" />
+            <ValidationMessage For="() => _newNote.Content" />
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" disabled="@_isSaving">
+                @(_isSaving ? "Saving…" : "Add note")
+            </button>
+        </div>
+    </EditForm>
+
+    @if (!string.IsNullOrWhiteSpace(_errorMessage))
+    {
+        <p class="form-error" role="alert">@_errorMessage</p>
+    }
+
+    @if (_isLoading)
+    {
+        <p class="state-message" role="status">Loading notes&hellip;</p>
+    }
+    else if (_notes is null)
+    {
+        <p class="state-message">Your notes could not be loaded right now.</p>
+    }
+    else if (_notes.Count == 0)
+    {
+        <p class="state-message">You have no notes yet. Add your first one above.</p>
+    }
+    else
+    {
+        <ul class="card-list">
+            @foreach (Note note in _notes)
+            {
+                <li class="card">
+                    <div class="card-header">
+                        <h2>@note.Title</h2>
+                        <span class="tag">@note.Type</span>
+                    </div>
+                    <p>@note.Content</p>
+                    <div class="card-footer">
+                        <span class="muted">@note.CreatedAtUtc.ToString("yyyy-MM-dd")</span>
+                        @if (_pendingDeleteId == note.NoteId)
+                        {
+                            <span>
+                                Delete this note?
+                                <button type="button" class="btn btn-danger" @onclick="() => DeleteNoteAsync(note.NoteId)">Delete</button>
+                                <button type="button" class="btn btn-secondary" @onclick="() => _pendingDeleteId = null">Cancel</button>
+                            </span>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-secondary" @onclick="() => _pendingDeleteId = note.NoteId">Delete</button>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</section>
+
+@code {
+    private NoteCreateRequest _newNote = new();
+    private List<Note>? _notes;
+    private bool _isLoading = true;
+    private bool _isSaving;
+    private string? _errorMessage;
+    private int? _pendingDeleteId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNotesAsync();
+    }
+
+    private async Task LoadNotesAsync()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+
+        ApiResult<List<Note>> result = await NotesApi.GetMyNotesAsync();
+        _notes = result.Success ? result.Value : null;
+        if (!result.Success)
+        {
+            _errorMessage = result.Message;
+        }
+
+        _isLoading = false;
+    }
+
+    private async Task CreateNoteAsync()
+    {
+        _isSaving = true;
+        _errorMessage = null;
+
+        try
+        {
+            ApiResult<Note> result = await NotesApi.CreateNoteAsync(_newNote);
+            if (result.Success)
+            {
+                _newNote = new NoteCreateRequest();
+                await LoadNotesAsync();
+            }
+            else
+            {
+                _errorMessage = result.Message;
+            }
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private async Task DeleteNoteAsync(int noteId)
+    {
+        _pendingDeleteId = null;
+        _errorMessage = null;
+
+        ApiResult<bool> result = await NotesApi.DeleteNoteAsync(noteId);
+        if (result.Success)
+        {
+            await LoadNotesAsync();
+        }
+        else
+        {
+            _errorMessage = result.Message;
+        }
+    }
+}

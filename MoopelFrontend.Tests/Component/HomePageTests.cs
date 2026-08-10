@@ -2,6 +2,9 @@ using System.Net;
 
 using Bunit;
 
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+
 using MoopelFrontend.Tests.TestData;
 
 using static MoopelFrontend.Tests.TestHelper;
@@ -41,13 +44,14 @@ public class HomePageTests : IClassFixture<MoopelFrontendFactory>
     {
         // Arrange
         using Bunit.BunitContext ctx = new();
+        ctx.AddAuthorization().SetNotAuthorized();
 
         // Act
         IRenderedComponent<MoopelFrontend.Components.Pages.Home> cut =
             ctx.Render<MoopelFrontend.Components.Pages.Home>();
 
         // Assert
-        cut.Find("h1").MarkupMatches("<h1>Hello, world!</h1>");
+        cut.Find("h1").MarkupMatches("<h1>Moopel</h1>");
     }
 
     #endregion
