@@ -1,7 +1,7 @@
 @attribute [Route(PageRoutes.Notes)]
 @attribute [AllowAnonymous]
 @rendermode RenderModes.AutoNoPrerender
-@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
+@inherits AuthInitializingComponentBase
 
 @inject INotesApiClient NotesApi
 @inject NavigationManager NavigationManager
@@ -44,7 +44,7 @@ else if (AuthService.CurrentUser is not null)
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" disabled="@_isSaving">
-                @(_isSaving ? "Saving…" : "Add note")
+                @(_isSaving ? "Saving\u2026" : "Add note")
             </button>
         </div>
     </EditForm>

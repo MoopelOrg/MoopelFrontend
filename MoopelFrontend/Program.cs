@@ -11,6 +11,17 @@ builder.Services.AddMoopelClientServices(builder.Configuration);
 
 var app = builder.Build();
 
+// Log any exception that escapes the component tree entirely (e.g. background
+// tasks, unobserved task faults) instead of letting it crash silently.
+ILogger<Program> globalExceptionLogger = app.Services.GetRequiredService<ILogger<Program>>();
+AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+    globalExceptionLogger.LogCritical(e.ExceptionObject as Exception, "Unhandled AppDomain exception");
+TaskScheduler.UnobservedTaskException += (_, e) =>
+{
+    globalExceptionLogger.LogError(e.Exception, "Unobserved task exception");
+    e.SetObserved();
+};
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

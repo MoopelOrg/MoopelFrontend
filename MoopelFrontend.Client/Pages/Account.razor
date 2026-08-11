@@ -1,7 +1,7 @@
 @attribute [Route(PageRoutes.Account)]
 @attribute [AllowAnonymous]
 @rendermode RenderModes.AutoNoPrerender
-@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
+@inherits AuthInitializingComponentBase
 
 @inject NavigationManager NavigationManager
 
@@ -21,7 +21,7 @@ else if (AuthService.CurrentUser is { } user)
             <dd>@user.Username</dd>
 
             <dt>Email</dt>
-            <dd>@(string.IsNullOrWhiteSpace(user.Email) ? "—" : user.Email)</dd>
+            <dd>@(string.IsNullOrWhiteSpace(user.Email) ? "\u2014" : user.Email)</dd>
 
             <dt>Role</dt>
             <dd>@user.Role</dd>

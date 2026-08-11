@@ -1,7 +1,7 @@
 @attribute [Route(PageRoutes.Register)]
 @attribute [AllowAnonymous]
 @rendermode RenderModes.AutoNoPrerender
-@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
+@inherits AuthInitializingComponentBase
 
 @inject NavigationManager NavigationManager
 
@@ -38,7 +38,7 @@ else
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" disabled="@_isSubmitting">
-                @(_isSubmitting ? "Creating account…" : "Create account")
+                @(_isSubmitting ? "Creating account\u2026" : "Create account")
             </button>
         </div>
     </EditForm>

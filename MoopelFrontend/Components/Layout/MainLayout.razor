@@ -24,7 +24,17 @@
     </header>
 
     <main class="app-main">
-        @Body
+        <AppErrorBoundary @ref="_errorBoundary">
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <ErrorContent>
+                <div class="error-boundary" role="alert">
+                    <p>Something went wrong. Please try again.</p>
+                    <button type="button" class="btn btn-secondary" @onclick="RecoverFromError">Try again</button>
+                </div>
+            </ErrorContent>
+        </AppErrorBoundary>
     </main>
 </div>
 
@@ -33,3 +43,9 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    private AppErrorBoundary? _errorBoundary;
+
+    private void RecoverFromError() => _errorBoundary?.Recover();
+}

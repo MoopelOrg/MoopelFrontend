@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MoopelFrontend.Client.Api;
 using MoopelFrontend.Client.Auth;
 using MoopelFrontend.Client.Models;
+using MoopelFrontend.Client.Pages;
 using MoopelFrontend.Components.Auth;
-using MoopelFrontend.Components.Pages;
 using MoopelFrontend.Tests.TestData;
 
 namespace MoopelFrontend.Tests.Component;
