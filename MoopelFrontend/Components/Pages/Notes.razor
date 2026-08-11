@@ -1,10 +1,19 @@
 @attribute [Route(PageRoutes.Notes)]
-@attribute [Authorize]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
 
 @inject INotesApiClient NotesApi
+@inject NavigationManager NavigationManager
 
 <PageTitle>Notes - Moopel</PageTitle>
 
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
 <section class="page">
     <h1>Notes</h1>
 
@@ -88,6 +97,7 @@
         </ul>
     }
 </section>
+}
 
 @code {
     private NoteCreateRequest _newNote = new();
@@ -99,6 +109,14 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(PageRoutes.Login);
+            return;
+        }
+
         await LoadNotesAsync();
     }
 

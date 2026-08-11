@@ -1,11 +1,18 @@
 @attribute [Route(PageRoutes.Register)]
 @attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
 
-@inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 
 <PageTitle>Create account - Moopel</PageTitle>
 
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else
+{
 <section class="page page-narrow">
     <h1>Create account</h1>
 
@@ -38,14 +45,17 @@
 
     <p class="muted">Already have an account? <a href="@PageRoutes.Login">Log in</a></p>
 </section>
+}
 
 @code {
     private readonly RegistrationRequest _request = new();
     private string? _errorMessage;
     private bool _isSubmitting;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         if (AuthService.CurrentUser is not null)
         {
             NavigationManager.NavigateTo(PageRoutes.Home);

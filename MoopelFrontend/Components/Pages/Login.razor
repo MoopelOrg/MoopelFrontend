@@ -1,11 +1,18 @@
 @attribute [Route(PageRoutes.Login)]
 @attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
 
-@inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 
 <PageTitle>Log in - Moopel</PageTitle>
 
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else
+{
 <section class="page page-narrow">
     <h1>Log in</h1>
 
@@ -41,6 +48,7 @@
 
     <p class="muted">New to Moopel? <a href="@PageRoutes.Register">Create an account</a></p>
 </section>
+}
 
 @code {
     private readonly LoginRequest _request = new();
@@ -50,8 +58,10 @@
     [SupplyParameterFromQuery(Name = PageRoutes.ReturnUrlParameter)]
     private string? ReturnUrl { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         // Already-authenticated users have no business on the login page.
         if (AuthService.CurrentUser is not null)
         {

@@ -1,15 +1,21 @@
 @attribute [Route(PageRoutes.Account)]
-@attribute [Authorize]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits MoopelFrontend.Components.Auth.AuthInitializingComponentBase
 
-@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Account - Moopel</PageTitle>
 
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is { } user)
+{
 <section class="page page-narrow">
     <h1>Account</h1>
 
-    @if (AuthService.CurrentUser is { } user)
-    {
         <dl class="detail-list">
             <dt>Username</dt>
             <dd>@user.Username</dd>
@@ -23,5 +29,17 @@
             <dt>Member since</dt>
             <dd>@user.CreatedAtUtc.ToString("yyyy-MM-dd")</dd>
         </dl>
-    }
 </section>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo(PageRoutes.Login);
+        }
+    }
+}

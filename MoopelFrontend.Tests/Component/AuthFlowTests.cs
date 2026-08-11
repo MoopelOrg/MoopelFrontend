@@ -2,7 +2,6 @@ using System.Security.Claims;
 
 using Bunit;
 
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +10,7 @@ using MoopelFrontend.Client.Auth;
 using MoopelFrontend.Client.Models;
 using MoopelFrontend.Components.Auth;
 using MoopelFrontend.Components.Pages;
+using MoopelFrontend.Tests.TestData;
 
 namespace MoopelFrontend.Tests.Component;
 
@@ -105,41 +105,6 @@ public class AuthFlowTests
 
     #endregion
 
-    #region Auth Gate
-
-    [Fact]
-    public void AuthGate_ShowsLoading_WhileAuthIsInitializing()
-    {
-        // Arrange
-        using BunitContext ctx = new();
-        ctx.Services.AddSingleton<IAuthService>(new FakeAuthService { CompleteInitialization = false });
-
-        // Act
-        IRenderedComponent<AuthGate> cut = ctx.Render<AuthGate>(parameters => parameters
-            .AddChildContent("<p id='app-content'>content</p>"));
-
-        // Assert
-        Assert.NotNull(cut.Find(".auth-loading"));
-        Assert.Empty(cut.FindAll("#app-content"));
-    }
-
-    [Fact]
-    public void AuthGate_ShowsContent_AfterAuthInitializes()
-    {
-        // Arrange
-        using BunitContext ctx = new();
-        ctx.Services.AddSingleton<IAuthService>(new FakeAuthService());
-
-        // Act
-        IRenderedComponent<AuthGate> cut = ctx.Render<AuthGate>(parameters => parameters
-            .AddChildContent("<p id='app-content'>content</p>"));
-
-        // Assert
-        cut.WaitForAssertion(() => Assert.NotNull(cut.Find("#app-content")));
-    }
-
-    #endregion
-
     #region Auth State Provider
 
     [Fact]
@@ -224,40 +189,5 @@ public class AuthFlowTests
         CreatedAtUtc = DateTime.UtcNow,
         Deactivated = false
     };
-
-    private sealed class FakeAuthService : IAuthService
-    {
-        public bool CompleteInitialization { get; set; } = true;
-        public ApiResult<LoginResult>? LoginResultToReturn { get; set; }
-
-        public bool IsInitialized { get; private set; }
-        public UserRead? CurrentUser { get; set; }
-
-        public Task InitializeAsync(CancellationToken cancellationToken = default)
-        {
-            if (CompleteInitialization)
-            {
-                IsInitialized = true;
-            }
-            return Task.CompletedTask;
-        }
-
-        public Task<ApiResult<LoginResult>> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
-            => Task.FromResult(LoginResultToReturn
-                ?? ApiResult<LoginResult>.Fail(ApiErrorKind.Unauthorized, "Not authorized."));
-
-        public Task<ApiResult<LoginResult>> GuestLoginAsync(CancellationToken cancellationToken = default)
-            => Task.FromResult(LoginResultToReturn
-                ?? ApiResult<LoginResult>.Fail(ApiErrorKind.Unauthorized, "Not authorized."));
-
-        public Task<ApiResult<LoginResult>> RegisterAsync(RegistrationRequest request, CancellationToken cancellationToken = default)
-            => Task.FromResult(LoginResultToReturn
-                ?? ApiResult<LoginResult>.Fail(ApiErrorKind.Validation, "Registration failed."));
-
-        public Task SignOutAsync(CancellationToken cancellationToken = default)
-        {
-            CurrentUser = null;
-            return Task.CompletedTask;
-        }
-    }
 }
+

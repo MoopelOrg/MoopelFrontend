@@ -5,6 +5,7 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
+using MoopelFrontend.Client.Auth;
 using MoopelFrontend.Tests.TestData;
 
 using static MoopelFrontend.Tests.TestHelper;
@@ -45,13 +46,14 @@ public class HomePageTests : IClassFixture<MoopelFrontendFactory>
         // Arrange
         using Bunit.BunitContext ctx = new();
         ctx.AddAuthorization().SetNotAuthorized();
+        ctx.Services.AddSingleton<IAuthService>(new FakeAuthService());
 
         // Act
         IRenderedComponent<MoopelFrontend.Components.Pages.Home> cut =
             ctx.Render<MoopelFrontend.Components.Pages.Home>();
 
         // Assert
-        cut.Find("h1").MarkupMatches("<h1>Moopel</h1>");
+        cut.WaitForAssertion(() => cut.Find("h1").MarkupMatches("<h1>Moopel</h1>"));
     }
 
     #endregion
