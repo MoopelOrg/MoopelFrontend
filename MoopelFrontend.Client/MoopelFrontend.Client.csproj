@@ -17,7 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MoopelFrontend.Shared\MoopelFrontend.Shared.csproj" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Api\" />
   </ItemGroup>
 
 </Project>

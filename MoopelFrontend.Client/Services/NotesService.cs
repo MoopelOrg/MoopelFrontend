@@ -1,21 +1,15 @@
 using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
 
-namespace MoopelFrontend.Client.Api;
+namespace MoopelFrontend.Client.Services;
 
 /// <summary>Typed access to MoopelBackend's note endpoints.</summary>
-public interface INotesApiClient
+public sealed class NotesService : INotesService
 {
-    Task<ApiResult<List<Note>>> GetMyNotesAsync(CancellationToken cancellationToken = default);
-    Task<ApiResult<Note>> CreateNoteAsync(NoteCreateRequest request, CancellationToken cancellationToken = default);
-    Task<ApiResult<bool>> DeleteNoteAsync(int noteId, CancellationToken cancellationToken = default);
-}
+    private readonly IMoopelApiService _api;
 
-public sealed class NotesApiClient : INotesApiClient
-{
-    private readonly MoopelApiClient _api;
-
-    public NotesApiClient(MoopelApiClient api)
+    public NotesService(IMoopelApiService api)
     {
         _api = api;
     }

@@ -1,4 +1,4 @@
-using MoopelFrontend.Client.Auth;
+using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
 
 namespace MoopelFrontend.Tests.TestData;

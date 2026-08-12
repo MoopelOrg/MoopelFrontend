@@ -6,24 +6,24 @@ using System.Text.Json.Serialization;
 
 using Microsoft.Extensions.Logging;
 
-using MoopelFrontend.Client.Auth;
+using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
 
-namespace MoopelFrontend.Client.Api;
+namespace MoopelFrontend.Client.Services;
 
 /// <summary>
 /// The single place HTTP calls to MoopelBackend are made. Handles the base address,
 /// bearer token attachment, JSON options, status-code mapping, and 401 sign-out —
-/// so pages and feature clients never deal with raw HTTP.
+/// so pages and feature services never deal with raw HTTP.
 /// </summary>
-public sealed class MoopelApiClient
+public sealed class MoopelApiService : IMoopelApiService
 {
     /// <summary>Matches MoopelApi's JSON configuration: camelCase + enums as strings.</summary>
     private static readonly JsonSerializerOptions JsonOptions = CreateJsonOptions();
 
     private readonly HttpClient _httpClient;
     private readonly ITokenStore _tokenStore;
-    private readonly ILogger<MoopelApiClient> _logger;
+    private readonly ILogger<MoopelApiService> _logger;
 
     /// <summary>
     /// Invoked when an authenticated request comes back 401 (token expired/revoked).
@@ -31,7 +31,7 @@ public sealed class MoopelApiClient
     /// </summary>
     public Func<Task>? OnUnauthorizedAsync { get; set; }
 
-    public MoopelApiClient(HttpClient httpClient, ITokenStore tokenStore, ILogger<MoopelApiClient> logger)
+    public MoopelApiService(HttpClient httpClient, ITokenStore tokenStore, ILogger<MoopelApiService> logger)
     {
         _httpClient = httpClient;
         _tokenStore = tokenStore;

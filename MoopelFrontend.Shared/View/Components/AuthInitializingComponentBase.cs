@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 
-namespace MoopelFrontend.Client.Auth;
+using MoopelFrontend.Shared.Interfaces;
+
+namespace MoopelFrontend.Shared.View.Components;
 
 /// <summary>
 /// Base class for pages that need to know the signed-in user before rendering their

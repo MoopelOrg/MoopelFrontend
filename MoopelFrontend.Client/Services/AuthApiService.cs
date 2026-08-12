@@ -1,14 +1,15 @@
 using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
 
-namespace MoopelFrontend.Client.Api;
+namespace MoopelFrontend.Client.Services;
 
 /// <summary>Typed access to MoopelBackend's auth endpoints.</summary>
-public sealed class AuthApiClient
+public sealed class AuthApiService : IAuthApiService
 {
-    private readonly MoopelApiClient _api;
+    private readonly IMoopelApiService _api;
 
-    public AuthApiClient(MoopelApiClient api)
+    public AuthApiService(IMoopelApiService api)
     {
         _api = api;
     }

@@ -1,4 +1,5 @@
 using MoopelFrontend.Client;
+using MoopelFrontend.Services;
 using MoopelFrontend.View;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 builder.Services.AddMoopelClientServices(builder.Configuration);
+
+// Override token storage for server-side execution with a server implementation.
+builder.Services.AddScoped<MoopelFrontend.Shared.Interfaces.ITokenStore, ServerTokenStoreService>();
 
 var app = builder.Build();
 

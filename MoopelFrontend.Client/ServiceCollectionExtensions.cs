@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using MoopelFrontend.Client.Api;
-using MoopelFrontend.Client.Auth;
+using MoopelFrontend.Client.Services;
 using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Interfaces;
+using MoopelFrontend.Shared.Models.Configuration;
+using MoopelFrontend.Shared.View;
 
 namespace MoopelFrontend.Client;
 
@@ -29,19 +29,19 @@ public static class ServiceCollectionExtensions
         services.AddAuthorizationCore();
         services.AddCascadingAuthenticationState();
 
-        services.AddScoped<ITokenStore, BrowserTokenStore>();
+        services.AddScoped<ITokenStore, BrowserTokenStoreService>();
         services.AddScoped<MoopelAuthStateProvider>();
         services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<MoopelAuthStateProvider>());
 
-        services.AddHttpClient<MoopelApiClient>((sp, client) =>
+        services.AddHttpClient<IMoopelApiService, MoopelApiService>((sp, client) =>
         {
             MoopelApiOptions options = sp.GetRequiredService<IOptions<MoopelApiOptions>>().Value;
             client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
         });
 
-        services.AddScoped<AuthApiClient>();
+        services.AddScoped<IAuthApiService, AuthApiService>();
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<INotesApiClient, NotesApiClient>();
+        services.AddScoped<INotesService, NotesService>();
 
         return services;
     }

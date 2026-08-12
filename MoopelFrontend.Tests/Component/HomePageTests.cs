@@ -5,7 +5,7 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-using MoopelFrontend.Client.Auth;
+using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Tests.TestData;
 
 using static MoopelFrontend.Tests.TestHelper;

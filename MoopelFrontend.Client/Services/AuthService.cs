@@ -1,56 +1,32 @@
-using MoopelFrontend.Client.Api;
+using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
+using MoopelFrontend.Shared.View;
 
-namespace MoopelFrontend.Client.Auth;
+namespace MoopelFrontend.Client.Services;
 
 /// <summary>
 /// The single centralized authentication state for the application.
 /// Pages ask this service who the user is and to log in/out;
 /// they never touch tokens, storage, or headers themselves.
 /// </summary>
-public interface IAuthService
-{
-    /// <summary>False until startup hydration has completed. UI should show a loading state until true.</summary>
-    bool IsInitialized { get; }
-
-    UserRead? CurrentUser { get; }
-
-    /// <summary>
-    /// Startup hydration: loads any persisted token and validates it against the
-    /// backend's current-user endpoint. Clears stored auth if the token is invalid.
-    /// </summary>
-    Task InitializeAsync(CancellationToken cancellationToken = default);
-
-    Task<ApiResult<LoginResult>> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default);
-
-    Task<ApiResult<LoginResult>> GuestLoginAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Registers a new account and, on success, logs the user in with the same credentials.
-    /// Failures surface the backend's explanation message.
-    /// </summary>
-    Task<ApiResult<LoginResult>> RegisterAsync(RegistrationRequest request, CancellationToken cancellationToken = default);
-
-    Task SignOutAsync(CancellationToken cancellationToken = default);
-}
-
 public sealed class AuthService : IAuthService
 {
-    private readonly AuthApiClient _authApi;
+    private readonly IAuthApiService _authApi;
     private readonly ITokenStore _tokenStore;
     private readonly MoopelAuthStateProvider _stateProvider;
 
-    public AuthService(AuthApiClient authApi, ITokenStore tokenStore,
-        MoopelAuthStateProvider stateProvider, MoopelApiClient apiClient)
+    public AuthService(IAuthApiService authApi, ITokenStore tokenStore,
+        MoopelAuthStateProvider stateProvider, IMoopelApiService apiService)
     {
-        ArgumentNullException.ThrowIfNull(apiClient);
+        ArgumentNullException.ThrowIfNull(apiService);
 
         _authApi = authApi;
         _tokenStore = tokenStore;
         _stateProvider = stateProvider;
 
         // Any authenticated request that comes back 401 signs the user out everywhere.
-        apiClient.OnUnauthorizedAsync = () => SignOutAsync();
+        apiService.OnUnauthorizedAsync = () => SignOutAsync();
     }
 
     public bool IsInitialized { get; private set; }

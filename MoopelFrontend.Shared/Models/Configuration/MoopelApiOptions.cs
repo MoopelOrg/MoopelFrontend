@@ -1,6 +1,6 @@
 using MoopelFrontend.Shared;
 
-namespace MoopelFrontend.Client.Api;
+namespace MoopelFrontend.Shared.Models.Configuration;
 
 /// <summary>
 /// Configuration for reaching MoopelBackend. Bound from the

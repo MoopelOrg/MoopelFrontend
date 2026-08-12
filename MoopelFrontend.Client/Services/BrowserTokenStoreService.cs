@@ -1,30 +1,15 @@
 using Microsoft.JSInterop;
 
 using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Interfaces;
 
-namespace MoopelFrontend.Client.Auth;
-
-/// <summary>
-/// Owns the JWT. The rest of the app never touches browser storage directly.
-/// </summary>
-public interface ITokenStore
-{
-    /// <summary>The token currently loaded in memory, if any. Attached to API requests.</summary>
-    string? CurrentToken { get; }
-
-    /// <summary>Loads any persisted token from the browser into memory.</summary>
-    ValueTask LoadAsync(CancellationToken cancellationToken = default);
-
-    ValueTask SaveAsync(string token, CancellationToken cancellationToken = default);
-
-    ValueTask ClearAsync(CancellationToken cancellationToken = default);
-}
+namespace MoopelFrontend.Client.Services;
 
 /// <summary>
-/// Persists the JWT in browser localStorage via JS interop so authentication
-/// survives page refreshes, and caches it in memory for request attachment.
+/// Browser token storage service. Persists the JWT in browser localStorage via JS interop
+/// so authentication survives page refreshes, and caches it in memory for request attachment.
 /// </summary>
-public sealed class BrowserTokenStore : ITokenStore
+public sealed class BrowserTokenStoreService : ITokenStore
 {
     private const string GetItemFunction = "localStorage.getItem";
     private const string SetItemFunction = "localStorage.setItem";
@@ -32,7 +17,7 @@ public sealed class BrowserTokenStore : ITokenStore
 
     private readonly IJSRuntime _jsRuntime;
 
-    public BrowserTokenStore(IJSRuntime jsRuntime)
+    public BrowserTokenStoreService(IJSRuntime jsRuntime)
     {
         _jsRuntime = jsRuntime;
     }

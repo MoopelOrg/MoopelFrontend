@@ -2,10 +2,9 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Components.Authorization;
 
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Models;
 
-namespace MoopelFrontend.Client.Auth;
+namespace MoopelFrontend.Shared.View;
 
 /// <summary>
 /// Exposes the current Moopel user to Blazor's authorization system
