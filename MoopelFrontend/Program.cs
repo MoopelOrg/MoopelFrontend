@@ -1,51 +1,5 @@
-using MoopelFrontend.Client;
-using MoopelFrontend.Services;
-using MoopelFrontend.View;
+using MoopelFrontend;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
-builder.Services.AddMoopelClientServices(builder.Configuration);
-
-// Override token storage for server-side execution with a server implementation.
-builder.Services.AddScoped<MoopelFrontend.Shared.Interfaces.ITokenStore, ServerTokenStoreService>();
-
-var app = builder.Build();
-
-// Log any exception that escapes the component tree entirely (e.g. background
-// tasks, unobserved task faults) instead of letting it crash silently.
-ILogger<Program> globalExceptionLogger = app.Services.GetRequiredService<ILogger<Program>>();
-AppDomain.CurrentDomain.UnhandledException += (_, e) =>
-    globalExceptionLogger.LogCritical(e.ExceptionObject as Exception, "Unhandled AppDomain exception");
-TaskScheduler.UnobservedTaskException += (_, e) =>
-{
-    globalExceptionLogger.LogError(e.Exception, "Unobserved task exception");
-    e.SetObserved();
-};
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
-app.UseHttpsRedirection();
-
-app.UseAntiforgery();
-
-app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(MoopelFrontend.Client._Imports).Assembly);
-
-app.Run();
+Startup startup = new(args);
+startup.CreateBuilder();
+await startup.BuildApp().RunAsync();
