@@ -1,4 +1,5 @@
-using MoopelFrontend.Client.Models;
+using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Models;
 
 namespace MoopelFrontend.Client.Api;
 

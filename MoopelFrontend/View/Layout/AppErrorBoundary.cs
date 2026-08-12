@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace MoopelFrontend.Components.Layout;
+namespace MoopelFrontend.View.Layout;
 
 /// <summary>
 /// An <see cref="ErrorBoundary"/> that logs every caught exception before falling back

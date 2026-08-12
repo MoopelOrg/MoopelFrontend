@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 
 using MoopelFrontend.Client.Auth;
+using MoopelFrontend.Shared.Models;
 
 namespace MoopelFrontend.Client.Api;
 

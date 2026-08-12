@@ -7,10 +7,10 @@ namespace MoopelFrontend.Tests.TestData;
 /// </summary>
 public static class PageRoutes
 {
-    public const string Home = MoopelFrontend.Client.PageRoutes.Home;
-    public const string Login = MoopelFrontend.Client.PageRoutes.Login;
-    public const string Register = MoopelFrontend.Client.PageRoutes.Register;
-    public const string Notes = MoopelFrontend.Client.PageRoutes.Notes;
-    public const string Account = MoopelFrontend.Client.PageRoutes.Account;
-    public const string NotFound = MoopelFrontend.Client.PageRoutes.NotFound;
+    public const string Home = Shared.PageRoutes.Home;
+    public const string Login = Shared.PageRoutes.Login;
+    public const string Register = Shared.PageRoutes.Register;
+    public const string Notes = Shared.PageRoutes.Notes;
+    public const string Account = Shared.PageRoutes.Account;
+    public const string NotFound = Shared.PageRoutes.NotFound;
 }

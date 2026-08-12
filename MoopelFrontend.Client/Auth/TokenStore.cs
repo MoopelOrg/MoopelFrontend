@@ -1,5 +1,7 @@
 using Microsoft.JSInterop;
 
+using MoopelFrontend.Shared;
+
 namespace MoopelFrontend.Client.Auth;
 
 /// <summary>

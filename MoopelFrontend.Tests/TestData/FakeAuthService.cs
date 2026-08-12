@@ -1,6 +1,5 @@
-using MoopelFrontend.Client.Api;
 using MoopelFrontend.Client.Auth;
-using MoopelFrontend.Client.Models;
+using MoopelFrontend.Shared.Models;
 
 namespace MoopelFrontend.Tests.TestData;
 

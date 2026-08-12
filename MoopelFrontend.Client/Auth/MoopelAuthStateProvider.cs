@@ -2,7 +2,8 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Components.Authorization;
 
-using MoopelFrontend.Client.Models;
+using MoopelFrontend.Shared;
+using MoopelFrontend.Shared.Models;
 
 namespace MoopelFrontend.Client.Auth;
 

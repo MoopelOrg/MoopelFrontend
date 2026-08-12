@@ -1,4 +1,4 @@
-namespace MoopelFrontend.Client;
+namespace MoopelFrontend.Shared;
 
 /// <summary>
 /// Frontend page routes. Never hardcode page URL strings — use these.

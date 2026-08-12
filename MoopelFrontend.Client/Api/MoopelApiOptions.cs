@@ -1,3 +1,5 @@
+using MoopelFrontend.Shared;
+
 namespace MoopelFrontend.Client.Api;
 
 /// <summary>

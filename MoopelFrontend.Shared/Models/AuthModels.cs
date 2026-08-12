@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MoopelFrontend.Client.Models;
+namespace MoopelFrontend.Shared.Models;
 
 /// <summary>Mirrors MoopelApi's UserRead DTO.</summary>
 public sealed record UserRead

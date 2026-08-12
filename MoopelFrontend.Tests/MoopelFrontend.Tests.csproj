@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MoopelFrontend.Shared\MoopelFrontend.Shared.csproj" />
     <ProjectReference Include="..\MoopelFrontend\MoopelFrontend.csproj" />
     <ProjectReference Include="..\MoopelFrontend.Client\MoopelFrontend.Client.csproj" />
   </ItemGroup>

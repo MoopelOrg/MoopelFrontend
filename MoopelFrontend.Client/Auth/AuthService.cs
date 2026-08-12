@@ -1,5 +1,5 @@
 using MoopelFrontend.Client.Api;
-using MoopelFrontend.Client.Models;
+using MoopelFrontend.Shared.Models;
 
 namespace MoopelFrontend.Client.Auth;
 

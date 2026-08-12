@@ -49,8 +49,8 @@ public class HomePageTests : IClassFixture<MoopelFrontendFactory>
         ctx.Services.AddSingleton<IAuthService>(new FakeAuthService());
 
         // Act
-        IRenderedComponent<MoopelFrontend.Client.Pages.Home> cut =
-            ctx.Render<MoopelFrontend.Client.Pages.Home>();
+        IRenderedComponent<MoopelFrontend.Client.View.Pages.Home> cut =
+            ctx.Render<MoopelFrontend.Client.View.Pages.Home>();
 
         // Assert
         cut.WaitForAssertion(() => cut.Find("h1").MarkupMatches("<h1>Moopel</h1>"));

@@ -5,6 +5,7 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="MoopelFrontend.Client/MoopelFrontend.Client.csproj" />
+  <Project Path="MoopelFrontend.Shared/MoopelFrontend.Shared.csproj" />
   <Project Path="MoopelFrontend.Tests/MoopelFrontend.Tests.csproj" />
   <Project Path="MoopelFrontend/MoopelFrontend.csproj" />
 </Solution>

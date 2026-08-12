@@ -1,5 +1,5 @@
 using MoopelFrontend.Client;
-using MoopelFrontend.Components;
+using MoopelFrontend.View;
 
 var builder = WebApplication.CreateBuilder(args);
 

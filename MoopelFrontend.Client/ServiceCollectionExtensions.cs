@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 
 using MoopelFrontend.Client.Api;
 using MoopelFrontend.Client.Auth;
+using MoopelFrontend.Shared;
 
 namespace MoopelFrontend.Client;
 

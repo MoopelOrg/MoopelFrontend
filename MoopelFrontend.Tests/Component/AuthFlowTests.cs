@@ -5,12 +5,11 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-using MoopelFrontend.Client.Api;
 using MoopelFrontend.Client.Auth;
-using MoopelFrontend.Client.Models;
-using MoopelFrontend.Client.Pages;
-using MoopelFrontend.Components.Auth;
+using MoopelFrontend.Client.View.Pages;
+using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Tests.TestData;
+using MoopelFrontend.View.Components.Auth;
 
 namespace MoopelFrontend.Tests.Component;
 

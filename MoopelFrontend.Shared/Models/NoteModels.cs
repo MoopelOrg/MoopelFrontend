@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MoopelFrontend.Client.Models;
+namespace MoopelFrontend.Shared.Models;
 
 /// <summary>Mirrors MoopelApi's NoteType enum. Serialized as strings by the backend.</summary>
 public enum NoteType

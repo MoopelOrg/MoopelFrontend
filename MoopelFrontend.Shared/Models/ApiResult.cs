@@ -1,4 +1,4 @@
-namespace MoopelFrontend.Client.Api;
+namespace MoopelFrontend.Shared.Models;
 
 /// <summary>Categorizes API failures so the UI can react consistently.</summary>
 public enum ApiErrorKind
