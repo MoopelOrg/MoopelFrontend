@@ -1,5 +1,3 @@
-using MoopelFrontend.Shared;
-
 namespace MoopelFrontend.Shared.Models.Configuration;
 
 /// <summary>

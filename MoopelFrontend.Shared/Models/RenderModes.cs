@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 
-namespace MoopelFrontend.Client;
+namespace MoopelFrontend.Shared.Models;
 
 /// <summary>
 /// Shared render mode instances for routable pages. The @rendermode directive requires

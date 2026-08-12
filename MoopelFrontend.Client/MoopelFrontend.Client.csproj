@@ -19,8 +19,4 @@
     <ProjectReference Include="..\MoopelFrontend.Shared\MoopelFrontend.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Api\" />
-  </ItemGroup>
-
 </Project>

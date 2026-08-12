@@ -1,4 +1,3 @@
-using MoopelFrontend.Client;
 using MoopelFrontend.Services;
 using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.View;

@@ -2,7 +2,6 @@ using System.Net;
 
 using Bunit;
 
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 using MoopelFrontend.Shared.Interfaces;

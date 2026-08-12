@@ -1,4 +1,3 @@
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.View;

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 using MoopelFrontend.Client.View.Pages;
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.View;
