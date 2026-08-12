@@ -1,8 +1,8 @@
-using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
+using MoopelFrontend.Shared.Services.Interfaces;
 using MoopelFrontend.Shared.View;
 
-namespace MoopelFrontend.Client.Services;
+namespace MoopelFrontend.Shared.Services;
 
 /// <summary>
 /// The single centralized authentication state for the application.

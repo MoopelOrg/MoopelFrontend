@@ -1,7 +1,7 @@
 using Microsoft.JSInterop;
 
 using MoopelFrontend.Shared;
-using MoopelFrontend.Shared.Interfaces;
+using MoopelFrontend.Shared.Services.Interfaces;
 
 namespace MoopelFrontend.Client.Services;
 

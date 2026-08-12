@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 
-using Serilog;
-
-using MoopelFrontend.Client.Services;
 using MoopelFrontend.Services;
 using MoopelFrontend.Shared;
-using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models.Configuration;
+using MoopelFrontend.Shared.Services;
+using MoopelFrontend.Shared.Services.Interfaces;
 using MoopelFrontend.Shared.View;
 using MoopelFrontend.View;
+
+using Serilog;
 
 namespace MoopelFrontend;
 

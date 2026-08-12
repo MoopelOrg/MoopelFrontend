@@ -4,10 +4,12 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using MoopelFrontend.Shared.Interfaces;
-using MoopelFrontend.Shared.Models;
+using Microsoft.Extensions.Logging;
 
-namespace MoopelFrontend.Client.Services;
+using MoopelFrontend.Shared.Models;
+using MoopelFrontend.Shared.Services.Interfaces;
+
+namespace MoopelFrontend.Shared.Services;
 
 /// <summary>
 /// The single place HTTP calls to MoopelBackend are made. Handles the base address,

@@ -1,5 +1,5 @@
-using MoopelFrontend.Shared.Interfaces;
 using MoopelFrontend.Shared.Models;
+using MoopelFrontend.Shared.Services.Interfaces;
 
 namespace MoopelFrontend.Tests.TestData;
 

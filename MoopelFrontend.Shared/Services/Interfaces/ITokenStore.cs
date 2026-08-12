@@ -1,4 +1,4 @@
-namespace MoopelFrontend.Shared.Interfaces;
+namespace MoopelFrontend.Shared.Services.Interfaces;
 
 public interface ITokenStore
 {

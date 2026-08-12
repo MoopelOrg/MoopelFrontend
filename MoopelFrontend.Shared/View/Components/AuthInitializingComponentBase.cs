@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-using MoopelFrontend.Shared.Interfaces;
+using MoopelFrontend.Shared.Services.Interfaces;
 
 namespace MoopelFrontend.Shared.View.Components;
 

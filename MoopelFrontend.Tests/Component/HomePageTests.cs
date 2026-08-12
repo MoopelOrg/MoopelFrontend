@@ -4,7 +4,7 @@ using Bunit;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using MoopelFrontend.Shared.Interfaces;
+using MoopelFrontend.Shared.Services.Interfaces;
 using MoopelFrontend.Tests.TestData;
 
 using static MoopelFrontend.Tests.TestHelper;

@@ -1,4 +1,4 @@
-using MoopelFrontend.Shared.Interfaces;
+using MoopelFrontend.Shared.Services.Interfaces;
 
 namespace MoopelFrontend.Services;
 
