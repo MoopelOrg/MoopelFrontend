@@ -1,0 +1,22 @@
+#blazor-error-ui {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-md);
+    background: #fff3cd;
+    border-top: 1px solid var(--color-border);
+    z-index: 1000;
+}
+
+.blazor-error-boundary {
+    background: var(--color-danger);
+    padding: var(--space-md);
+    color: #ffffff;
+    border-radius: var(--radius);
+}
+
+.blazor-error-boundary::after {
+    content: "An error has occurred.";
+}

@@ -1,0 +1,273 @@
+.settings-layout {
+    display: flex;
+    gap: var(--space-xl);
+    align-items: flex-start;
+}
+
+.settings-sections {
+    position: sticky;
+    top: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-width: 9rem;
+}
+
+.settings-section-link {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--space-xs) var(--space-sm);
+    border-left: 2px solid var(--color-border);
+}
+
+.settings-section-link:hover {
+    color: var(--color-text);
+    border-left-color: var(--color-primary);
+}
+
+.settings-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-section {
+    margin-top: var(--space-xl);
+}
+
+.settings-section > h2 {
+    margin-bottom: var(--space-md);
+}
+
+.settings-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.settings-card h3 {
+    margin: 0 0 var(--space-xs);
+    font-size: 1rem;
+}
+
+.settings-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space-lg) 0;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-md);
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.settings-row:last-child {
+    border-bottom: none;
+}
+
+.settings-row p {
+    margin: 0;
+}
+
+.settings-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+}
+
+.profile-photo-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.profile-photo {
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.field-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-sm);
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.switch-label {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.theme-current {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+}
+
+.theme-current p {
+    margin: 0;
+}
+
+.theme-list {
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--space-md);
+}
+
+.theme-card {
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: left;
+}
+
+.theme-card:hover {
+    border-color: var(--color-primary);
+}
+
+.theme-card-selected {
+    border-color: var(--color-primary);
+    outline: 1px solid var(--color-primary);
+}
+
+.theme-card-name {
+    font-weight: 600;
+}
+
+.theme-card-actions {
+    display: flex;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+}
+
+.theme-swatches {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.theme-swatch {
+    flex: 1;
+    height: 2.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+}
+
+.token-group {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-md);
+    margin: var(--space-md) 0;
+}
+
+.token-group legend {
+    font-weight: 600;
+    padding: 0 var(--space-xs);
+}
+
+.token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--space-md);
+}
+
+.token-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.token-field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+}
+
+.token-field code {
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.token-field input {
+    font: inherit;
+    padding: var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    min-width: 0;
+}
+
+.token-color {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.token-color input[type="color"] {
+    width: 3rem;
+    padding: var(--space-xs);
+}
+
+.token-color-text {
+    flex: 1;
+}
+
+@media (max-width: 40rem) {
+    .settings-layout {
+        flex-direction: column;
+        gap: var(--space-lg);
+    }
+
+    .settings-sections {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-width: 0;
+    }
+
+    .settings-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
