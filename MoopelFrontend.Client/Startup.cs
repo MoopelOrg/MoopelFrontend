@@ -21,26 +21,19 @@ public sealed class Startup
     {
         _builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-        string? env = _builder.Configuration["Environment"];
-
-        if (env is not null)
+        string env = _builder.Configuration["Environment"]
+            ?? throw new("Could not find environment");
+        MoopelEnvironment Environment = env.ToUpper() switch
         {
-
-            MoopelEnvironment Environment = env.ToUpper() switch
-            {
-                "TEST" => MoopelEnvironment.Test,
-                "PRODUCTION" => MoopelEnvironment.Production,
-                _ => throw new($"Invalid environment {env}")
-            };
-            _appSettings = new()
-            {
-                Environment = Environment
-            };
-        }
+            "TEST" => MoopelEnvironment.Test,
+            "DEVELOPMENT" => MoopelEnvironment.Test,
+            "PRODUCTION" => MoopelEnvironment.Production,
+            _ => throw new($"Invalid environment {env}")
+        };
 
         _appSettings = new()
         {
-            Environment = MoopelEnvironment.Test
+            Environment = Environment
         };
     }
 
@@ -85,7 +78,7 @@ public sealed class Startup
         _builder.Services.AddOptions<MoopelApiOptions>()
             .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))
             .Validate(options => Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),
-                $"'{"MoopelApi"}:{nameof(MoopelApiOptions.BaseUrl)}' must be an absolute URI.")
+                $"'{nameof(MoopelApiOptions)}:{nameof(MoopelApiOptions.BaseUrl)}' must be an absolute URI.")
             .ValidateOnStart();
 
         _builder.Services.AddAuthorizationCore();

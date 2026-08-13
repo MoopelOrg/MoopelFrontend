@@ -61,12 +61,18 @@ public sealed class AuthService : IAuthService
                 ApiResult<UserRead> me = await _api.GetAsync<UserRead>(ApiRoutes.Auth.Me, cancellationToken);
                 if (me.Success && me.Value is not null)
                 {
+                    _logger.LogInformation("Loaded token and found {User}", me.Value.Username);
                     _stateProvider.SetCurrentUser(me.Value);
                 }
                 else
                 {
+                    _logger.LogInformation("Loaded token and but token was invalid or expired");
                     await ClearUserState(cancellationToken);
                 }
+            }
+            else
+            {
+                _logger.LogInformation("Could not load token");
             }
         }
         catch (Exception ex)

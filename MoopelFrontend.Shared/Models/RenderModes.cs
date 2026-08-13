@@ -15,4 +15,9 @@ public static class RenderModes
     /// First visit uses Interactive Server; subsequent visits use WASM once cached.
     /// </summary>
     public static readonly InteractiveAutoRenderMode AutoNoPrerender = new(prerender: false);
+
+    /// <summary>
+    /// Interactive Server without prerendering for root/server-only components.
+    /// </summary>
+    public static readonly InteractiveServerRenderMode ServerNoPrerender = new(prerender: false);
 }

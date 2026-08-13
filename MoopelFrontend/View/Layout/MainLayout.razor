@@ -18,45 +18,45 @@
 }
 else
 {
-<div class="app-shell">
-    <header class="app-header">
-        <NavDrawer />
+    <div class="app-shell">
+        <header class="app-header">
+            <NavDrawer />
 
-        <a class="app-brand" href="@PageRoutes.Home">Moopel</a>
+            <a class="app-brand" href="@PageRoutes.Home">Moopel</a>
 
-        <nav class="app-nav">
-            @foreach (NavItem item in AppNav.Items)
-            {
-                if (item.RequiresAuth)
+            <nav class="app-nav">
+                @foreach (NavItem item in AppNav.Items)
                 {
-                    <AuthorizeView>
-                        <NavLink class="app-nav-link" href="@item.Href">@item.Label</NavLink>
-                    </AuthorizeView>
+                    if (item.RequiresAuth)
+                    {
+                        <AuthorizeView>
+                            <NavLink class="app-nav-link" href="@item.Href">@item.Label</NavLink>
+                        </AuthorizeView>
+                    }
+                    else
+                    {
+                        <NavLink class="app-nav-link" href="@item.Href" Match="NavLinkMatch.All">@item.Label</NavLink>
+                    }
                 }
-                else
-                {
-                    <NavLink class="app-nav-link" href="@item.Href" Match="NavLinkMatch.All">@item.Label</NavLink>
-                }
-            }
-        </nav>
+            </nav>
 
-        <UserMenu />
-    </header>
+            <UserMenu />
+        </header>
 
-    <main class="app-main">
-        <AppErrorBoundary @ref="_errorBoundary">
-            <ChildContent>
-                @Body
-            </ChildContent>
-            <ErrorContent>
-                <div class="error-boundary" role="alert">
-                    <p>Something went wrong. Please try again.</p>
-                    <button type="button" class="btn btn-secondary" @onclick="RecoverFromError">Try again</button>
-                </div>
-            </ErrorContent>
-        </AppErrorBoundary>
-    </main>
-</div>
+        <main class="app-main">
+            <AppErrorBoundary @ref="_errorBoundary">
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent>
+                    <div class="error-boundary" role="alert">
+                        <p>Something went wrong. Please try again.</p>
+                        <button type="button" class="btn btn-secondary" @onclick="RecoverFromError">Try again</button>
+                    </div>
+                </ErrorContent>
+            </AppErrorBoundary>
+        </main>
+    </div>
 }
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -68,18 +68,15 @@ else
 @code {
     private AppErrorBoundary? _errorBoundary;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            if (firstRender || AuthService.IsInitialized is false)
-            {
-                await AuthService.InitializeAsync();
-            }
+            await AuthService.InitializeAsync();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            Logger.LogError(ex, "OnAfterRenderAsync");
+            Logger.LogError(ex, "Main Layout: OnInitializedAsync");
         }
     }
 

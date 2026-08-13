@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 
 using MoopelFrontend.Shared.Services.Interfaces;
 
@@ -15,10 +16,20 @@ public abstract class AuthInitializingComponentBase : ComponentBase
     [Inject]
     protected IAuthService AuthService { get; set; } = default!;
 
+    [Inject]
+    private ILogger<AuthInitializingComponentBase> Logger { get; set; } = default!;
+
     protected bool IsAuthReady => AuthService.IsInitialized;
 
     protected override async Task OnInitializedAsync()
     {
-        await AuthService.InitializeAsync();
+        try
+        {
+            await AuthService.InitializeAsync();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogCritical(ex, "Error Initializing AuthInitializingComponentBase");
+        }
     }
 }
