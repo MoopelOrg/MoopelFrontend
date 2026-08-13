@@ -26,7 +26,7 @@ public sealed class BrowserTokenStoreService : ITokenStore
 
     public async ValueTask LoadAsync(CancellationToken cancellationToken = default)
     {
-        CurrentToken = await _jsRuntime.InvokeAsync<string?>(GetItemFunction, cancellationToken, StorageKeys.AuthToken);
+        CurrentToken = await _jsRuntime.InvokeAsync<string?>(GetItemFunction, cancellationToken, ConstantValues.BrowserAuthTokenKey);
     }
 
     public async ValueTask SaveAsync(string token, CancellationToken cancellationToken = default)
@@ -34,12 +34,12 @@ public sealed class BrowserTokenStoreService : ITokenStore
         ArgumentException.ThrowIfNullOrWhiteSpace(token);
 
         CurrentToken = token;
-        await _jsRuntime.InvokeVoidAsync(SetItemFunction, cancellationToken, StorageKeys.AuthToken, token);
+        await _jsRuntime.InvokeVoidAsync(SetItemFunction, cancellationToken, ConstantValues.BrowserAuthTokenKey, token);
     }
 
     public async ValueTask ClearAsync(CancellationToken cancellationToken = default)
     {
         CurrentToken = null;
-        await _jsRuntime.InvokeVoidAsync(RemoveItemFunction, cancellationToken, StorageKeys.AuthToken);
+        await _jsRuntime.InvokeVoidAsync(RemoveItemFunction, cancellationToken, ConstantValues.BrowserAuthTokenKey);
     }
 }

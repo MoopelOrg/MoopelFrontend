@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Options;
 
 using MoopelFrontend.Services;
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Models.Configuration;
 using MoopelFrontend.Shared.Services;
 using MoopelFrontend.Shared.Services.Interfaces;
@@ -63,7 +62,7 @@ public sealed class Startup
     public WebApplicationBuilder AddLifetimeServices()
     {
         _builder.Services.AddOptions<MoopelApiOptions>()
-            .Bind(_builder.Configuration.GetSection(nameof(MoopelApiOptions).Replace("Options", string.Empty)));
+            .Bind(_builder.Configuration.GetSection(nameof(MoopelApiOptions)));
 
         _builder.Services.AddAuthorizationCore();
         _builder.Services.AddCascadingAuthenticationState();
@@ -85,7 +84,7 @@ public sealed class Startup
                 apiBaseUri = new Uri(fallbackBaseUrl, UriKind.Absolute);
 
                 logger.LogWarning("Invalid '{Section}:{Key}' value '{Value}'. Falling back to {FallbackBaseUrl}.",
-                    nameof(MoopelApiOptions).Replace("Options", string.Empty), nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, fallbackBaseUrl);
+                    nameof(MoopelApiOptions), nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, fallbackBaseUrl);
             }
 
             client.BaseAddress = apiBaseUri;

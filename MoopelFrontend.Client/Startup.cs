@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 
 using MoopelFrontend.Client.Services;
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Models.Configuration;
 using MoopelFrontend.Shared.Services;
 using MoopelFrontend.Shared.Services.Interfaces;
@@ -59,7 +58,7 @@ public sealed class Startup
     public WebAssemblyHostBuilder AddLifetimeServices()
     {
         _builder.Services.AddOptions<MoopelApiOptions>()
-            .Bind(_builder.Configuration.GetSection(ConfigSections.MoopelApi));
+            .Bind(_builder.Configuration.GetSection(nameof(MoopelApiOptions)));
 
         _builder.Services.AddAuthorizationCore();
         _builder.Services.AddCascadingAuthenticationState();
@@ -78,7 +77,7 @@ public sealed class Startup
                 IWebAssemblyHostEnvironment environment = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
                 apiBaseUri = new Uri(environment.BaseAddress, UriKind.Absolute);
                 logger.LogWarning("Invalid '{Section}:{Key}' value '{Value}'. Falling back to host base address {FallbackBaseUrl}.",
-                    ConfigSections.MoopelApi, nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, apiBaseUri);
+                    nameof(MoopelApiOptions), nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, apiBaseUri);
             }
 
             client.BaseAddress = apiBaseUri;
