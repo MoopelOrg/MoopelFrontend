@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject IAuthService AuthService
 @inject ILogger<MainLayout> Logger
+@inject NavigationManager NavigationManager
 @inject MoopelAppSettings AppSettings
 
 @if (!AuthService.IsInitialized)
@@ -27,15 +28,9 @@ else
             <nav class="app-nav">
                 @foreach (NavItem item in AppNav.Items)
                 {
-                    if (item.RequiresAuth)
+                    if (item.Href.Equals(RouteHelper.GetBaseUri(NavigationManager)))
                     {
-                        <AuthorizeView>
-                            <NavLink class="app-nav-link" href="@item.Href">@item.Label</NavLink>
-                        </AuthorizeView>
-                    }
-                    else
-                    {
-                        <NavLink class="app-nav-link" href="@item.Href" Match="NavLinkMatch.All">@item.Label</NavLink>
+                        <NavLink class="app-nav-link" href="@item.Href">@item.Label</NavLink>
                     }
                 }
             </nav>

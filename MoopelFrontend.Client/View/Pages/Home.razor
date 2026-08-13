@@ -3,25 +3,18 @@
 @rendermode RenderModes.AutoNoPrerender
 @inherits AuthInitializingComponentBase
 
+@inject NavigationManager NavigationManager
+
 <PageTitle>Home - Moopel</PageTitle>
 
-<section class="page">
-    <h1>Moopel</h1>
-
-    @if (IsAuthReady)
-    {
-        <AuthorizeView>
-            <Authorized>
-                <p>Welcome back, @context.User.Identity?.Name.</p>
-            </Authorized>
-            <NotAuthorized>
-                <p>Log in to get started.</p>
-                <p><a class="btn btn-primary" href="@PageRoutes.Login">Log in</a></p>
-            </NotAuthorized>
-        </AuthorizeView>
-    }
-    else
-    {
-        <p class="state-message" role="status">Loading&hellip;</p>
-    }
-</section>
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <section class="page">
+        <h1>Moopel</h1>
+        <p>Welcome back, @AuthService.CurrentUser.Username.</p>
+    </section>
+}

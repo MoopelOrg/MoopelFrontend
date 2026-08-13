@@ -19,6 +19,9 @@ public abstract class AuthInitializingComponentBase : ComponentBase
     [Inject]
     private ILogger<AuthInitializingComponentBase> Logger { get; set; } = default!;
 
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
     protected bool IsAuthReady => AuthService.IsInitialized;
 
     protected override async Task OnInitializedAsync()
@@ -26,6 +29,11 @@ public abstract class AuthInitializingComponentBase : ComponentBase
         try
         {
             await AuthService.InitializeAsync();
+
+            if (AuthService.CurrentUser is null)
+            {
+                NavigationManager.NavigateTo(PageRoutes.Login);
+            }
         }
         catch (Exception ex)
         {
