@@ -4,6 +4,7 @@ namespace MoopelFrontend.Shared;
 public static class ConstantValues
 {
     public const string BrowserAuthTokenKey = "moopel.auth.token";
+    public const string AuthTokenCookieName = "moopel.auth.token";
 }
 
 /// <summary>
@@ -58,7 +59,6 @@ public static class AppLauncher
         new("Storage"),
         new("Banking"),
         new("Documents"),
-        new("Health", IsNew: true),
         new("Security")
     ];
 }

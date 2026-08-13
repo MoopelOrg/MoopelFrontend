@@ -1,13 +1,23 @@
 @inject NavigationManager NavigationManager
 
 @code {
+
     protected override void OnInitialized()
     {
         string returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        string target = string.IsNullOrWhiteSpace(returnUrl)
-            ? PageRoutes.Login
-            : $"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(returnUrl)}";
 
-        NavigationManager.NavigateTo(target);
+        
+        if (string.IsNullOrWhiteSpace(returnUrl))
+        {
+            // If the user is at the home page (https://page.com/) just navigate to home page
+            NavigationManager.NavigateTo(PageRoutes.Login);
+        }
+        else
+        {
+            // Otherwise navigate to login with a return url as query parameter to return them after they login
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(returnUrl)}");
+        }
+
+        return;
     }
 }

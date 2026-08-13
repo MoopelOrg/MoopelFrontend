@@ -15,10 +15,25 @@ namespace MoopelFrontend;
 public sealed class Startup
 {
     private WebApplicationBuilder _builder;
+    private readonly MoopelAppSettings _appSettings;
 
     public Startup(string[] args)
     {
         _builder = WebApplication.CreateBuilder(args);
+
+        string env = _builder.Configuration["Environment"]
+            ?? throw new("Could not find environment");
+        MoopelEnvironment Environment = env.ToUpper() switch
+        {
+            "TEST" => MoopelEnvironment.Test,
+            "PRODUCTION" => MoopelEnvironment.Production,
+            _ => throw new($"Invalid environment {env}")
+        };
+
+        _appSettings = new()
+        {
+            Environment = Environment
+        };
     }
 
     public WebApplicationBuilder CreateBuilder()
@@ -61,11 +76,17 @@ public sealed class Startup
 
     public WebApplicationBuilder AddLifetimeServices()
     {
+        _builder.Services.AddSingleton<MoopelAppSettings>(_appSettings);
+
         _builder.Services.AddOptions<MoopelApiOptions>()
-            .Bind(_builder.Configuration.GetSection(nameof(MoopelApiOptions)));
+            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))
+            .Validate(options => Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),
+                $"'{nameof(MoopelApiOptions)}:{nameof(MoopelApiOptions.BaseUrl)}' must be an absolute URI.")
+            .ValidateOnStart();
 
         _builder.Services.AddAuthorizationCore();
         _builder.Services.AddCascadingAuthenticationState();
+        _builder.Services.AddHttpContextAccessor();
 
         _builder.Services.AddScoped<ITokenStore, ServerTokenStoreService>();
         _builder.Services.AddScoped<MoopelAuthStateProvider>();
@@ -74,23 +95,9 @@ public sealed class Startup
         _builder.Services.AddHttpClient<IMoopelApiService, MoopelApiService>((sp, client) =>
         {
             MoopelApiOptions options = sp.GetRequiredService<IOptions<MoopelApiOptions>>().Value;
-            ILogger<Startup> logger = sp.GetRequiredService<ILogger<Startup>>();
-
-            if (!Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out Uri? apiBaseUri))
-            {
-                string fallbackBaseUrl = _builder.Environment.IsDevelopment()
-                    ? "https://localhost:7176/"
-                    : "http://localhost/";
-                apiBaseUri = new Uri(fallbackBaseUrl, UriKind.Absolute);
-
-                logger.LogWarning("Invalid '{Section}:{Key}' value '{Value}'. Falling back to {FallbackBaseUrl}.",
-                    nameof(MoopelApiOptions), nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, fallbackBaseUrl);
-            }
-
-            client.BaseAddress = apiBaseUri;
+            client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
         });
 
-        _builder.Services.AddScoped<IAuthApiService, AuthApiService>();
         _builder.Services.AddScoped<IAuthService, AuthService>();
         _builder.Services.AddScoped<INotesService, NotesService>();
 

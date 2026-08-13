@@ -1,7 +1,15 @@
 <Solution>
+  <Folder Name="/Documentation/">
+    <File Path="microsoft-learn.md" />
+  </Folder>
+  <Folder Name="/Github/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Folder Name="/Github/AI/">
+    <File Path=".github/copilot-instructions.md" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
-    <File Path=".gitignore" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/WireFrames/">

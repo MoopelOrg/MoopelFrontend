@@ -2,6 +2,7 @@ using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.Services.Interfaces;
 using MoopelFrontend.Shared.View;
 
+using MoopelObjects;
 using MoopelObjects.Dto.Read;
 using MoopelObjects.Requests;
 using MoopelObjects.Results;
@@ -15,16 +16,17 @@ namespace MoopelFrontend.Shared.Services;
 /// </summary>
 public sealed class AuthService : IAuthService
 {
-    private readonly IAuthApiService _authApi;
+    private readonly IMoopelApiService _api;
+
     private readonly ITokenStore _tokenStore;
     private readonly MoopelAuthStateProvider _stateProvider;
 
-    public AuthService(IAuthApiService authApi, ITokenStore tokenStore,
+    public AuthService(IMoopelApiService api, ITokenStore tokenStore,
         MoopelAuthStateProvider stateProvider, IMoopelApiService apiService)
     {
         ArgumentNullException.ThrowIfNull(apiService);
 
-        _authApi = authApi;
+        _api = api;
         _tokenStore = tokenStore;
         _stateProvider = stateProvider;
 
@@ -49,14 +51,15 @@ public sealed class AuthService : IAuthService
 
             if (!string.IsNullOrWhiteSpace(_tokenStore.CurrentToken))
             {
-                ApiResult<UserRead> me = await _authApi.MeAsync(cancellationToken);
+                ApiResult<UserRead> me = await _api.GetAsync<UserRead>(ApiRoutes.Auth.Me, cancellationToken);
                 if (me.Success && me.Value is not null)
                 {
                     _stateProvider.SetCurrentUser(me.Value);
                 }
-                // On failure the 401 path has already cleared state via OnUnauthorizedAsync;
-                // for network/server errors we stay signed out without wiping the stored token,
-                // so a backend blip doesn't log the user out permanently.
+                else
+                {
+                    await ClearUserState(cancellationToken);
+                }
             }
         }
         finally
@@ -69,14 +72,14 @@ public sealed class AuthService : IAuthService
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        ApiResult<LoginResult> result = await _authApi.LoginAsync(request, cancellationToken);
+        ApiResult<LoginResult> result = await _api.PostAsync<LoginResult>(ApiRoutes.Auth.Login, request, readErrorBody: true, cancellationToken);
         await ApplyLoginAsync(result, cancellationToken);
         return result;
     }
 
     public async Task<ApiResult<LoginResult>> GuestLoginAsync(CancellationToken cancellationToken = default)
     {
-        ApiResult<LoginResult> result = await _authApi.GuestLoginAsync(cancellationToken);
+        ApiResult<LoginResult> result = await _api.PostAsync<LoginResult>(ApiRoutes.Auth.GuestLogin, body: null, readErrorBody: false, cancellationToken);
         await ApplyLoginAsync(result, cancellationToken);
         return result;
     }
@@ -85,7 +88,7 @@ public sealed class AuthService : IAuthService
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        ApiResult<UserRead> registration = await _authApi.RegisterAsync(request, cancellationToken);
+        ApiResult<UserRead> registration = await _api.PostAsync<UserRead>(ApiRoutes.Auth.Register, request, readErrorBody: false, cancellationToken);
         if (!registration.Success)
         {
             return ApiResult<LoginResult>.Fail(registration.ErrorKind, registration.Message);
@@ -105,6 +108,11 @@ public sealed class AuthService : IAuthService
     /// (AuthService.LogoutUser throws NotImplementedException). Integrate it here once it works.
     /// </summary>
     public async Task SignOutAsync(CancellationToken cancellationToken = default)
+    {
+        await ClearUserState(cancellationToken);
+    }
+
+    public async Task ClearUserState(CancellationToken cancellationToken = default)
     {
         await _tokenStore.ClearAsync(cancellationToken);
         _stateProvider.SetCurrentUser(null);

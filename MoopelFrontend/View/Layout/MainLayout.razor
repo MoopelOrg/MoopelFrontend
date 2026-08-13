@@ -1,5 +1,22 @@
 ﻿@inherits LayoutComponentBase
+@inject IAuthService AuthService
+@inject MoopelAppSettings AppSettings
 
+@if (!AuthService.IsInitialized)
+{
+    <div class="app-shell">
+        <header class="app-header">
+            <NavDrawer />
+            <a class="app-brand" href="@PageRoutes.Home">Moopel</a>
+            <nav class="app-nav"></nav>
+            <div class="user-menu">
+                <span class="state-message" role="status">Loading&hellip;</span>
+            </div>
+        </header>
+    </div>
+}
+else
+{
 <div class="app-shell">
     <header class="app-header">
         <NavDrawer />
@@ -39,6 +56,7 @@
         </AppErrorBoundary>
     </main>
 </div>
+}
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -48,6 +66,14 @@
 
 @code {
     private AppErrorBoundary? _errorBoundary;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender || AuthService.IsInitialized is false)
+        {
+            await AuthService.InitializeAsync();
+        }
+    }
 
     private void RecoverFromError() => _errorBoundary?.Recover();
 }

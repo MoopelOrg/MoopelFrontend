@@ -15,10 +15,28 @@ namespace MoopelFrontend.Client;
 public sealed class Startup
 {
     private WebAssemblyHostBuilder _builder;
+    private readonly MoopelAppSettings _appSettings;
 
     public Startup(string[] args)
     {
         _builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+        string? env = _builder.Configuration["Environment"];
+
+        if (env is not null)
+        {
+
+            MoopelEnvironment Environment = env.ToUpper() switch
+            {
+                "TEST" => MoopelEnvironment.Test,
+                "PRODUCTION" => MoopelEnvironment.Production,
+                _ => throw new($"Invalid environment {env}")
+            };
+            _appSettings = new()
+            {
+                Environment = Environment
+            };
+        }
     }
 
     public WebAssemblyHostBuilder CreateBuilder()
@@ -57,8 +75,13 @@ public sealed class Startup
 
     public WebAssemblyHostBuilder AddLifetimeServices()
     {
+        _builder.Services.AddSingleton<MoopelAppSettings>(_appSettings);
+
         _builder.Services.AddOptions<MoopelApiOptions>()
-            .Bind(_builder.Configuration.GetSection(nameof(MoopelApiOptions)));
+            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))
+            .Validate(options => Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),
+                $"'{"MoopelApi"}:{nameof(MoopelApiOptions.BaseUrl)}' must be an absolute URI.")
+            .ValidateOnStart();
 
         _builder.Services.AddAuthorizationCore();
         _builder.Services.AddCascadingAuthenticationState();
@@ -70,20 +93,9 @@ public sealed class Startup
         _builder.Services.AddHttpClient<IMoopelApiService, MoopelApiService>((sp, client) =>
         {
             MoopelApiOptions options = sp.GetRequiredService<IOptions<MoopelApiOptions>>().Value;
-            ILogger<Startup> logger = sp.GetRequiredService<ILogger<Startup>>();
-
-            if (!Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out Uri? apiBaseUri))
-            {
-                IWebAssemblyHostEnvironment environment = sp.GetRequiredService<IWebAssemblyHostEnvironment>();
-                apiBaseUri = new Uri(environment.BaseAddress, UriKind.Absolute);
-                logger.LogWarning("Invalid '{Section}:{Key}' value '{Value}'. Falling back to host base address {FallbackBaseUrl}.",
-                    nameof(MoopelApiOptions), nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, apiBaseUri);
-            }
-
-            client.BaseAddress = apiBaseUri;
+            client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
         });
 
-        _builder.Services.AddScoped<IAuthApiService, AuthApiService>();
         _builder.Services.AddScoped<IAuthService, AuthService>();
         _builder.Services.AddScoped<INotesService, NotesService>();
 

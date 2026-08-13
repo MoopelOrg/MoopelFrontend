@@ -1,8 +1,7 @@
 namespace MoopelFrontend.Shared.Models.Configuration;
 
 /// <summary>
-/// Configuration for reaching MoopelBackend. Bound from the
-/// <see cref="ConfigSections.MoopelApi"/> section of appsettings.
+/// Configuration for reaching MoopelBackend.
 /// </summary>
 public sealed class MoopelApiOptions
 {
