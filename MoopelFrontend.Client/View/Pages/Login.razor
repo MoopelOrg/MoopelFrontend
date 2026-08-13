@@ -51,7 +51,7 @@ else
 }
 
 @code {
-    private readonly LoginRequest _request = new();
+    private readonly LoginForm _request = new();
     private string? _errorMessage;
     private bool _isSubmitting;
 
@@ -71,7 +71,7 @@ else
 
     private async Task LoginAsync()
     {
-        await SubmitAsync(() => AuthService.LoginAsync(_request));
+        await SubmitAsync(() => AuthService.LoginAsync(_request.ToRequest()));
     }
 
     private async Task GuestLoginAsync()

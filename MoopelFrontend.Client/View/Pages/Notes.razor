@@ -102,7 +102,7 @@ else if (AuthService.CurrentUser is not null)
 }
 
 @code {
-    private NoteCreateRequest _newNote = new();
+    private NoteCreateForm _newNote = new();
     private List<Note>? _notes;
     private bool _isLoading = true;
     private bool _isSaving;
@@ -144,10 +144,10 @@ else if (AuthService.CurrentUser is not null)
 
         try
         {
-            ApiResult<Note> result = await NotesApi.CreateNoteAsync(_newNote);
+            ApiResult<Note> result = await NotesApi.CreateNoteAsync(_newNote.ToRequest());
             if (result.Success)
             {
-                _newNote = new NoteCreateRequest();
+                _newNote = new NoteCreateForm();
                 await LoadNotesAsync();
             }
             else

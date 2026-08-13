@@ -48,7 +48,7 @@ else
 }
 
 @code {
-    private readonly RegistrationRequest _request = new();
+    private readonly RegistrationForm _request = new();
     private string? _errorMessage;
     private bool _isSubmitting;
 
@@ -70,7 +70,7 @@ else
         try
         {
             // Registers and then logs in with the same credentials.
-            ApiResult<LoginResult> result = await AuthService.RegisterAsync(_request);
+            ApiResult<LoginResult> result = await AuthService.RegisterAsync(_request.ToRequest());
 
             if (result.Success && AuthService.CurrentUser is not null)
             {
