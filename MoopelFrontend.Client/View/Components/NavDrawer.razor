@@ -43,7 +43,7 @@
 
     <div class="drawer-footer">
         <AuthorizeView>
-            <NavLink class="drawer-nav-link" href="@PageRoutes.Account" @onclick="Close">Settings</NavLink>
+            <span class="muted">@context.User.Identity?.Name</span>
         </AuthorizeView>
     </div>
 </aside>

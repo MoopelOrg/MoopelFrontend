@@ -7,7 +7,7 @@ public static class PageRoutes
     public const string Login = "/login";
     public const string Register = "/register";
     public const string Notes = "/notes";
-    public const string Account = "/account";
+    public const string Settings = "/settings";
     public const string NotFound = "/not-found";
 
     /// <summary>Query parameter used to send the user back where they came from after login.</summary>

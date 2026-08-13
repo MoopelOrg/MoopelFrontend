@@ -1,0 +1,205 @@
+@attribute [Route(PageRoutes.Settings)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+@*
+    Settings shell from the SettingsV1 wireframe. This is presentation only: nothing here
+    is saved yet, so the controls are bound to local state and the actions are inert.
+*@
+
+<PageTitle>Settings - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is { } user)
+{
+    <div class="settings-layout">
+        <nav class="settings-sections" aria-label="Settings sections">
+            @foreach ((string id, string label) in Sections)
+            {
+                <a class="settings-section-link" href="@($"{PageRoutes.Settings}#{id}")">@label</a>
+            }
+        </nav>
+
+        <section class="page settings-content">
+            <h1>Settings</h1>
+            <p class="muted">Configure your personal experience, appearance, and security across Moopel.</p>
+
+            <section id="account" class="settings-section">
+                <h2>Account &amp; Profile</h2>
+
+                <div class="settings-card">
+                    <div class="profile-photo-row">
+                        <span class="profile-photo" aria-hidden="true"></span>
+                        <div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary">Upload new photo</button>
+                                <button type="button" class="btn btn-secondary">Remove</button>
+                            </div>
+                            <p class="muted">Recommended size: 400x400px. JPG, PNG or GIF.</p>
+                        </div>
+                    </div>
+
+                    <hr class="settings-divider" />
+
+                    <div class="settings-grid">
+                        <div class="form-field">
+                            <label for="display-name">Display name</label>
+                            <input id="display-name" @bind="_displayName" />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="user-handle">User handle</label>
+                            <input id="user-handle" value="@user.Username" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="email">Email address</label>
+                        <input id="email" type="email" @bind="_email" />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="biography">Biography</label>
+                        <textarea id="biography" rows="4" placeholder="A little about yourself..." @bind="_biography"></textarea>
+                    </div>
+
+                    <hr class="settings-divider" />
+
+                    <dl class="detail-list">
+                        <dt>Role</dt>
+                        <dd>@user.Role</dd>
+
+                        <dt>Member since</dt>
+                        <dd>@user.CreatedAtUtc.ToString("yyyy-MM-dd")</dd>
+                    </dl>
+                </div>
+            </section>
+
+            <section id="appearance" class="settings-section">
+                <h2>Appearance &amp; Themes</h2>
+                <ThemeEditor />
+            </section>
+
+            <section id="notifications" class="settings-section">
+                <h2>Notifications</h2>
+
+                <div class="settings-card">
+                    @foreach (NotificationSetting setting in _notifications)
+                    {
+                        <div class="settings-row">
+                            <div>
+                                <h3>@setting.Label</h3>
+                                <p class="muted">@setting.Description</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked="@setting.Enabled" @onchange="e => Toggle(setting, e)" />
+                                <span class="switch-label">@(setting.Enabled ? "On" : "Off")</span>
+                            </label>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section id="security" class="settings-section">
+                <h2>Security</h2>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Password</h3>
+                        <p class="muted">Update your login credentials and recovery options.</p>
+                        <button type="button" class="btn btn-secondary">Change password</button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Two-factor auth</h3>
+                        <p class="muted">Add an extra layer of protection to your account.</p>
+                        <button type="button" class="btn btn-secondary">Set up</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="groups" class="settings-section">
+                <h2>Groups &amp; Family</h2>
+
+                <div class="settings-card">
+                    <div class="settings-row">
+                        <div>
+                            <h3>@($"{user.Username}'s group")</h3>
+                            <p class="muted">@user.Role role</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary">Manage members</button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="settings-footer">
+                <button type="button" class="btn btn-danger">Delete account</button>
+                <span class="form-actions">
+                    <button type="button" class="btn btn-secondary">Discard</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </span>
+            </div>
+        </section>
+    </div>
+}
+
+@code {
+    private sealed class NotificationSetting
+    {
+        public required string Label { get; init; }
+        public required string Description { get; init; }
+        public bool Enabled { get; set; }
+    }
+
+    private static readonly (string Id, string Label)[] Sections =
+    [
+        ("account", "Account"),
+        ("appearance", "Appearance"),
+        ("notifications", "Notifications"),
+        ("security", "Security"),
+        ("groups", "Groups")
+    ];
+
+    private readonly List<NotificationSetting> _notifications =
+    [
+        new()
+        {
+            Label = "Email updates",
+            Description = "Weekly summaries and critical household alerts.",
+            Enabled = true
+        },
+        new()
+        {
+            Label = "Push notifications",
+            Description = "Real-time alerts for task deadlines and group messages.",
+            Enabled = true
+        }
+    ];
+
+    private string _displayName = string.Empty;
+    private string _email = string.Empty;
+    private string _biography = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is not { } user)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={PageRoutes.Settings}");
+            return;
+        }
+
+        _displayName = user.Username;
+        _email = user.Email ?? string.Empty;
+    }
+
+    private static void Toggle(NotificationSetting setting, ChangeEventArgs args) =>
+        setting.Enabled = args.Value is bool enabled && enabled;
+}

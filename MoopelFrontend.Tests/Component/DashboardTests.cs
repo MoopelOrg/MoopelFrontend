@@ -141,7 +141,7 @@ public class DashboardTests
         // Assert
         cut.WaitForAssertion(() =>
             Assert.Equal(
-                AppNav.Items.Count + 1, // + the Settings link in the drawer footer
+                AppNav.Items.Count,
                 cut.FindAll(".drawer-nav-link").Count));
     }
 

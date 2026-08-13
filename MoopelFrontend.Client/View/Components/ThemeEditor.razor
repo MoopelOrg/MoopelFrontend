@@ -1,0 +1,268 @@
+@using MoopelFrontend.Shared.Models.Theming
+
+@*
+    Appearance section of the settings page: pick a theme, or build one by overriding
+    every custom property declared in app.css.
+
+    UI only for now — themes live in component state and are lost on reload. Persisting them
+    is a matter of swapping the in-memory lists below for a theme service.
+*@
+
+@if (_preview is not null)
+{
+    @((MarkupString)$"<style>{_preview.ToCssRule()}</style>")
+}
+
+<div class="settings-card">
+    <p class="field-label">Current theme</p>
+    <div class="theme-current">
+        <div>
+            <h3>@_selected.Name</h3>
+            <p class="muted">@_selected.Description</p>
+        </div>
+        <span class="tag">@(_selected.IsBuiltIn ? "Built in" : "Custom")</span>
+    </div>
+
+    <hr class="settings-divider" />
+
+    <p class="field-label">Available collections</p>
+    <ul class="theme-list">
+        @foreach (AppTheme theme in AllThemes)
+        {
+            <li>
+                <button type="button"
+                        class="theme-card @(theme.Id == _selected.Id ? "theme-card-selected" : string.Empty)"
+                        aria-pressed="@(theme.Id == _selected.Id ? "true" : "false")"
+                        @onclick="() => SelectTheme(theme)">
+                    <span class="theme-swatches">
+                        @foreach (string variable in SwatchVariables)
+                        {
+                            <span class="theme-swatch" style="background:@theme.Values[variable]"></span>
+                        }
+                    </span>
+                    <span class="theme-card-name">@theme.Name</span>
+                </button>
+
+                @if (!theme.IsBuiltIn)
+                {
+                    <span class="theme-card-actions">
+                        <button type="button" class="btn btn-secondary" @onclick="() => EditTheme(theme)">Edit</button>
+                        <button type="button" class="btn btn-secondary" @onclick="() => DeleteTheme(theme)">Delete</button>
+                    </span>
+                }
+            </li>
+        }
+    </ul>
+
+    @if (!_isEditing)
+    {
+        <div class="form-actions">
+            <button type="button" class="btn btn-primary" @onclick="StartNewTheme">Create theme</button>
+            <button type="button" class="btn btn-secondary" @onclick="DuplicateSelected">Duplicate @_selected.Name</button>
+        </div>
+    }
+</div>
+
+@if (_isEditing)
+{
+    <div class="settings-card">
+        <div class="card-header">
+            <h3>@(_editingExistingId is null ? "New theme" : "Editing theme")</h3>
+            <span class="muted">Changes preview live</span>
+        </div>
+
+        <div class="form-field">
+            <label for="theme-name">Theme name</label>
+            <input id="theme-name" @bind="_draftName" @bind:event="oninput" />
+            @if (_validationMessage is not null)
+            {
+                <p class="form-error" role="alert">@_validationMessage</p>
+            }
+        </div>
+
+        <div class="form-field">
+            <label for="theme-description">Description</label>
+            <input id="theme-description" @bind="_draftDescription" @bind:event="oninput" />
+        </div>
+
+        @foreach (ThemeTokenGroup group in Enum.GetValues<ThemeTokenGroup>())
+        {
+            <fieldset class="token-group">
+                <legend>@group</legend>
+
+                <div class="token-grid">
+                    @foreach (ThemeToken token in ThemeTokens.All.Where(t => t.Group == group))
+                    {
+                        <div class="token-field">
+                            <label for="@token.Variable">
+                                @token.Label
+                                <code class="muted">@token.Variable</code>
+                            </label>
+
+                            @if (token.Kind == ThemeTokenKind.Color)
+                            {
+                                <span class="token-color">
+                                    <input type="color"
+                                           id="@token.Variable"
+                                           value="@_draftValues[token.Variable]"
+                                           @onchange="e => SetToken(token, e.Value?.ToString())" />
+                                    <input class="token-color-text"
+                                           aria-label="@token.Label hex value"
+                                           value="@_draftValues[token.Variable]"
+                                           @onchange="e => SetToken(token, e.Value?.ToString())" />
+                                </span>
+                            }
+                            else
+                            {
+                                <input id="@token.Variable"
+                                       value="@_draftValues[token.Variable]"
+                                       @onchange="e => SetToken(token, e.Value?.ToString())" />
+                            }
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        }
+
+        <div class="form-actions">
+            <button type="button" class="btn btn-primary" @onclick="SaveDraft">Save theme</button>
+            <button type="button" class="btn btn-secondary" @onclick="ResetDraft">Reset values</button>
+            <button type="button" class="btn btn-secondary" @onclick="CancelEditing">Cancel</button>
+        </div>
+    </div>
+}
+
+@code {
+    private static readonly string[] SwatchVariables = ["--color-bg", "--color-surface", "--color-primary"];
+
+    private readonly List<AppTheme> _customThemes = [];
+
+    private AppTheme _selected = BuiltInThemes.Default;
+    private AppTheme? _preview;
+
+    private bool _isEditing;
+    private string? _editingExistingId;
+    private string _draftName = string.Empty;
+    private string _draftDescription = string.Empty;
+    private Dictionary<string, string> _draftValues = ThemeTokens.Defaults();
+    private string? _validationMessage;
+
+    private IEnumerable<AppTheme> AllThemes => BuiltInThemes.All.Concat(_customThemes);
+
+    private void SelectTheme(AppTheme theme)
+    {
+        _selected = theme;
+
+        // The default theme is what app.css already declares, so it needs no override block.
+        _preview = theme.Id == BuiltInThemes.DefaultThemeId ? null : theme;
+    }
+
+    private void StartNewTheme() => BeginEditing(
+        source: BuiltInThemes.Default,
+        existingId: null,
+        name: "My theme");
+
+    private void DuplicateSelected() => BeginEditing(
+        source: _selected,
+        existingId: null,
+        name: $"{_selected.Name} copy");
+
+    private void EditTheme(AppTheme theme) => BeginEditing(
+        source: theme,
+        existingId: theme.Id,
+        name: theme.Name);
+
+    private void BeginEditing(AppTheme source, string? existingId, string name)
+    {
+        _isEditing = true;
+        _editingExistingId = existingId;
+        _draftName = name;
+        _draftDescription = source.Description;
+        _draftValues = new Dictionary<string, string>(source.Values, StringComparer.Ordinal);
+        _validationMessage = null;
+
+        PreviewDraft();
+    }
+
+    private void SetToken(ThemeToken token, string? value)
+    {
+        _draftValues[token.Variable] = string.IsNullOrWhiteSpace(value) ? token.DefaultValue : value.Trim();
+        PreviewDraft();
+    }
+
+    private void PreviewDraft() => _preview = new AppTheme
+    {
+        Id = _editingExistingId ?? "draft",
+        Name = _draftName,
+        Description = _draftDescription,
+        Values = _draftValues
+    };
+
+    private void ResetDraft()
+    {
+        _draftValues = ThemeTokens.Defaults();
+        PreviewDraft();
+    }
+
+    private void SaveDraft()
+    {
+        if (string.IsNullOrWhiteSpace(_draftName))
+        {
+            _validationMessage = "Give the theme a name.";
+            return;
+        }
+
+        bool nameTaken = AllThemes.Any(theme =>
+            theme.Id != _editingExistingId &&
+            string.Equals(theme.Name, _draftName.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        if (nameTaken)
+        {
+            _validationMessage = "A theme with that name already exists.";
+            return;
+        }
+
+        AppTheme saved = new()
+        {
+            Id = _editingExistingId ?? $"custom-{Guid.NewGuid():N}",
+            Name = _draftName.Trim(),
+            Description = _draftDescription.Trim(),
+            Values = new Dictionary<string, string>(_draftValues, StringComparer.Ordinal)
+        };
+
+        int existingIndex = _customThemes.FindIndex(theme => theme.Id == saved.Id);
+        if (existingIndex >= 0)
+        {
+            _customThemes[existingIndex] = saved;
+        }
+        else
+        {
+            _customThemes.Add(saved);
+        }
+
+        _isEditing = false;
+        _editingExistingId = null;
+        _validationMessage = null;
+
+        SelectTheme(saved);
+    }
+
+    private void CancelEditing()
+    {
+        _isEditing = false;
+        _editingExistingId = null;
+        _validationMessage = null;
+
+        SelectTheme(_selected);
+    }
+
+    private void DeleteTheme(AppTheme theme)
+    {
+        _customThemes.Remove(theme);
+
+        if (_selected.Id == theme.Id)
+        {
+            SelectTheme(BuiltInThemes.Default);
+        }
+    }
+}

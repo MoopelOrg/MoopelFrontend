@@ -29,7 +29,7 @@ public static class AppNav
         new("Home", PageRoutes.Home, RequiresAuth: false),
         new("Dashboard", PageRoutes.Dashboard, RequiresAuth: true),
         new("Notes", PageRoutes.Notes, RequiresAuth: true),
-        new("Account", PageRoutes.Account, RequiresAuth: true)
+        new("Settings", PageRoutes.Settings, RequiresAuth: true)
     ];
 }
 

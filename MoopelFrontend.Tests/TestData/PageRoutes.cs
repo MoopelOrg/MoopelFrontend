@@ -12,6 +12,6 @@ public static class PageRoutes
     public const string Login = Shared.PageRoutes.Login;
     public const string Register = Shared.PageRoutes.Register;
     public const string Notes = Shared.PageRoutes.Notes;
-    public const string Account = Shared.PageRoutes.Account;
+    public const string Settings = Shared.PageRoutes.Settings;
     public const string NotFound = Shared.PageRoutes.NotFound;
 }
