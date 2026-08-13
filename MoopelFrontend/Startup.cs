@@ -26,6 +26,7 @@ public sealed class Startup
         MoopelEnvironment Environment = env.ToUpper() switch
         {
             "TEST" => MoopelEnvironment.Test,
+            "DEVELOPMENT" => MoopelEnvironment.Test,
             "PRODUCTION" => MoopelEnvironment.Production,
             _ => throw new($"Invalid environment {env}")
         };
