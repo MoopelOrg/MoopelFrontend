@@ -37,6 +37,11 @@ public sealed class Startup
                 Environment = Environment
             };
         }
+
+        _appSettings = new()
+        {
+            Environment = MoopelEnvironment.Test
+        };
     }
 
     public WebAssemblyHostBuilder CreateBuilder()
@@ -104,6 +109,8 @@ public sealed class Startup
 
     public WebAssemblyHost BuildHost()
     {
-        return _builder.Build();
+        WebAssemblyHost app = _builder.Build();
+
+        return app;
     }
 }

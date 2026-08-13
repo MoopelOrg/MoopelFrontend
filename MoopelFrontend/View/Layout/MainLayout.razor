@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject IAuthService AuthService
+@inject ILogger<MainLayout> Logger
 @inject MoopelAppSettings AppSettings
 
 @if (!AuthService.IsInitialized)
@@ -69,9 +70,16 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender || AuthService.IsInitialized is false)
+        try
         {
-            await AuthService.InitializeAsync();
+            if (firstRender || AuthService.IsInitialized is false)
+            {
+                await AuthService.InitializeAsync();
+            }
+        }
+        catch(Exception ex)
+        {
+            Logger.LogError(ex, "OnAfterRenderAsync");
         }
     }
 

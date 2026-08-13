@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.Services.Interfaces;
 using MoopelFrontend.Shared.View;
@@ -21,7 +23,9 @@ public sealed class AuthService : IAuthService
     private readonly ITokenStore _tokenStore;
     private readonly MoopelAuthStateProvider _stateProvider;
 
-    public AuthService(IMoopelApiService api, ITokenStore tokenStore,
+    private readonly ILogger<AuthService> _logger;
+
+    public AuthService(IMoopelApiService api, ITokenStore tokenStore, ILogger<AuthService> logger,
         MoopelAuthStateProvider stateProvider, IMoopelApiService apiService)
     {
         ArgumentNullException.ThrowIfNull(apiService);
@@ -29,6 +33,8 @@ public sealed class AuthService : IAuthService
         _api = api;
         _tokenStore = tokenStore;
         _stateProvider = stateProvider;
+
+        _logger = logger;
 
         // Any authenticated request that comes back 401 signs the user out everywhere.
         apiService.OnUnauthorizedAsync = () => SignOutAsync();
@@ -44,6 +50,7 @@ public sealed class AuthService : IAuthService
         {
             return;
         }
+        bool successful = true;
 
         try
         {
@@ -62,9 +69,18 @@ public sealed class AuthService : IAuthService
                 }
             }
         }
+        catch (Exception ex)
+        {
+            successful = false;
+            _logger.LogError(ex, "InitializeAsync error");
+        }
         finally
         {
-            IsInitialized = true;
+            if (successful)
+            {
+                _logger.LogInformation("Initialized AuthService for {User}", _stateProvider.CurrentUser?.Username ?? "");
+                IsInitialized = true;
+            }
         }
     }
 
@@ -74,6 +90,7 @@ public sealed class AuthService : IAuthService
 
         ApiResult<LoginResult> result = await _api.PostAsync<LoginResult>(ApiRoutes.Auth.Login, request, readErrorBody: true, cancellationToken);
         await ApplyLoginAsync(result, cancellationToken);
+
         return result;
     }
 

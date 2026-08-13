@@ -6,13 +6,13 @@ using MoopelFrontend.Shared.Services.Interfaces;
 namespace MoopelFrontend.Services;
 
 /// <summary>
-/// Server-side token storage service for Interactive Server execution.
-/// Stores the authentication token in protected browser storage instead of
-/// modifying the HTTP response after the Blazor circuit has started.
+/// Stores the authentication token in the browser authentication cookie.
+/// Uses JavaScript interop so the cookie can be modified after the Blazor
+/// circuit has started.
 /// </summary>
 public sealed class ServerTokenStoreService : ITokenStore
 {
-    private const string StorageKey = ConstantValues.AuthTokenCookieName;
+    private const int CookieLifetimeDays = 30;
 
     private readonly IJSRuntime _jsRuntime;
 
@@ -23,46 +23,38 @@ public sealed class ServerTokenStoreService : ITokenStore
 
     public string? CurrentToken { get; private set; }
 
-    public async ValueTask LoadAsync(CancellationToken cancellationToken = default)
+    public async ValueTask LoadAsync(
+        CancellationToken cancellationToken = default)
     {
-        try
-        {
-            string? protectedToken =
-                await _jsRuntime.InvokeAsync<string?>("moopelProtectedStorage.get", cancellationToken, StorageKey);
-
-            if (string.IsNullOrWhiteSpace(protectedToken))
-            {
-                CurrentToken = null;
-                return;
-            }
-
-            CurrentToken = protectedToken;
-        }
-        catch (JSDisconnectedException)
-        {
-            CurrentToken = null;
-        }
+        CurrentToken = await _jsRuntime.InvokeAsync<string?>(
+            "moopelAuthCookies.get",
+            cancellationToken,
+            ConstantValues.AuthTokenCookieName);
     }
 
-    public async ValueTask SaveAsync(string token, CancellationToken cancellationToken = default)
+    public async ValueTask SaveAsync(
+        string token,
+        CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(token);
 
         await _jsRuntime.InvokeVoidAsync(
-            "moopelProtectedStorage.set",
+            "moopelAuthCookies.set",
             cancellationToken,
-            StorageKey,
-            token);
+            ConstantValues.AuthTokenCookieName,
+            token,
+            CookieLifetimeDays);
 
         CurrentToken = token;
     }
 
-    public async ValueTask ClearAsync(CancellationToken cancellationToken = default)
+    public async ValueTask ClearAsync(
+        CancellationToken cancellationToken = default)
     {
         await _jsRuntime.InvokeVoidAsync(
-            "moopelProtectedStorage.remove",
+            "moopelAuthCookies.remove",
             cancellationToken,
-            StorageKey);
+            ConstantValues.AuthTokenCookieName);
 
         CurrentToken = null;
     }
