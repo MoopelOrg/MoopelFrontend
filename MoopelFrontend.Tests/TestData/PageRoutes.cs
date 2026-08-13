@@ -8,6 +8,7 @@ namespace MoopelFrontend.Tests.TestData;
 public static class PageRoutes
 {
     public const string Home = Shared.PageRoutes.Home;
+    public const string Dashboard = Shared.PageRoutes.Dashboard;
     public const string Login = Shared.PageRoutes.Login;
     public const string Register = Shared.PageRoutes.Register;
     public const string Notes = Shared.PageRoutes.Notes;

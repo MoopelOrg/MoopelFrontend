@@ -1,0 +1,57 @@
+@rendermode RenderModes.AutoNoPrerender
+
+@*
+    Slide-out navigation drawer. Lives in the client project so it can be interactive
+    even though MainLayout itself is statically rendered.
+*@
+
+<button type="button"
+        class="drawer-toggle"
+        aria-label="Open navigation"
+        aria-expanded="@(_isOpen ? "true" : "false")"
+        aria-controls="app-drawer"
+        @onclick="Open">
+    &#9776;
+</button>
+
+@if (_isOpen)
+{
+    <div class="drawer-overlay" @onclick="Close"></div>
+}
+
+<aside id="app-drawer" class="drawer @(_isOpen ? "drawer-open" : string.Empty)" aria-hidden="@(_isOpen ? "false" : "true")">
+    <div class="drawer-header">
+        <span class="app-brand">Moopel</span>
+        <button type="button" class="drawer-close" aria-label="Close navigation" @onclick="Close">&times;</button>
+    </div>
+
+    <nav class="drawer-nav">
+        @foreach (NavItem item in AppNav.Items)
+        {
+            if (item.RequiresAuth)
+            {
+                <AuthorizeView>
+                    <NavLink class="drawer-nav-link" href="@item.Href" @onclick="Close">@item.Label</NavLink>
+                </AuthorizeView>
+            }
+            else
+            {
+                <NavLink class="drawer-nav-link" href="@item.Href" Match="NavLinkMatch.All" @onclick="Close">@item.Label</NavLink>
+            }
+        }
+    </nav>
+
+    <div class="drawer-footer">
+        <AuthorizeView>
+            <NavLink class="drawer-nav-link" href="@PageRoutes.Account" @onclick="Close">Settings</NavLink>
+        </AuthorizeView>
+    </div>
+</aside>
+
+@code {
+    private bool _isOpen;
+
+    private void Open() => _isOpen = true;
+
+    private void Close() => _isOpen = false;
+}

@@ -1,0 +1,63 @@
+@attribute [Route(PageRoutes.Dashboard)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Dashboard - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <section class="page launcher">
+        <h1>Welcome</h1>
+        <p class="muted">Organization and productivity starts here</p>
+
+        <ul class="app-grid">
+            @foreach (AppTile tile in AppLauncher.Tiles)
+            {
+                <li class="app-tile">
+                    @if (tile.IsAvailable)
+                    {
+                        <a class="app-tile-link" href="@tile.Href">
+                            <span class="app-tile-icon" aria-hidden="true"></span>
+                            <span class="app-tile-label">@tile.Label</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="app-tile-link app-tile-disabled" aria-disabled="true" title="Coming soon">
+                            <span class="app-tile-icon" aria-hidden="true"></span>
+                            <span class="app-tile-label">@tile.Label</span>
+                        </span>
+                    }
+
+                    @if (tile.IsNew)
+                    {
+                        <span class="app-tile-badge">New</span>
+                    }
+                </li>
+            }
+        </ul>
+
+        <p class="launcher-actions">
+            <a class="btn btn-secondary" href="@PageRoutes.Account">Settings</a>
+        </p>
+    </section>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={PageRoutes.Dashboard}");
+        }
+    }
+}

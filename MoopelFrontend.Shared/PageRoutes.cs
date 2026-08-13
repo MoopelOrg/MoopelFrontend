@@ -3,6 +3,7 @@
 public static class PageRoutes
 {
     public const string Home = "/";
+    public const string Dashboard = "/dashboard";
     public const string Login = "/login";
     public const string Register = "/register";
     public const string Notes = "/notes";
