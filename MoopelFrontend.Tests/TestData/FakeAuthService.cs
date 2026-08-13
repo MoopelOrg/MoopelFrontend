@@ -1,6 +1,10 @@
 using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.Services.Interfaces;
 
+using MoopelObjects.Dto.Read;
+using MoopelObjects.Requests;
+using MoopelObjects.Results;
+
 namespace MoopelFrontend.Tests.TestData;
 
 internal sealed class FakeAuthService : IAuthService

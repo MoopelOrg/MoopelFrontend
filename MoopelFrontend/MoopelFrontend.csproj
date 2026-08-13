@@ -13,7 +13,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <ProjectReference Include="..\MoopelFrontend.Shared\MoopelFrontend.Shared.csproj" />
     <ProjectReference Include="..\MoopelFrontend.Client\MoopelFrontend.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.11" />
   </ItemGroup>
 
 </Project>

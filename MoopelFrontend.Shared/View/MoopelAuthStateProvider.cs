@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Components.Authorization;
 
-using MoopelFrontend.Shared.Models;
+using MoopelObjects.Dto.Read;
 
 namespace MoopelFrontend.Shared.View;
 

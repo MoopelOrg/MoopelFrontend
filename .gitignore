@@ -7,3 +7,4 @@ appsettings.json
 appsettings.development.json
 appsettings.production.json
 appsettings.test.json
+logs/

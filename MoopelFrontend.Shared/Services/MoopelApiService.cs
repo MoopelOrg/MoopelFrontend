@@ -11,11 +11,6 @@ using MoopelFrontend.Shared.Services.Interfaces;
 
 namespace MoopelFrontend.Shared.Services;
 
-/// <summary>
-/// The single place HTTP calls to MoopelBackend are made. Handles the base address,
-/// bearer token attachment, JSON options, status-code mapping, and 401 sign-out —
-/// so pages and feature services never deal with raw HTTP.
-/// </summary>
 public sealed class MoopelApiService : IMoopelApiService
 {
     /// <summary>Matches MoopelApi's JSON configuration: camelCase + enums as strings.</summary>
@@ -51,6 +46,9 @@ public sealed class MoopelApiService : IMoopelApiService
     private async Task<ApiResult<T>> SendAsync<T>(HttpMethod method, string route, object? body,
         bool readErrorBody, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Sending API request {Method} {Route} (HasBody: {HasBody}, ReadErrorBody: {ReadErrorBody})",
+            method, route, body is not null, readErrorBody);
+
         using HttpRequestMessage request = new(method, route);
 
         if (body is not null)
@@ -75,6 +73,9 @@ public sealed class MoopelApiService : IMoopelApiService
             _logger.LogError(ex, "Network failure calling {Method} {Route}", method, route);
             return ApiResult<T>.Fail(ApiErrorKind.Network, "Could not reach the Moopel service.");
         }
+
+        _logger.LogInformation("Received API response {StatusCode} for {Method} {Route} (Success: {IsSuccess})",
+            (int)response.StatusCode, method, route, response.IsSuccessStatusCode);
 
         using (response)
         {

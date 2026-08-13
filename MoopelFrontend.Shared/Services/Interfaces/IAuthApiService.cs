@@ -1,5 +1,9 @@
 using MoopelFrontend.Shared.Models;
 
+using MoopelObjects.Dto.Read;
+using MoopelObjects.Requests;
+using MoopelObjects.Results;
+
 namespace MoopelFrontend.Shared.Services.Interfaces;
 
 public interface IAuthApiService

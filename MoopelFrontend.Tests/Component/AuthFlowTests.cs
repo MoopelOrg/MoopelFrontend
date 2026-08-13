@@ -12,6 +12,9 @@ using MoopelFrontend.Shared.View;
 using MoopelFrontend.Tests.TestData;
 using MoopelFrontend.View.Components.Auth;
 
+using MoopelObjects.Dto.Read;
+using MoopelObjects.Results;
+
 namespace MoopelFrontend.Tests.Component;
 
 public class AuthFlowTests

@@ -63,7 +63,7 @@ public sealed class Startup
     public WebApplicationBuilder AddLifetimeServices()
     {
         _builder.Services.AddOptions<MoopelApiOptions>()
-            .Bind(_builder.Configuration.GetSection(ConfigSections.MoopelApi));
+            .Bind(_builder.Configuration.GetSection(nameof(MoopelApiOptions).Replace("Options", string.Empty)));
 
         _builder.Services.AddAuthorizationCore();
         _builder.Services.AddCascadingAuthenticationState();
@@ -85,7 +85,7 @@ public sealed class Startup
                 apiBaseUri = new Uri(fallbackBaseUrl, UriKind.Absolute);
 
                 logger.LogWarning("Invalid '{Section}:{Key}' value '{Value}'. Falling back to {FallbackBaseUrl}.",
-                    ConfigSections.MoopelApi, nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, fallbackBaseUrl);
+                    nameof(MoopelApiOptions).Replace("Options", string.Empty), nameof(MoopelApiOptions.BaseUrl), options.BaseUrl, fallbackBaseUrl);
             }
 
             client.BaseAddress = apiBaseUri;

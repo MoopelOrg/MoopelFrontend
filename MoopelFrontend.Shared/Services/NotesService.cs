@@ -1,6 +1,9 @@
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.Services.Interfaces;
+
+using MoopelObjects;
+using MoopelObjects.Dto;
+using MoopelObjects.Requests.Creation;
 
 namespace MoopelFrontend.Shared.Services;
 
@@ -21,5 +24,5 @@ public sealed class NotesService : INotesService
         => _api.PostAsync<Note>(ApiRoutes.Note.CreateNote, request, readErrorBody: false, cancellationToken);
 
     public Task<ApiResult<bool>> DeleteNoteAsync(int noteId, CancellationToken cancellationToken = default)
-        => _api.DeleteAsync(ApiRoutes.Note.DeleteNote(noteId), cancellationToken);
+        => _api.DeleteAsync(ApiRoutes.Note.Generate.DeleteNote(noteId), cancellationToken);
 }

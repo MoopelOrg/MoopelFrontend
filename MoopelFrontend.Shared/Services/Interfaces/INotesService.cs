@@ -1,5 +1,8 @@
 using MoopelFrontend.Shared.Models;
 
+using MoopelObjects.Dto;
+using MoopelObjects.Requests.Creation;
+
 namespace MoopelFrontend.Shared.Services.Interfaces;
 
 public interface INotesService

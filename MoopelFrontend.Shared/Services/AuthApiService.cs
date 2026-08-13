@@ -1,6 +1,10 @@
-using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Models;
 using MoopelFrontend.Shared.Services.Interfaces;
+
+using MoopelObjects;
+using MoopelObjects.Dto.Read;
+using MoopelObjects.Requests;
+using MoopelObjects.Results;
 
 namespace MoopelFrontend.Shared.Services;
 
