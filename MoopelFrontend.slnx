@@ -4,6 +4,16 @@
     <File Path=".gitignore" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/WireFrames/">
+    <File Path="Wireframes/DashboardV1.html" />
+    <File Path="Wireframes/DashboardV1.png" />
+    <File Path="Wireframes/LoginV1.html" />
+    <File Path="Wireframes/LoginV1.png" />
+    <File Path="Wireframes/RegisterV1.html" />
+    <File Path="Wireframes/RegisterV1.png" />
+    <File Path="Wireframes/SettingsV1.html" />
+    <File Path="Wireframes/SettingsV1.png" />
+  </Folder>
   <Project Path="MoopelFrontend.Client/MoopelFrontend.Client.csproj" />
   <Project Path="MoopelFrontend.Shared/MoopelFrontend.Shared.csproj" />
   <Project Path="MoopelFrontend.Tests/MoopelFrontend.Tests.csproj" />

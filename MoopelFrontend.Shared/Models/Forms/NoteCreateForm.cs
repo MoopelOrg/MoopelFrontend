@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using MoopelObjects.Enums;
 using MoopelObjects.Requests.Creation;
 
-namespace MoopelFrontend.Client.Models.Forms;
+namespace MoopelFrontend.Shared.Models.Forms;
 
 /// <summary>
 /// Mutable, bindable counterpart to the immutable <see cref="NoteCreateRequest"/> contract.

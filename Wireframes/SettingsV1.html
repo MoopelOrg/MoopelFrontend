@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+    .drawer-transition { transition: transform 0.3s ease-in-out; }
+    .drawer-overlay-transition { transition: opacity 0.3s ease-in-out; }
+    
+    /* Toggle Switch */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .4s; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: #6d4aff; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Navigation Rail Styles */
+    .nav-rail-line { width: 1px; background-color: rgba(255, 255, 255, 0.05); position: absolute; top: 0; bottom: 0; left: 7px; }
+    .nav-rail-dot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.1); background-color: #0a0a14; position: relative; z-index: 10; transition: all 0.3s ease; }
+    .nav-rail-item.active .nav-rail-dot { background-color: #6d4aff; border-color: #6d4aff; box-shadow: 0 0 15px rgba(109, 74, 255, 0.5); }
+    .nav-rail-item.active .nav-rail-label { color: #ffffff; font-weight: 700; }
+    .nav-rail-item:hover .nav-rail-dot { border-color: #6d4aff; }
+
+    .theme-card.active { border-color: #6d4aff; background-color: rgba(109, 74, 255, 0.08); }
+    .theme-card:hover:not(.active) { background-color: rgba(255, 255, 255, 0.03); }
+
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="text-white font-sans h-screen w-full overflow-hidden flex flex-col selection:bg-proton-accent/30">
+
+  <!-- Top Navigation Bar (Consistent) -->
+  <header class="h-16 px-6 flex items-center justify-between z-20 flex-shrink-0 border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm">
+    <div class="flex items-center gap-4">
+      <button id="drawer-open" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+        <i class="ph ph-list text-2xl"></i>
+      </button>
+      <a href="Dashboard__desktop.html" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-lg bg-proton-accent flex items-center justify-center transition-transform group-hover:scale-105">
+          <i class="ph-fill ph-house-line text-white text-lg"></i>
+        </div>
+        <span class="text-xl font-bold tracking-tight">Moopel</span>
+      </a>
+      <div class="h-4 w-px bg-white/10 mx-2"></div>
+      <div class="flex items-center gap-2 text-proton-muted">
+        <i class="ph ph-gear"></i>
+        <span class="text-sm font-semibold">Settings</span>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <div class="w-8 h-8 rounded-lg bg-proton-accent/20 flex items-center justify-center text-proton-accent font-bold text-xs ring-1 ring-proton-accent/30">
+        E
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Drawer (Consistent) -->
+  <div id="drawer-overlay" class="fixed inset-0 bg-black/60 opacity-0 pointer-events-none z-30 drawer-overlay-transition"></div>
+  <aside id="drawer" class="fixed top-0 left-0 h-full w-[280px] bg-proton-surface border-r border-white/5 z-40 -translate-x-full drawer-transition p-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-proton-accent flex items-center justify-center">
+            <i class="ph-fill ph-house-line text-white text-lg"></i>
+          </div>
+          <span class="text-lg font-bold">Moopel</span>
+        </div>
+        <button id="drawer-close" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+          <i class="ph ph-x text-xl text-proton-muted"></i>
+        </button>
+      </div>
+      <nav class="space-y-1">
+        <a href="Dashboard__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-squares-four text-base"></i> Dashboard
+        </a>
+        <a href="WorkItems__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-list-checks text-base"></i> Work Items
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-users-three text-base"></i> Groups
+        </a>
+        <a href="Notes__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-note-pencil text-base"></i> Notes
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-calendar-blank text-base"></i> Calendar
+        </a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-white/5">
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-proton-accent text-white font-medium text-sm">
+        <i class="ph-fill ph-gear text-base"></i> Settings
+      </a>
+    </div>
+  </aside>
+
+  <main class="flex-1 flex overflow-hidden">
+    <!-- Settings Content Area -->
+    <div id="settings-scroll-container" class="flex-1 overflow-y-auto no-scrollbar bg-proton-surface/10 scroll-smooth">
+      <div class="max-w-6xl mx-auto px-6 py-20 flex gap-16">
+        
+        <!-- Integrated Navigation Rail -->
+        <div class="w-48 flex-shrink-0">
+          <div class="sticky top-0 pt-4">
+            <div class="relative pl-2">
+              <div class="nav-rail-line"></div>
+              <div class="space-y-12">
+                <a href="#account" class="nav-rail-item active group flex items-center gap-4 transition-all">
+                  <div class="nav-rail-dot"></div>
+                  <span class="nav-rail-label text-xs font-bold text-proton-muted uppercase tracking-widest group-hover:text-white transition-colors">Account</span>
+                </a>
+                <a href="#appearance" class="nav-rail-item group flex items-center gap-4 transition-all">
+                  <div class="nav-rail-dot"></div>
+                  <span class="nav-rail-label text-xs font-bold text-proton-muted uppercase tracking-widest group-hover:text-white transition-colors">Appearance</span>
+                </a>
+                <a href="#notifications" class="nav-rail-item group flex items-center gap-4 transition-all">
+                  <div class="nav-rail-dot"></div>
+                  <span class="nav-rail-label text-xs font-bold text-proton-muted uppercase tracking-widest group-hover:text-white transition-colors">Notifications</span>
+                </a>
+                <a href="#security" class="nav-rail-item group flex items-center gap-4 transition-all">
+                  <div class="nav-rail-dot"></div>
+                  <span class="nav-rail-label text-xs font-bold text-proton-muted uppercase tracking-widest group-hover:text-white transition-colors">Security</span>
+                </a>
+                <a href="#groups" class="nav-rail-item group flex items-center gap-4 transition-all">
+                  <div class="nav-rail-dot"></div>
+                  <span class="nav-rail-label text-xs font-bold text-proton-muted uppercase tracking-widest group-hover:text-white transition-colors">Groups</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Sections -->
+        <div class="flex-1 space-y-32">
+          
+          <!-- Header -->
+          <header>
+            <h1 class="text-5xl font-extrabold tracking-tight mb-4 leading-tight">Settings</h1>
+            <p class="text-proton-muted text-lg max-w-2xl">Configure your personal experience, appearance, and security across the Moopel ecosystem.</p>
+          </header>
+
+          <!-- Account Section -->
+          <section id="account" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+              <h2 class="text-2xl font-bold tracking-tight">Account & Profile</h2>
+            </div>
+            <div class="bg-white/5 border border-white/5 rounded-[40px] p-10 space-y-12">
+              <div class="flex items-center gap-10 pb-12 border-b border-white/5">
+                <div class="relative group">
+                  <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg" alt="Profile" class="w-28 h-28 rounded-[32px] object-cover ring-4 ring-proton-accent/20">
+                  <button class="absolute inset-0 bg-black/40 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <i class="ph ph-camera text-3xl"></i>
+                  </button>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex gap-3">
+                    <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2.5 rounded-xl font-bold text-xs transition-all shadow-lg shadow-proton-accent/20">Upload New Photo</button>
+                    <button class="bg-white/5 hover:bg-white/10 text-white px-6 py-2.5 rounded-xl font-bold text-xs border border-white/10 transition-all">Remove</button>
+                  </div>
+                  <p class="text-[10px] text-proton-muted font-bold uppercase tracking-widest">Recommended size: 400x400px. JPG, PNG or GIF.</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-x-10 gap-y-8">
+                <div class="space-y-2">
+                  <label class="text-[10px] font-black text-proton-muted uppercase tracking-widest px-1">Display Name</label>
+                  <input type="text" value="Eleanor Vance" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all font-medium">
+                </div>
+                <div class="space-y-2">
+                  <label class="text-[10px] font-black text-proton-muted uppercase tracking-widest px-1">User Handle</label>
+                  <div class="relative">
+                    <span class="absolute left-5 top-1/2 -translate-y-1/2 text-proton-muted font-bold text-sm">@</span>
+                    <input type="text" value="eleanor.vance" class="w-full bg-white/5 border border-white/10 rounded-2xl pl-10 pr-5 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all font-medium">
+                  </div>
+                </div>
+                <div class="space-y-2 col-span-2">
+                  <label class="text-[10px] font-black text-proton-muted uppercase tracking-widest px-1">Email Address</label>
+                  <input type="email" value="home@vance.family" class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all font-medium">
+                </div>
+                <div class="space-y-2 col-span-2">
+                  <label class="text-[10px] font-black text-proton-muted uppercase tracking-widest px-1">Biography</label>
+                  <textarea class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all font-medium h-32 resize-none" placeholder="A little about yourself..."></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Appearance & Theme Section -->
+          <section id="appearance" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+              <h2 class="text-2xl font-bold tracking-tight">Appearance & Themes</h2>
+            </div>
+            <div class="bg-white/5 border border-white/5 rounded-[40px] p-10 space-y-12">
+              <div class="flex items-start justify-between pb-10 border-b border-white/5">
+                <div class="max-w-md">
+                  <p class="text-[10px] font-black text-proton-muted uppercase tracking-widest mb-2">Current Theme</p>
+                  <h3 class="text-3xl font-bold mb-3">Proton Dark</h3>
+                  <p class="text-sm text-proton-muted leading-relaxed">Our signature aesthetic. Deep cosmic backgrounds with vibrant purple accents designed for focus and visual comfort.</p>
+                </div>
+                <div class="px-4 py-2 rounded-xl bg-proton-accent/20 border border-proton-accent/30 text-proton-accent text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                   <i class="ph ph-moon-stars text-sm"></i> Dark Theme
+                </div>
+              </div>
+
+              <div>
+                <p class="text-[10px] font-black text-proton-muted uppercase tracking-widest mb-8">Available Collections</p>
+                <div class="grid grid-cols-3 gap-8">
+                  <!-- Proton Card -->
+                  <div class="theme-card active group relative rounded-[32px] border-2 border-white/5 p-5 cursor-pointer transition-all">
+                    <div class="w-full aspect-video rounded-2xl mb-5 overflow-hidden relative border border-white/10 bg-[#0a0a14]">
+                       <div class="absolute inset-x-0 top-0 h-4 bg-[#1a1a2e]"></div>
+                       <div class="absolute left-2 top-7 w-4 h-4 rounded-full bg-[#6d4aff]"></div>
+                       <div class="absolute left-8 top-7 right-4 h-1.5 bg-white/10 rounded-full"></div>
+                       <div class="absolute left-8 top-10 right-10 h-1.5 bg-white/5 rounded-full"></div>
+                    </div>
+                    <p class="text-sm font-bold text-center">Proton Dark</p>
+                    <i class="ph-fill ph-check-circle absolute top-4 right-4 text-proton-accent text-xl"></i>
+                  </div>
+
+                  <!-- Slate Card -->
+                  <div class="theme-card group relative rounded-[32px] border-2 border-white/5 p-5 cursor-pointer transition-all">
+                    <div class="w-full aspect-video rounded-2xl mb-5 overflow-hidden relative border border-white/10 bg-[#1e1e24]">
+                       <div class="absolute inset-x-0 top-0 h-4 bg-[#2a2a31]"></div>
+                       <div class="absolute left-2 top-7 w-4 h-4 rounded-full bg-[#c2593f]"></div>
+                       <div class="absolute left-8 top-7 right-4 h-1.5 bg-white/10 rounded-full"></div>
+                    </div>
+                    <p class="text-sm font-bold text-center text-proton-muted group-hover:text-white">Classic Slate</p>
+                  </div>
+
+                  <!-- Light Card -->
+                  <div class="theme-card group relative rounded-[32px] border-2 border-white/5 p-5 cursor-pointer transition-all">
+                    <div class="w-full aspect-video rounded-2xl mb-5 overflow-hidden relative border border-slate-200 bg-[#f7f5f2]">
+                       <div class="absolute inset-x-0 top-0 h-4 bg-white shadow-sm"></div>
+                       <div class="absolute left-2 top-7 w-4 h-4 rounded-full bg-[#6d4aff]"></div>
+                       <div class="absolute left-8 top-7 right-4 h-1.5 bg-slate-200 rounded-full"></div>
+                    </div>
+                    <p class="text-sm font-bold text-center text-proton-muted group-hover:text-white">Moopel Light</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Notifications Section -->
+          <section id="notifications" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+              <h2 class="text-2xl font-bold tracking-tight">Notifications</h2>
+            </div>
+            <div class="bg-white/5 border border-white/5 rounded-[40px] p-10 space-y-8">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="font-bold text-lg">Email Updates</p>
+                  <p class="text-sm text-proton-muted mt-1">Weekly summaries and critical household alerts.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="h-px bg-white/5"></div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="font-bold text-lg">Push Notifications</p>
+                  <p class="text-sm text-proton-muted mt-1">Real-time alerts for task deadlines and group messages.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Security Section -->
+          <section id="security" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+              <h2 class="text-2xl font-bold tracking-tight">Security</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+              <button class="group p-8 rounded-[40px] bg-white/5 border border-white/5 hover:bg-white/10 transition-all text-left">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
+                  <i class="ph-fill ph-lock text-2xl"></i>
+                </div>
+                <h4 class="text-lg font-bold mb-2">Password</h4>
+                <p class="text-sm text-proton-muted leading-relaxed">Update your login credentials and recovery options.</p>
+              </button>
+              <button class="group p-8 rounded-[40px] bg-white/5 border border-white/5 hover:bg-white/10 transition-all text-left">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+                  <i class="ph-fill ph-shield-check text-2xl"></i>
+                </div>
+                <h4 class="text-lg font-bold mb-2">Two-Factor Auth</h4>
+                <p class="text-sm text-proton-muted leading-relaxed">Add an extra layer of protection to your account.</p>
+              </button>
+            </div>
+          </section>
+
+          <!-- Groups Section -->
+          <section id="groups" class="scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+              <h2 class="text-2xl font-bold tracking-tight">Groups & Family</h2>
+            </div>
+            <div class="bg-white/5 border border-white/5 rounded-[40px] p-10">
+              <div class="flex items-center justify-between mb-10">
+                <div>
+                  <h4 class="text-lg font-bold">Vance Family</h4>
+                  <p class="text-sm text-proton-muted">Admin Role · 4 members</p>
+                </div>
+                <button class="px-5 py-2 rounded-xl bg-white/10 text-xs font-bold hover:bg-white/20 transition-all">Manage Members</button>
+              </div>
+              <div class="flex -space-x-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" class="w-10 h-10 rounded-full border-2 border-[#0a0a14]">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" class="w-10 h-10 rounded-full border-2 border-[#0a0a14]">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" class="w-10 h-10 rounded-full border-2 border-[#0a0a14]">
+                <div class="w-10 h-10 rounded-full border-2 border-[#0a0a14] bg-white/10 flex items-center justify-center text-[10px] font-bold">+1</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Save Bar -->
+          <footer class="pt-20 pb-32 border-t border-white/5 flex items-center justify-between">
+            <button class="text-rose-500 font-bold text-sm hover:underline">Delete Account</button>
+            <div class="flex gap-4">
+              <button class="px-10 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-sm font-bold hover:bg-white/10 transition-all">Discard</button>
+              <button class="px-10 py-3.5 rounded-2xl bg-proton-accent text-white text-sm font-bold shadow-xl shadow-proton-accent/30 hover:brightness-110 transition-all">Save Changes</button>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const drawerOpen = document.getElementById('drawer-open');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawer-overlay');
+
+    const toggleDrawer = (open) => {
+      if (open) {
+        drawer.classList.remove('-translate-x-full');
+        overlay.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        overlay.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    };
+
+    drawerOpen.addEventListener('click', () => toggleDrawer(true));
+    drawerClose.addEventListener('click', () => toggleDrawer(false));
+    overlay.addEventListener('click', () => toggleDrawer(false));
+
+    // Nav Rail Logic
+    const railItems = document.querySelectorAll('.nav-rail-item');
+    const sections = document.querySelectorAll('section');
+    const scrollContainer = document.getElementById('settings-scroll-container');
+
+    const updateActiveRail = () => {
+      let currentSectionId = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollContainer.scrollTop >= sectionTop - 150) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+
+      railItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === `#${currentSectionId}`) {
+          item.classList.add('active');
+        }
+      });
+    };
+
+    scrollContainer.addEventListener('scroll', updateActiveRail);
+    
+    // Smooth scroll for nav items (already handled by html { scroll-behavior: smooth } and hrefs, 
+    // but we can ensure it works with the custom scroll container if needed)
+    railItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = item.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        scrollContainer.scrollTo({
+          top: targetSection.offsetTop - 100,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

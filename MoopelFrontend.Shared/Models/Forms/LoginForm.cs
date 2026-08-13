@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 using MoopelObjects.Requests;
 
-namespace MoopelFrontend.Client.Models.Forms;
+namespace MoopelFrontend.Shared.Models.Forms;
 
 /// <summary>
 /// Mutable, bindable counterpart to the immutable <see cref="LoginRequest"/> contract.

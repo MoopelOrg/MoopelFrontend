@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — Home Productivity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+    .drawer-transition {
+      transition: transform 0.3s ease-in-out;
+    }
+    .drawer-overlay-transition {
+      transition: opacity 0.3s ease-in-out;
+    }
+    .app-card:hover {
+      transform: translateY(-4px);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body class="text-white font-sans h-screen w-full overflow-hidden flex flex-col selection:bg-proton-accent/30">
+
+  <!-- Top Navigation Bar -->
+  <header class="h-16 px-6 flex items-center justify-between z-20">
+    <div class="flex items-center gap-4">
+      <button id="drawer-open" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+        <i class="ph ph-list text-2xl"></i>
+      </button>
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-proton-accent flex items-center justify-center">
+          <i class="ph-fill ph-house-line text-white text-lg"></i>
+        </div>
+        <span class="text-xl font-bold tracking-tight">Moopel</span>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <div class="text-right hidden sm:block">
+        <p class="text-xs font-bold">eleanor.vance</p>
+        <p class="text-[10px] text-proton-muted">home@vance.family</p>
+      </div>
+      <div class="w-8 h-8 rounded-lg bg-proton-accent/20 flex items-center justify-center text-proton-accent font-bold text-xs ring-1 ring-proton-accent/30">
+        E
+      </div>
+      <button class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+        <i class="ph ph-moon text-lg text-proton-muted"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Side Drawer -->
+  <div id="drawer-overlay" class="fixed inset-0 bg-black/60 opacity-0 pointer-events-none z-30 drawer-overlay-transition"></div>
+  <aside id="drawer" class="fixed top-0 left-0 h-full w-[280px] bg-proton-surface border-r border-white/5 z-40 -translate-x-full drawer-transition p-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-proton-accent flex items-center justify-center">
+            <i class="ph-fill ph-house-line text-white text-lg"></i>
+          </div>
+          <span class="text-lg font-bold">Moopel</span>
+        </div>
+        <button id="drawer-close" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+          <i class="ph ph-x text-xl text-proton-muted"></i>
+        </button>
+      </div>
+      <nav class="space-y-1">
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-proton-accent text-white font-medium text-sm">
+          <i class="ph-fill ph-squares-four text-base"></i> Dashboard
+        </a>
+        <a href="WorkItems__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-list-checks text-base"></i> Work Items
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-users-three text-base"></i> Groups
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-note-pencil text-base"></i> Notes
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-calendar-blank text-base"></i> Calendar
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-refrigerator text-base"></i> Fridge
+        </a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-white/5">
+      <button class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+        <i class="ph ph-gear text-base"></i> Settings
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content (Launcher) -->
+  <main class="flex-1 flex flex-col items-center justify-center p-6 relative overflow-y-auto">
+    
+    <div class="text-center mb-16">
+      <h2 class="text-5xl font-bold mb-4 tracking-tight">Welcome</h2>
+      <p class="text-proton-muted text-lg">Organization and productivity starts here</p>
+    </div>
+
+    <!-- App Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-y-12 gap-x-16 max-w-4xl mx-auto mb-20">
+      
+      <!-- Work Items -->
+      <a href="WorkItems__desktop.html" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shadow-lg shadow-indigo-900/20 group-hover:shadow-indigo-500/30">
+          <i class="ph-fill ph-list-checks text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Work Items</span>
+      </a>
+
+      <!-- Calendar -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-900/20 group-hover:shadow-blue-500/30">
+          <i class="ph-fill ph-calendar-blank text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Calendar</span>
+      </a>
+
+      <!-- Groups -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center shadow-lg shadow-purple-900/20 group-hover:shadow-purple-500/30">
+          <i class="ph-fill ph-users-three text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Groups</span>
+      </a>
+
+      <!-- Fridge -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center shadow-lg shadow-emerald-900/20 group-hover:shadow-emerald-500/30">
+          <i class="ph-fill ph-refrigerator text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Fridge</span>
+      </a>
+
+      <!-- Notes -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300 relative">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-900/20 group-hover:shadow-amber-500/30">
+          <i class="ph-fill ph-note-pencil text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Notes</span>
+        <span class="absolute -top-2 -right-2 bg-indigo-500 text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-proton-bg">New</span>
+      </a>
+
+      <!-- Storage -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-slate-500 to-slate-700 flex items-center justify-center shadow-lg shadow-slate-900/20 group-hover:shadow-slate-500/30">
+          <i class="ph-fill ph-package text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Storage</span>
+      </a>
+
+      <!-- Banking -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center shadow-lg shadow-rose-900/20 group-hover:shadow-rose-500/30">
+          <i class="ph-fill ph-wallet text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Banking</span>
+      </a>
+
+      <!-- Documents -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center shadow-lg shadow-sky-900/20 group-hover:shadow-sky-500/30">
+          <i class="ph-fill ph-file-text text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Documents</span>
+      </a>
+
+      <!-- Health -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300 relative">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg shadow-pink-900/20 group-hover:shadow-pink-500/30">
+          <i class="ph-fill ph-heartbeat text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Health</span>
+        <span class="absolute -top-2 -right-2 bg-indigo-500 text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-proton-bg">New</span>
+      </a>
+
+      <!-- Security -->
+      <a href="#" class="app-card flex flex-col items-center gap-3 group transition-all duration-300">
+        <div class="w-20 h-20 rounded-[28px] bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center shadow-lg shadow-violet-900/20 group-hover:shadow-violet-500/30">
+          <i class="ph-fill ph-shield-check text-3xl"></i>
+        </div>
+        <span class="text-sm font-medium">Security</span>
+      </a>
+
+    </div>
+
+    <!-- Bottom Settings Button -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+      <button class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-xs font-medium text-proton-muted hover:text-white">
+        <i class="ph ph-gear"></i> Settings
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    const drawerOpen = document.getElementById('drawer-open');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawer-overlay');
+
+    const toggleDrawer = (open) => {
+      if (open) {
+        drawer.classList.remove('-translate-x-full');
+        overlay.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        overlay.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    };
+
+    drawerOpen.addEventListener('click', () => toggleDrawer(true));
+    drawerClose.addEventListener('click', () => toggleDrawer(false));
+    overlay.addEventListener('click', () => toggleDrawer(false));
+  </script>
+</body>
+</html>
