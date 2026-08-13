@@ -26,10 +26,17 @@ public sealed class ServerTokenStoreService : ITokenStore
     public async ValueTask LoadAsync(
         CancellationToken cancellationToken = default)
     {
-        CurrentToken = await _jsRuntime.InvokeAsync<string?>(
-            "moopelAuthCookies.get",
-            cancellationToken,
-            ConstantValues.AuthTokenCookieName);
+        try
+        {
+            CurrentToken = await _jsRuntime.InvokeAsync<string?>(
+                "moopelAuthCookies.get",
+                cancellationToken,
+                ConstantValues.AuthTokenCookieName);
+        }
+        catch (JSDisconnectedException)
+        {
+            CurrentToken = null;
+        }
     }
 
     public async ValueTask SaveAsync(
@@ -38,12 +45,18 @@ public sealed class ServerTokenStoreService : ITokenStore
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(token);
 
-        await _jsRuntime.InvokeVoidAsync(
-            "moopelAuthCookies.set",
-            cancellationToken,
-            ConstantValues.AuthTokenCookieName,
-            token,
-            CookieLifetimeDays);
+        try
+        {
+            await _jsRuntime.InvokeVoidAsync(
+                "moopelAuthCookies.set",
+                cancellationToken,
+                ConstantValues.AuthTokenCookieName,
+                token,
+                CookieLifetimeDays);
+        }
+        catch (JSDisconnectedException)
+        {
+        }
 
         CurrentToken = token;
     }
@@ -51,10 +64,16 @@ public sealed class ServerTokenStoreService : ITokenStore
     public async ValueTask ClearAsync(
         CancellationToken cancellationToken = default)
     {
-        await _jsRuntime.InvokeVoidAsync(
-            "moopelAuthCookies.remove",
-            cancellationToken,
-            ConstantValues.AuthTokenCookieName);
+        try
+        {
+            await _jsRuntime.InvokeVoidAsync(
+                "moopelAuthCookies.remove",
+                cancellationToken,
+                ConstantValues.AuthTokenCookieName);
+        }
+        catch (JSDisconnectedException)
+        {
+        }
 
         CurrentToken = null;
     }

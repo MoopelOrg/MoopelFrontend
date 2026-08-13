@@ -1,0 +1,809 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "net11.0",
+    "targetDisplayName": ".NETCoreApp,Version=v11.0"
+  },
+  "analysisStartTime": "2026-08-13T08:42:00.7176727Z",
+  "analysisEndTime": "2026-08-13T08:42:01.1675549Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 4,
+      "issues": 2,
+      "incidents": 22,
+      "effort": 22
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 4,
+        "Optional": 0,
+        "Potential": 18,
+        "Information": 0
+      },
+      "category": {
+        "Project": 4,
+        "Api": 18
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 6,
+      "properties": {
+        "appName": "MoopelFrontend.Client",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 14,
+        "numberOfCodeFiles": 3,
+        "linesTotal": 1224,
+        "linesOfCode": 187,
+        "totalApiScanned": 2935,
+        "minLinesOfCodeToChange": 5,
+        "maxLinesOfCodeToChange": 5
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "c5c76738-a1a0-4115-b936-e78cab065c60",
+          "ruleId": "Project.0002",
+          "projectPath": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0\nRecommended target framework: net11.0",
+              "protected": "Current target framework: net10.0\nRecommended target framework: net11.0"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+            "snippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "protectedSnippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0",
+              "RecommendedTargetFramework": "net11.0"
+            }
+          }
+        },
+        {
+          "incidentId": "45df6ee8-ac6f-44cf-b694-6d26587d7268",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Client\\Startup.cs",
+            "snippet": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "3767"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 100,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "ba239d25-4a89-4d90-89ce-8ddfba4e6f77",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+              "protected": "M:System.Uri.#ctor(System.String,System.UriKind)"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Client\\Startup.cs",
+            "snippet": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "label": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "properties": {
+              "CharCount": "3767"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 100,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "bd9acb5c-e084-4447-b30c-545c94cf9e37",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Client\\Startup.cs",
+            "snippet": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "3767"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 100,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "3ef21027-c005-46bb-aeed-9960ee5ac642",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{\u0022MoopelApi\u0022}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Client\\Startup.cs",
+            "snippet": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{\u0022MoopelApi\u0022}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "3767"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 84,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "468922dd-2d72-4fd7-9727-b75f8e94e330",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend.Client\\MoopelFrontend.Client.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{\u0022MoopelApi\u0022}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+              "protected": "M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Client\\Startup.cs",
+            "snippet": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{\u0022MoopelApi\u0022}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+            "protectedSnippet": "M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)",
+            "label": "M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)",
+            "properties": {
+              "CharCount": "3767"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 84,
+            "column": 8
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "MoopelFrontend\\MoopelFrontend.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 8,
+      "properties": {
+        "appName": "MoopelFrontend",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 23,
+        "numberOfCodeFiles": 4,
+        "linesTotal": 973,
+        "linesOfCode": 251,
+        "totalApiScanned": 1068,
+        "minLinesOfCodeToChange": 7,
+        "maxLinesOfCodeToChange": 7
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "76ea14c9-6720-4238-aff2-560ed3b03756",
+          "ruleId": "Project.0002",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0\nRecommended target framework: net11.0",
+              "protected": "Current target framework: net10.0\nRecommended target framework: net11.0"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\MoopelFrontend.csproj",
+            "snippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "protectedSnippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0",
+              "RecommendedTargetFramework": "net11.0"
+            }
+          }
+        },
+        {
+          "incidentId": "414c6760-c6f5-4ec6-9b4a-42f41cea7d9a",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "NavigationManager.NavigateTo($\u0022{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(returnUrl)}\u0022);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\obj\\Debug\\net10.0\\Microsoft.CodeAnalysis.Razor.Compiler\\Microsoft.NET.Sdk.Razor.SourceGenerators.RazorSourceGenerator\\View/Components/Auth/RedirectToLogin_razor.g.cs",
+            "snippet": "NavigationManager.NavigateTo($\u0022{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(returnUrl)}\u0022);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "6263"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 177,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "4c706190-64bf-44d8-93a4-258a67262f86",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Error\u0022, createScopeForErrors: true);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Boolean)"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Error\u0022, createScopeForErrors: true);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Boolean)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Boolean)",
+            "properties": {
+              "CharCount": "5620"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 136,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "192161ef-aa71-44f7-838a-36fca334619f",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\Startup.cs",
+            "snippet": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "5620"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 97,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "41a66687-e7e2-43e8-b6ee-cce8110aba6d",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+              "protected": "M:System.Uri.#ctor(System.String,System.UriKind)"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\Startup.cs",
+            "snippet": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "label": "M:System.Uri.#ctor(System.String,System.UriKind)",
+            "properties": {
+              "CharCount": "5620"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 97,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "25ec07ba-ba3e-4fd0-bc86-367d8e81c90e",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\Startup.cs",
+            "snippet": "client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "5620"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 97,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "baf67138-b971-4863-94e6-756cd2803592",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{nameof(MoopelApiOptions)}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\Startup.cs",
+            "snippet": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{nameof(MoopelApiOptions)}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "5620"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 80,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "61fe3547-c6f6-4922-9031-90775cd1c1be",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend\\MoopelFrontend.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{nameof(MoopelApiOptions)}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+              "protected": "M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend\\Startup.cs",
+            "snippet": "_builder.Services.AddOptions\u003CMoopelApiOptions\u003E()\r\n            .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))\r\n            .Validate(options =\u003E Uri.TryCreate(options.BaseUrl, UriKind.Absolute, out _),\r\n                $\u0022\u0027{nameof(MoopelApiOptions)}:{nameof(MoopelApiOptions.BaseUrl)}\u0027 must be an absolute URI.\u0022)\r\n            .ValidateOnStart();",
+            "protectedSnippet": "M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)",
+            "label": "M:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)",
+            "properties": {
+              "CharCount": "5620"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 80,
+            "column": 8
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "MoopelFrontend.Shared\\MoopelFrontend.Shared.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 4,
+      "properties": {
+        "appName": "MoopelFrontend.Shared",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 21,
+        "numberOfCodeFiles": 21,
+        "linesTotal": 915,
+        "linesOfCode": 915,
+        "totalApiScanned": 761,
+        "minLinesOfCodeToChange": 3,
+        "maxLinesOfCodeToChange": 3
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "e7536ba3-6aea-4779-8844-7cf8baa2f684",
+          "ruleId": "Project.0002",
+          "projectPath": "MoopelFrontend.Shared\\MoopelFrontend.Shared.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0\nRecommended target framework: net11.0",
+              "protected": "Current target framework: net10.0\nRecommended target framework: net11.0"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Shared\\MoopelFrontend.Shared.csproj",
+            "snippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "protectedSnippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0",
+              "RecommendedTargetFramework": "net11.0"
+            }
+          }
+        },
+        {
+          "incidentId": "bd25fa4d-c4d8-4048-86e1-9b966b9a1055",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "MoopelFrontend.Shared\\MoopelFrontend.Shared.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "string rawBody = await response.Content.ReadAsStringAsync(cancellationToken);",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Shared\\Services\\MoopelApiService.cs",
+            "snippet": "string rawBody = await response.Content.ReadAsStringAsync(cancellationToken);",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "properties": {
+              "CharCount": "6913"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 104,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "b813083d-00b8-4b9b-b8b9-967b80bda3eb",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "MoopelFrontend.Shared\\MoopelFrontend.Shared.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "T? value = await response.Content.ReadFromJsonAsync\u003CT\u003E(JsonOptions, cancellationToken);",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Shared\\Services\\MoopelApiService.cs",
+            "snippet": "T? value = await response.Content.ReadFromJsonAsync\u003CT\u003E(JsonOptions, cancellationToken);",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "properties": {
+              "CharCount": "6913"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 88,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "a6e10c4d-e2aa-4fcb-b0d0-999cf352119f",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "MoopelFrontend.Shared\\MoopelFrontend.Shared.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "request.Content = JsonContent.Create(body, options: JsonOptions);",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Shared\\Services\\MoopelApiService.cs",
+            "snippet": "request.Content = JsonContent.Create(body, options: JsonOptions);",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "properties": {
+              "CharCount": "6913"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 55,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "MoopelFrontend.Tests\\MoopelFrontend.Tests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 4,
+      "properties": {
+        "appName": "MoopelFrontend.Tests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": true,
+        "numberOfFiles": 12,
+        "numberOfCodeFiles": 10,
+        "linesTotal": 3429,
+        "linesOfCode": 808,
+        "totalApiScanned": 1179,
+        "minLinesOfCodeToChange": 3,
+        "maxLinesOfCodeToChange": 3
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "fff74c2a-5928-44bf-a0e9-1f1b4e9b3d79",
+          "ruleId": "Project.0002",
+          "projectPath": "MoopelFrontend.Tests\\MoopelFrontend.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0\nRecommended target framework: net11.0",
+              "protected": "Current target framework: net10.0\nRecommended target framework: net11.0"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Tests\\MoopelFrontend.Tests.csproj",
+            "snippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "protectedSnippet": "Current target framework: net10.0\nRecommended target framework: net11.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0",
+              "RecommendedTargetFramework": "net11.0"
+            }
+          }
+        },
+        {
+          "incidentId": "ae69fa69-f1de-4cd6-aea0-24facf4d0786",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "MoopelFrontend.Tests\\MoopelFrontend.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "return\r\n            $\u0022Expected status {expected}, \u0022 \u002B\r\n            $\u0022actual {response.StatusCode}, \u0022 \u002B\r\n            $\u0022endpoint {response.RequestMessage?.RequestUri}, \u0022 \u002B\r\n            $\u0022raw body: {responseBody}\u0022;",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Tests\\TestHelper.cs",
+            "snippet": "return\r\n            $\u0022Expected status {expected}, \u0022 \u002B\r\n            $\u0022actual {response.StatusCode}, \u0022 \u002B\r\n            $\u0022endpoint {response.RequestMessage?.RequestUri}, \u0022 \u002B\r\n            $\u0022raw body: {responseBody}\u0022;",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "properties": {
+              "CharCount": "672"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 15,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "b19f9a16-fda7-4b91-98e4-5e765f57382a",
+          "ruleId": "Api.0003",
+          "description": "Breaking change - Streaming HTTP responses enabled by default in browser HTTP clients ",
+          "projectPath": "MoopelFrontend.Tests\\MoopelFrontend.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "string responseBody = await response.Content.ReadAsStringAsync() ?? \u0022\u0022;",
+              "protected": "T:System.Net.Http.HttpContent"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Tests\\TestHelper.cs",
+            "snippet": "string responseBody = await response.Content.ReadAsStringAsync() ?? \u0022\u0022;",
+            "protectedSnippet": "T:System.Net.Http.HttpContent",
+            "label": "T:System.Net.Http.HttpContent",
+            "properties": {
+              "CharCount": "672"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/default-http-streaming.md",
+                "isCustom": false
+              }
+            ],
+            "line": 13,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "088c5000-474f-4f8e-ac83-ffc34441a80c",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Message no longer duplicated in Console log output ",
+          "projectPath": "MoopelFrontend.Tests\\MoopelFrontend.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "logging.AddConsole();",
+              "protected": "M:Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddConsole(Microsoft.Extensions.Logging.ILoggingBuilder)"
+            },
+            "kind": "File",
+            "path": "MoopelFrontend.Tests\\MoopelFrontendFactory.cs",
+            "snippet": "logging.AddConsole();",
+            "protectedSnippet": "M:Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddConsole(Microsoft.Extensions.Logging.ILoggingBuilder)",
+            "label": "M:Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddConsole(Microsoft.Extensions.Logging.ILoggingBuilder)",
+            "properties": {
+              "CharCount": "1270"
+            },
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/console-json-logging-duplicate-messages.md",
+                "isCustom": false
+              }
+            ],
+            "line": 39,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    }
+  }
+}
