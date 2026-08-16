@@ -1,28 +1,56 @@
 :root {
     --color-bg: #f6f7f9;
     --color-surface: #ffffff;
+    --color-surface-muted: #f2f4f7;
     --color-border: #d7dbe0;
+    --color-border-strong: #b7c0ca;
     --color-text: #1f2530;
     --color-text-muted: #67707e;
     --color-primary: #2f6fed;
     --color-primary-hover: #2558c4;
+    --color-primary-soft: #e8efff;
     --color-danger: #c62828;
     --color-danger-hover: #a32020;
     --color-success: #26b050;
+    --color-warning: #ed9b00;
+    --color-info: #0ea5e9;
     --color-error: #e50000;
 
+    --space-2xs: 0.125rem;
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 1rem;
     --space-lg: 1.5rem;
     --space-xl: 2.5rem;
+    --space-2xl: 3.5rem;
 
+    --radius-sm: 4px;
     --radius: 6px;
     --large-radius: 12px;
+    --radius-pill: 999px;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.08);
+
     --content-max-width: 60rem;
     --narrow-max-width: 26rem;
+    --wide-max-width: 72rem;
     --header-height: 3.5rem;
     --drawer-width: 17rem;
+    --footer-height: 3rem;
+
+    --small-card-width: 7.5rem;
+    --small-card-height: 7.5rem;
+    --icon-size-sm: 1rem;
+    --icon-size-md: 1.25rem;
+    --icon-size-lg: 1.5rem;
+
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-modal: 1100;
+
+    --transition-fast: 120ms ease-in-out;
+    --transition-base: 200ms ease-in-out;
 }
 
 * {
@@ -54,4 +82,81 @@ h1:focus {
 
 a {
     color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+p {
+    margin: 0 0 var(--space-md);
+}
+
+small {
+    color: var(--color-text-muted);
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+}
+
+button:hover {
+    border-color: var(--color-primary);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    padding: 0.5rem 0.75rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-primary) 60%, white);
+    outline-offset: 2px;
+}
+
+img,
+svg,
+video,
+canvas {
+    display: block;
+    max-width: 100%;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    margin: var(--space-lg) 0;
+}
+
+main {
+    width: min(100% - 2rem, var(--content-max-width));
+    margin-inline: auto;
 }

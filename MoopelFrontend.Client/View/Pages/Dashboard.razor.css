@@ -7,7 +7,7 @@
     margin: var(--space-xl) 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 5rem));
+    grid-template-columns: repeat(auto-fit, minmax(var(--small-card-width), var(--small-card-height)));
     justify-content: center;
     gap: var(--space-xl);
 }
