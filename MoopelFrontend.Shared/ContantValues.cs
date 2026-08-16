@@ -39,7 +39,7 @@ public static class AppNav
 /// <paramref name="Href"/> is null while the app has no page yet, which the
 /// launcher renders as a disabled tile instead of a link.
 /// </summary>
-public sealed record AppTile(string Label, string? Href = null, bool IsNew = false)
+public sealed record AppTile(string Label, string? Href = null, string Badge = "")
 {
     public bool IsAvailable => !string.IsNullOrWhiteSpace(Href);
 }
@@ -55,8 +55,8 @@ public static class AppLauncher
         new("Calendar"),
         new("Groups"),
         new("Fridge"),
-        new("Notes", PageRoutes.Notes, IsNew: true),
-        new("Storage"),
+        new("Notes", PageRoutes.Notes, Badge: "1"),
+        new("Storage", Badge: "New"),
         new("Banking"),
         new("Documents"),
         new("Security")

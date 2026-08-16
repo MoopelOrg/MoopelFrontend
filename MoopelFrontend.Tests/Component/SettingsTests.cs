@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
 using MoopelFrontend.Client.View.Components;
+using MoopelFrontend.Client.View.Components.Settings;
 using MoopelFrontend.Client.View.Pages;
 using MoopelFrontend.Shared.Models.Theming;
 using MoopelFrontend.Shared.Services.Interfaces;

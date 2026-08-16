@@ -84,7 +84,10 @@ public sealed class AuthService : IAuthService
         {
             if (successful)
             {
-                _logger.LogInformation("Initialized AuthService for {User}", _stateProvider.CurrentUser?.Username ?? "");
+                if (!string.IsNullOrWhiteSpace(_stateProvider.CurrentUser?.Username))
+                {
+                    _logger.LogInformation("Initialized AuthService for {User}", _stateProvider.CurrentUser.Username);
+                }
                 IsInitialized = true;
             }
         }

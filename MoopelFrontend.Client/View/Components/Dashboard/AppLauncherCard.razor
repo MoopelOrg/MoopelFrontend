@@ -1,0 +1,43 @@
+<li class="app-tile">
+    <div class="app-tile-content">
+        <div class="app-tile-back">
+            <div class="app-tile-back-content">
+                <strong>@Tile.Label</strong>
+                <span class="muted">Hover to open</span>
+            </div>
+        </div>
+        <div class="app-tile-front">
+            <div class="app-tile-front-glow" aria-hidden="true">
+                <span class="circle"></span>
+                <span class="circle circle-right"></span>
+                <span class="circle circle-bottom"></span>
+            </div>
+            <div class="app-tile-front-content">
+                @if (!string.IsNullOrWhiteSpace(Tile.Badge))
+                {
+                    <small class="app-tile-badge">@Tile.Badge</small>
+                }
+
+                @if (Tile.IsAvailable)
+                {
+                    <a class="app-tile-link" href="@Tile.Href">
+                        <span class="app-tile-label">@Tile.Label</span>
+                        <span class="app-tile-meta">Open app</span>
+                    </a>
+                }
+                else
+                {
+                    <span class="app-tile-link app-tile-disabled" aria-disabled="true" title="Coming soon">
+                        <span class="app-tile-label">@Tile.Label</span>
+                        <span class="app-tile-meta">Coming soon</span>
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+</li>
+
+@code {
+    [Parameter, EditorRequired]
+    public AppTile Tile { get; set; } = default!;
+}

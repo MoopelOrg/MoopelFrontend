@@ -7,6 +7,7 @@ using MoopelFrontend.Client.View.Components;
 using MoopelFrontend.Client.View.Pages;
 using MoopelFrontend.Shared;
 using MoopelFrontend.Shared.Services.Interfaces;
+using MoopelFrontend.Shared.View.Components.Layout;
 using MoopelFrontend.Tests.TestData;
 
 using MoopelObjects.Dto.Read;

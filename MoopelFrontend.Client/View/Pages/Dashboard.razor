@@ -2,6 +2,7 @@
 @attribute [AllowAnonymous]
 @rendermode RenderModes.AutoNoPrerender
 @inherits AuthInitializingComponentBase
+@using MoopelFrontend.Client.View.Components.Dashboard
 
 @inject NavigationManager NavigationManager
 
@@ -18,29 +19,9 @@ else if (AuthService.CurrentUser is not null)
         <p class="muted">Organization and productivity starts here</p>
 
         <ul class="app-grid">
-            @foreach (AppTile tile in AppLauncher.Tiles)
+            @foreach (AppTile tile in AppTiles)
             {
-                <li class="app-tile">
-                    @if (tile.IsAvailable)
-                    {
-                        <a class="app-tile-link" href="@tile.Href">
-                            <span class="app-tile-icon" aria-hidden="true"></span>
-                            <span class="app-tile-label">@tile.Label</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <span class="app-tile-link app-tile-disabled" aria-disabled="true" title="Coming soon">
-                            <span class="app-tile-icon" aria-hidden="true"></span>
-                            <span class="app-tile-label">@tile.Label</span>
-                        </span>
-                    }
-
-                    @if (tile.IsNew)
-                    {
-                        <span class="app-tile-badge">New</span>
-                    }
-                </li>
+                <AppLauncherCard Tile="tile" />
             }
         </ul>
 
@@ -51,6 +32,8 @@ else if (AuthService.CurrentUser is not null)
 }
 
 @code {
+    private List<AppTile> AppTiles { get; set; } = [];
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -58,6 +41,10 @@ else if (AuthService.CurrentUser is not null)
         if (AuthService.CurrentUser is null)
         {
             NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={PageRoutes.Dashboard}");
+            return;
         }
+
+        // TODO: Populate this off of user settings
+        AppTiles = AppLauncher.Tiles.ToList();
     }
 }

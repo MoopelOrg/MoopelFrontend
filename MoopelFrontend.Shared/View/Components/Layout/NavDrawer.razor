@@ -1,9 +1,7 @@
-@rendermode RenderModes.AutoNoPrerender
+@using MoopelFrontend.Shared
+@using MoopelFrontend.Shared.Models
 
-@*
-    Slide-out navigation drawer. Lives in the client project so it can be interactive
-    even though MainLayout itself is statically rendered.
-*@
+@rendermode RenderModes.AutoNoPrerender
 
 <button type="button"
         class="drawer-toggle"
@@ -31,7 +29,9 @@
             if (item.RequiresAuth)
             {
                 <AuthorizeView>
-                    <NavLink class="drawer-nav-link" href="@item.Href" @onclick="Close">@item.Label</NavLink>
+                    <Authorized>
+                        <NavLink class="drawer-nav-link" href="@item.Href" @onclick="Close">@item.Label</NavLink>
+                    </Authorized>
                 </AuthorizeView>
             }
             else
@@ -43,7 +43,9 @@
 
     <div class="drawer-footer">
         <AuthorizeView>
-            <span class="muted">@context.User.Identity?.Name</span>
+            <Authorized>
+                <span class="muted">@context.User.Identity?.Name</span>
+            </Authorized>
         </AuthorizeView>
     </div>
 </aside>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
 	<TargetFramework>net11.0</TargetFramework>
@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" />
-    <PackageReference Include="Moopel.Objects" Version="2.0.3" />
+	<PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.11" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.11" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.11" />
+	<PackageReference Include="Moopel.Objects" Version="2.0.3" />
   </ItemGroup>
 
 </Project>
