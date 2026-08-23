@@ -66,9 +66,11 @@ else
 @code {
     private AppErrorBoundary? _errorBoundary;
     private string CurrentRoute => RouteHelper.GetBaseUri(NavigationManager);
-    private bool IsDashboardRoute => CurrentRoute.Equals(PageRoutes.Dashboard, StringComparison.Ordinal);
-    private string ShellClass => IsDashboardRoute ? "app-shell dashboard-shell" : "app-shell";
-    private string MainClass => IsDashboardRoute ? "app-main dashboard-main" : "app-main";
+    private bool UsesDarkShell => CurrentRoute.Equals(PageRoutes.Dashboard, StringComparison.Ordinal)
+        || CurrentRoute.Equals(PageRoutes.Tags, StringComparison.Ordinal)
+        || CurrentRoute.Equals(PageRoutes.NewTag, StringComparison.Ordinal);
+    private string ShellClass => UsesDarkShell ? "app-shell dashboard-shell" : "app-shell";
+    private string MainClass => UsesDarkShell ? "app-main dashboard-main" : "app-main";
 
     protected override async Task OnInitializedAsync()
     {

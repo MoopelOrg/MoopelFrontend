@@ -1,0 +1,144 @@
+@attribute [Route(PageRoutes.NewTag)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Tag - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <section class="page tag-editor-page">
+        <header class="tag-editor-header">
+            <div class="tag-editor-title-block">
+                <a class="tag-editor-back-link" href="@BackHref">Back</a>
+                <div>
+                    <p class="tag-editor-kicker">Create New Tag</p>
+                </div>
+            </div>
+
+            <div class="tag-editor-actions">
+                <a class="tag-editor-discard" href="@BackHref">Discard</a>
+                <button type="button" class="btn btn-primary tag-editor-submit" @onclick="CreateTag">Create Tag</button>
+            </div>
+        </header>
+
+        <div class="tag-editor-body">
+            <section class="tag-editor-section">
+                <label class="tag-editor-label" for="tag-name">Tag Name</label>
+                <input id="tag-name" type="text" placeholder="e.g. Urgent, Hobby, Tax Deductible..." @bind="_draft.Name" />
+            </section>
+
+            <section class="tag-editor-section">
+                <h2 class="tag-editor-label">Pick Color</h2>
+                <div class="tag-color-grid" role="list" aria-label="Tag colors">
+                    @foreach (TagColorOption color in TagColors)
+                    {
+                        <button type="button"
+                                class="tag-color-button @(color.VariableName == _draft.ColorVariableName ? "tag-color-button-selected" : string.Empty)"
+                                style="@($"--tag-option-color: var({color.VariableName});")"
+                                aria-label="@color.Label"
+                                aria-pressed="@(color.VariableName == _draft.ColorVariableName)"
+                                @onclick="() => SelectColor(color.VariableName)">
+                        </button>
+                    }
+                </div>
+            </section>
+
+            <section class="tag-editor-section">
+                <h2 class="tag-editor-heading">Modules to enable</h2>
+                <div class="tag-module-grid">
+                    @foreach (TagModuleOption module in _modules)
+                    {
+                        <label class="tag-module-card">
+                            <input type="checkbox" @bind="module.Enabled" />
+                            <span class="tag-module-name">@module.Name</span>
+                        </label>
+                    }
+                </div>
+            </section>
+
+            <section class="tag-preview-panel">
+                <h2 class="tag-editor-heading">Preview</h2>
+                <div class="tag-preview-chip" style="@($"--tag-preview-color: var({_draft.ColorVariableName});")">
+                    <span class="tag-preview-dot" aria-hidden="true"></span>
+                    <span>@PreviewName</span>
+                </div>
+            </section>
+        </div>
+    </section>
+}
+
+@code {
+    private readonly TagDraft _draft = new();
+    private readonly List<TagModuleOption> _modules =
+    [
+        new("Work Items", true),
+        new("Notes", true),
+        new("Banking", true),
+        new("Inventory", false)
+    ];
+
+    private static readonly IReadOnlyList<TagColorOption> TagColors =
+    [
+        new("Rose", "--tag-color-rose"),
+        new("Emerald", "--tag-color-emerald"),
+        new("Sky", "--tag-color-sky"),
+        new("Amber", "--tag-color-amber"),
+        new("Purple", "--tag-color-purple"),
+        new("Indigo", "--tag-color-indigo"),
+        new("Pink", "--tag-color-pink"),
+        new("Orange", "--tag-color-orange"),
+        new("Lime", "--tag-color-lime"),
+        new("Slate", "--tag-color-slate")
+    ];
+
+    [SupplyParameterFromQuery(Name = PageRoutes.ReturnUrlParameter)]
+    private string? ReturnUrl { get; set; }
+
+    private string BackHref => string.IsNullOrWhiteSpace(ReturnUrl) ? PageRoutes.Tags : ReturnUrl;
+    private string PreviewName => string.IsNullOrWhiteSpace(_draft.Name) ? "Tag Name" : _draft.Name.Trim();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            string returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(returnUrl)}");
+        }
+    }
+
+    private void SelectColor(string colorVariableName)
+    {
+        _draft.ColorVariableName = colorVariableName;
+    }
+
+    private void CreateTag()
+    {
+        // TODO: Persist the draft tag and enabled modules once tag APIs exist.
+        NavigationManager.NavigateTo(BackHref);
+    }
+
+    private sealed class TagDraft
+    {
+        public string Name { get; set; } = string.Empty;
+
+        public string ColorVariableName { get; set; } = "--tag-color-rose";
+    }
+
+    private sealed record TagColorOption(string Label, string VariableName);
+
+    private sealed class TagModuleOption(string name, bool enabled)
+    {
+        public string Name { get; } = name;
+
+        public bool Enabled { get; set; } = enabled;
+    }
+}

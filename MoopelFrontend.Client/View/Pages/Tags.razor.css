@@ -1,0 +1,204 @@
+.tags-page {
+    color: var(--dashboard-text);
+}
+
+.tags-page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+.tags-page h1 {
+    margin: 0 0 var(--space-sm);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1;
+    color: var(--dashboard-text);
+}
+
+.tags-page .muted {
+    margin: 0;
+    color: var(--dashboard-text-muted);
+}
+
+.tags-create-link {
+    border-color: transparent;
+    border-radius: calc(var(--large-radius) + var(--space-xs));
+    background: var(--dashboard-badge-background);
+    color: var(--dashboard-text);
+    padding-inline: calc(var(--space-lg) + var(--space-xs));
+    box-shadow: 0 1rem 2rem color-mix(in srgb, var(--dashboard-badge-background) 26%, transparent);
+}
+
+.tags-create-link:hover {
+    background: color-mix(in srgb, var(--dashboard-badge-background) 86%, white 14%);
+    color: var(--dashboard-text);
+}
+
+.tags-toolbar {
+    margin-bottom: var(--space-xl);
+    padding: var(--space-md);
+    border: 1px solid var(--tags-panel-border);
+    border-radius: calc(var(--large-radius) * 2);
+    background: var(--tags-panel-background);
+}
+
+.tags-search {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-width: 20rem;
+}
+
+.tags-search-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.tags-search input {
+    border: 1px solid var(--tags-input-border);
+    border-radius: var(--large-radius);
+    background: var(--tags-input-background);
+    color: var(--dashboard-text);
+    padding: 0.9rem 1rem;
+}
+
+.tags-search input::placeholder {
+    color: var(--dashboard-text-muted);
+}
+
+.tags-search input:focus {
+    outline: 2px solid var(--tags-input-border-focus);
+    outline-offset: 0;
+}
+
+.tags-table-shell {
+    overflow: hidden;
+    border: 1px solid var(--tags-panel-border);
+    border-radius: 2rem;
+    background: var(--tags-panel-background);
+}
+
+.tags-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tags-table th,
+.tags-table td {
+    padding: 1.5rem 1.75rem;
+    text-align: left;
+}
+
+.tags-table thead tr {
+    background: color-mix(in srgb, var(--tags-panel-background) 68%, transparent);
+}
+
+.tags-table th {
+    color: var(--dashboard-text-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.tags-table tbody tr + tr {
+    border-top: 1px solid var(--tags-panel-border);
+}
+
+.tags-table-row:hover {
+    background: var(--tags-hover-background);
+}
+
+.tag-name-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.tag-color-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--tag-accent);
+    box-shadow: 0 0 0.75rem color-mix(in srgb, var(--tag-accent) 50%, transparent);
+}
+
+.tag-name {
+    font-weight: 700;
+}
+
+.tag-usage-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-md);
+    margin: 0;
+    padding: 0;
+}
+
+.tag-usage-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--dashboard-text);
+    font-size: 0.85rem;
+}
+
+.tag-usage-module,
+.tags-last-used {
+    color: var(--dashboard-text-muted);
+}
+
+.tag-usage-count {
+    font-weight: 700;
+}
+
+.tags-actions-heading,
+.tags-actions-cell {
+    text-align: right;
+}
+
+.tags-actions-cell {
+    white-space: nowrap;
+}
+
+.tags-action-button {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--dashboard-text-muted);
+    padding: var(--space-xs) var(--space-sm);
+}
+
+.tags-action-button:hover {
+    border-color: var(--tags-panel-border-strong);
+    background: var(--tags-hover-background);
+    color: var(--dashboard-text);
+}
+
+.tags-action-button-danger:hover {
+    color: var(--tag-color-rose);
+}
+
+@media (max-width: 56rem) {
+    .tags-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .tags-table-shell {
+        overflow-x: auto;
+    }
+
+    .tags-table {
+        min-width: 44rem;
+    }
+}

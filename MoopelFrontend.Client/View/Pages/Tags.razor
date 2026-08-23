@@ -1,0 +1,114 @@
+@attribute [Route(PageRoutes.Tags)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Tags - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <section class="page tags-page">
+        <div class="tags-page-header">
+            <div>
+                <h1>Tags</h1>
+                <p class="muted">Organize information across Work Items, Notes, and Banking.</p>
+            </div>
+
+            <a class="btn btn-primary tags-create-link" href="@CreateTagHref">Create New Tag</a>
+        </div>
+
+        <div class="tags-toolbar">
+            <label class="tags-search" for="tag-search">
+                <span class="tags-search-label">Search</span>
+                <input id="tag-search" type="search" placeholder="Search tags..." />
+            </label>
+        </div>
+
+        <div class="tags-table-shell">
+            <table class="tags-table">
+                <thead>
+                    <tr>
+                        <th>Tag Name</th>
+                        <th>Usage</th>
+                        <th>Last Used</th>
+                        <th class="tags-actions-heading">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TagSummary tag in SampleTags)
+                    {
+                        <tr class="tags-table-row">
+                            <td>
+                                <div class="tag-name-cell" style="@($"--tag-accent: var({tag.ColorVariable});")">
+                                    <span class="tag-color-dot" aria-hidden="true"></span>
+                                    <span class="tag-name">@tag.Name</span>
+                                </div>
+                            </td>
+                            <td>
+                                <ul class="tag-usage-list" aria-label="Usage for @tag.Name">
+                                    @foreach (TagUsage usage in tag.Usage)
+                                    {
+                                        <li class="tag-usage-item">
+                                            <span class="tag-usage-module">@usage.Module</span>
+                                            <span class="tag-usage-count">@usage.Count</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>
+                                <span class="tags-last-used">@tag.LastUsed</span>
+                            </td>
+                            <td class="tags-actions-cell">
+                                <button type="button" class="tags-action-button" @onclick="() => EditTag(tag)">Edit</button>
+                                <button type="button" class="tags-action-button tags-action-button-danger" @onclick="() => DeleteTag(tag)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
+
+@code {
+    private static readonly IReadOnlyList<TagSummary> SampleTags =
+    [
+        new("Urgent", "--tag-color-rose", "2 hours ago", [ new("Work Items", 12), new("Notes", 4) ]),
+        new("Household", "--tag-color-emerald", "Yesterday", [ new("Work Items", 45), new("Notes", 8), new("Banking", 3) ]),
+        new("Shopping", "--tag-color-amber", "3 days ago", [ new("Work Items", 5), new("Banking", 22) ]),
+        new("Finance", "--tag-color-sky", "Oct 12, 2024", [ new("Banking", 18) ])
+    ];
+
+    private string CreateTagHref => $"{PageRoutes.NewTag}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Tags)}";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            string returnUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(returnUrl)}");
+        }
+    }
+
+    private void EditTag(TagSummary tag)
+    {
+        // TODO: Load the selected tag into an edit workflow when tag APIs exist.
+    }
+
+    private void DeleteTag(TagSummary tag)
+    {
+        // TODO: Confirm and delete the selected tag when tag APIs exist.
+    }
+
+    private sealed record TagSummary(string Name, string ColorVariable, string LastUsed, IReadOnlyList<TagUsage> Usage);
+
+    private sealed record TagUsage(string Module, int Count);
+}

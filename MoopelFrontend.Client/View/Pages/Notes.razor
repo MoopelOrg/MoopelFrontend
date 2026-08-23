@@ -44,6 +44,16 @@ else if (AuthService.CurrentUser is not null)
             <ValidationMessage For="() => _newNote.Content" />
         </div>
 
+        <div class="form-field note-tags-field">
+            <label>Tags</label>
+            <div class="note-tags-entry">
+                <div>
+                    <p class="muted">Create and reuse tags for notes and other objects.</p>
+                </div>
+                <a class="btn btn-secondary note-tags-create" href="@CreateTagHref">Create tag</a>
+            </div>
+        </div>
+
         <div class="form-actions">
             <button type="submit" class="btn btn-primary" disabled="@_isSaving">
                 @(_isSaving ? "Saving\u2026" : "Add note")
@@ -108,6 +118,7 @@ else if (AuthService.CurrentUser is not null)
     private bool _isSaving;
     private string? _errorMessage;
     private int? _pendingDeleteId;
+    private string CreateTagHref => $"{PageRoutes.NewTag}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Notes)}";
 
     protected override async Task OnInitializedAsync()
     {

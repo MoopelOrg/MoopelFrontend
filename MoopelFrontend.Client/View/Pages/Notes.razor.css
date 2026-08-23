@@ -1,0 +1,25 @@
+.note-tags-field {
+    margin-top: var(--space-lg);
+}
+
+.note-tags-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--large-radius);
+    background: var(--color-surface-muted);
+}
+
+.note-tags-entry .muted {
+    margin: 0;
+}
+
+@media (max-width: 40rem) {
+    .note-tags-entry {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

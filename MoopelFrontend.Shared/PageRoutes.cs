@@ -7,6 +7,8 @@ public static class PageRoutes
     public const string Login = "/login";
     public const string Register = "/register";
     public const string Notes = "/notes";
+    public const string Tags = "/tags";
+    public const string NewTag = "/tags/new";
     public const string Settings = "/settings";
     public const string NotFound = "/not-found";
 

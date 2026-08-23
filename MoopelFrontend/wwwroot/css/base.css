@@ -66,6 +66,27 @@
     --dashboard-badge-background: #6a63ff;
     --dashboard-badge-border: var(--dashboard-background);
 
+    --tags-panel-background: rgba(255, 255, 255, 0.05);
+    --tags-panel-background-strong: rgba(255, 255, 255, 0.08);
+    --tags-panel-border: rgba(255, 255, 255, 0.06);
+    --tags-panel-border-strong: rgba(255, 255, 255, 0.1);
+    --tags-hover-background: rgba(255, 255, 255, 0.04);
+    --tags-input-background: rgba(255, 255, 255, 0.05);
+    --tags-input-border: rgba(255, 255, 255, 0.1);
+    --tags-input-border-focus: rgba(109, 74, 255, 0.45);
+    --tags-dot-shadow-opacity: 0.45;
+
+    --tag-color-rose: #f43f5e;
+    --tag-color-emerald: #10b981;
+    --tag-color-sky: #0ea5e9;
+    --tag-color-amber: #f59e0b;
+    --tag-color-purple: #a855f7;
+    --tag-color-indigo: #6366f1;
+    --tag-color-pink: #ec4899;
+    --tag-color-orange: #f97316;
+    --tag-color-lime: #84cc16;
+    --tag-color-slate: #64748b;
+
     --group-work-items-main-color: #5b5bf7;
     --group-calendar-main-color: #3b82f6;
     --group-groups-main-color: #a855f7;

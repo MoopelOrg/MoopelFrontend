@@ -91,6 +91,32 @@
     background: var(--dashboard-settings-background-hover);
 }
 
+.dashboard-shell .drawer {
+    background: color-mix(in srgb, var(--dashboard-background-accent) 82%, black 18%);
+    border-right-color: var(--dashboard-header-border);
+}
+
+.dashboard-shell .drawer-header .app-brand,
+.dashboard-shell .drawer-nav-link,
+.dashboard-shell .drawer-close,
+.dashboard-shell .drawer-footer {
+    color: var(--dashboard-text);
+}
+
+.dashboard-shell .drawer-nav-link:hover {
+    background: var(--dashboard-settings-background);
+    color: var(--dashboard-text);
+}
+
+.dashboard-shell .drawer-nav-link.active {
+    color: var(--dashboard-text);
+    background: var(--dashboard-settings-background-hover);
+}
+
+.dashboard-shell .drawer-footer {
+    border-top-color: var(--dashboard-header-border);
+}
+
 .dashboard-main {
     max-width: none;
 }
