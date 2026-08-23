@@ -1,43 +1,58 @@
-<li class="app-tile">
-    <div class="app-tile-content">
-        <div class="app-tile-back">
-            <div class="app-tile-back-content">
-                <strong>@Tile.Label</strong>
-                <span class="muted">Hover to open</span>
-            </div>
-        </div>
+<li class="app-tile" style="@GetTileStyle()">
+    <button class="app-tile-flip-button"
+            type="button"
+            @onclick="ToggleFlip"
+            aria-pressed="@IsFlipped"
+            aria-label="@(IsFlipped ? "Show app launcher" : "Show card back")">
+        <span aria-hidden="true">@(IsFlipped ? "←" : "→")</span>
+    </button>
+
+    <div class="app-tile-content @(IsFlipped ? "is-flipped" : string.Empty)">
         <div class="app-tile-front">
-            <div class="app-tile-front-glow" aria-hidden="true">
-                <span class="circle"></span>
-                <span class="circle circle-right"></span>
-                <span class="circle circle-bottom"></span>
-            </div>
-            <div class="app-tile-front-content">
+            <div class="app-tile-front-media" aria-hidden="true">
                 @if (!string.IsNullOrWhiteSpace(Tile.Badge))
                 {
                     <small class="app-tile-badge">@Tile.Badge</small>
                 }
 
-                @if (Tile.IsAvailable)
-                {
-                    <a class="app-tile-link" href="@Tile.Href">
-                        <span class="app-tile-label">@Tile.Label</span>
-                        <span class="app-tile-meta">Open app</span>
-                    </a>
-                }
-                else
-                {
-                    <span class="app-tile-link app-tile-disabled" aria-disabled="true" title="Coming soon">
-                        <span class="app-tile-label">@Tile.Label</span>
-                        <span class="app-tile-meta">Coming soon</span>
-                    </span>
-                }
+                <img class="app-tile-image" src="@Tile.ImageUrl" alt="" loading="lazy" />
+            </div>
+
+            @if (Tile.IsAvailable)
+            {
+                <a class="app-tile-link" href="@Tile.Href">
+                    <span class="app-tile-label">@Tile.Label</span>
+                    <span class="app-tile-meta">Open app</span>
+                </a>
+            }
+            else
+            {
+                <span class="app-tile-link app-tile-disabled" aria-disabled="true" title="Coming soon">
+                    <span class="app-tile-label">@Tile.Label</span>
+                    <span class="app-tile-meta">Coming soon</span>
+                </span>
+            }
+        </div>
+
+        <div class="app-tile-back">
+            <div class="app-tile-back-content">
+                <strong>@Tile.Label</strong>
+                <span class="muted">Use arrow to return</span>
             </div>
         </div>
     </div>
 </li>
 
 @code {
+    private bool IsFlipped;
+
     [Parameter, EditorRequired]
     public AppTile Tile { get; set; } = default!;
+
+    private string GetTileStyle() => $"--app-tile-background: linear-gradient(135deg, var({Tile.ThemeStartVariable}), var({Tile.ThemeEndVariable}));";
+
+    private void ToggleFlip()
+    {
+        IsFlipped = !IsFlipped;
+    }
 }

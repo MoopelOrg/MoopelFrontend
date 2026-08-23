@@ -51,6 +51,39 @@
 
     --transition-fast: 120ms ease-in-out;
     --transition-base: 200ms ease-in-out;
+
+    --note-color-primary: #f97316;
+    --note-color-secondary: #fb7185;
+
+    --group-color-primary: #8b5cf6;
+    --group-color-secondary: #ec4899;
+
+    --fridge-color-primary: #14b8a6;
+    --fridge-color-secondary: #06b6d4;
+
+    --storage-color-primary: #64748b;
+    --storage-color-secondary: #334155;
+
+    --banking-color-primary: #16a34a;
+    --banking-color-secondary: #22c55e;
+
+    --images-color-primary: #2563eb;
+    --images-color-secondary: #60a5fa;
+
+    --settings-color-primary: #dc2626;
+    --settings-color-secondary: #f97316;
+
+    --workitems-color-primary: #4f46e5;
+    --workitems-color-secondary: #818cf8;
+
+    --calendar-color-primary: #0284c7;
+    --calendar-color-secondary: #22c55e;
+
+    --documents-color-primary: #0f766e;
+    --documents-color-secondary: #14b8a6;
+
+    --security-color-primary: #b91c1c;
+    --security-color-secondary: #f43f5e;
 }
 
 * {

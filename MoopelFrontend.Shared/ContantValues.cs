@@ -39,7 +39,13 @@ public static class AppNav
 /// <paramref name="Href"/> is null while the app has no page yet, which the
 /// launcher renders as a disabled tile instead of a link.
 /// </summary>
-public sealed record AppTile(string Label, string? Href = null, string Badge = "")
+public sealed record AppTile(
+    string Label,
+    string ImageUrl,
+    string ThemeStartVariable,
+    string ThemeEndVariable,
+    string? Href = null,
+    string Badge = "")
 {
     public bool IsAvailable => !string.IsNullOrWhiteSpace(Href);
 }
@@ -51,14 +57,14 @@ public static class AppLauncher
 {
     public static readonly IReadOnlyList<AppTile> Tiles =
     [
-        new("Work Items"),
-        new("Calendar"),
-        new("Groups"),
-        new("Fridge"),
-        new("Notes", PageRoutes.Notes, Badge: "1"),
-        new("Storage", Badge: "New"),
-        new("Banking"),
-        new("Documents"),
-        new("Security")
+        new("Work Items", "images/dashboard/apps/work-items.svg", "--workitems-color-primary", "--workitems-color-secondary"),
+        new("Calendar", "images/dashboard/apps/calendar.svg", "--calendar-color-primary", "--calendar-color-secondary"),
+        new("Groups", "images/dashboard/apps/groups.svg", "--group-color-primary", "--group-color-secondary"),
+        new("Fridge", "images/dashboard/apps/fridge.svg", "--fridge-color-primary", "--fridge-color-secondary"),
+        new("Notes", "images/dashboard/apps/notes.svg", "--note-color-primary", "--note-color-secondary", PageRoutes.Notes, Badge: "1"),
+        new("Storage", "images/dashboard/apps/storage.svg", "--storage-color-primary", "--storage-color-secondary", Badge: "New"),
+        new("Banking", "images/dashboard/apps/banking.svg", "--banking-color-primary", "--banking-color-secondary"),
+        new("Documents", "images/dashboard/apps/documents.svg", "--documents-color-primary", "--documents-color-secondary"),
+        new("Security", "images/dashboard/apps/security.svg", "--security-color-primary", "--security-color-secondary")
     ];
 }
