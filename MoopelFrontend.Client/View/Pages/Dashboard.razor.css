@@ -1,13 +1,95 @@
 .launcher {
+    min-height: calc(100vh - var(--header-height) - (var(--space-xl) * 2));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xl);
+    color: var(--dashboard-text);
     text-align: center;
+}
+
+.launcher-copy {
+    display: grid;
+    gap: var(--space-md);
+}
+
+.launcher h1 {
+    margin: 0;
+    font-size: clamp(2.75rem, 8vw, 4rem);
+    line-height: 1;
+    color: var(--dashboard-text);
+}
+
+.launcher .muted {
+    margin: 0;
+    color: var(--dashboard-text-muted);
+    font-size: 1.2rem;
 }
 
 .app-grid {
     list-style: none;
-    margin: var(--space-xl) 0;
+    margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--small-card-width), var(--small-card-height)));
+    grid-template-columns: repeat(5, minmax(0, max-content));
     justify-content: center;
-    gap: var(--space-xl);
+    gap: var(--space-2xl) clamp(var(--space-lg), 4vw, 3.5rem);
+}
+
+.launcher-actions {
+    margin: 0;
+}
+
+.launcher-settings {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    min-width: 5rem;
+    padding: var(--space-sm) var(--space-lg);
+    border: 1px solid var(--dashboard-settings-border);
+    border-radius: var(--radius-pill);
+    background: var(--dashboard-settings-background);
+    color: var(--dashboard-settings-text);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+
+.launcher-settings:hover {
+    background: var(--dashboard-settings-background-hover);
+    border-color: var(--dashboard-settings-border-hover);
+    color: var(--dashboard-text);
+    text-decoration: none;
+}
+
+.launcher-settings:focus-visible {
+    outline-color: color-mix(in srgb, var(--dashboard-text) 60%, transparent);
+}
+
+@media (max-width: 60rem) {
+    .app-grid {
+        grid-template-columns: repeat(3, minmax(0, max-content));
+    }
+}
+
+@media (max-width: 40rem) {
+    .launcher {
+        min-height: auto;
+        justify-content: flex-start;
+        gap: var(--space-xl);
+        padding-block: var(--space-xl);
+    }
+
+    .launcher .muted {
+        font-size: 1rem;
+    }
+
+    .app-grid {
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        gap: var(--space-xl) var(--space-lg);
+    }
 }

@@ -16,6 +16,12 @@ public static class AuthConstants
     public const string AuthenticationType = "MoopelApi";
 }
 
+/// <summary>Shared UI glyphs rendered by components.</summary>
+public static class UiGlyphs
+{
+    public const string Settings = "⚙";
+}
+
 /// <summary>A single navigation entry rendered by the layout.</summary>
 public sealed record NavItem(string Label, string Href, bool RequiresAuth);
 
@@ -42,8 +48,7 @@ public static class AppNav
 public sealed record AppTile(
     string Label,
     string ImageUrl,
-    string ThemeStartVariable,
-    string ThemeEndVariable,
+    string GroupClass,
     string? Href = null,
     string Badge = "")
 {
@@ -57,14 +62,15 @@ public static class AppLauncher
 {
     public static readonly IReadOnlyList<AppTile> Tiles =
     [
-        new("Work Items", "images/dashboard/apps/work-items.svg", "--workitems-color-primary", "--workitems-color-secondary"),
-        new("Calendar", "images/dashboard/apps/calendar.svg", "--calendar-color-primary", "--calendar-color-secondary"),
-        new("Groups", "images/dashboard/apps/groups.svg", "--group-color-primary", "--group-color-secondary"),
-        new("Fridge", "images/dashboard/apps/fridge.svg", "--fridge-color-primary", "--fridge-color-secondary"),
-        new("Notes", "images/dashboard/apps/notes.svg", "--note-color-primary", "--note-color-secondary", PageRoutes.Notes, Badge: "1"),
-        new("Storage", "images/dashboard/apps/storage.svg", "--storage-color-primary", "--storage-color-secondary", Badge: "New"),
-        new("Banking", "images/dashboard/apps/banking.svg", "--banking-color-primary", "--banking-color-secondary"),
-        new("Documents", "images/dashboard/apps/documents.svg", "--documents-color-primary", "--documents-color-secondary"),
-        new("Security", "images/dashboard/apps/security.svg", "--security-color-primary", "--security-color-secondary")
+        new("Work Items", "images/dashboard/apps/work-items.svg", "app-tile-work-items"),
+        new("Calendar", "images/dashboard/apps/calendar.svg", "app-tile-calendar"),
+        new("Groups", "images/dashboard/apps/groups.svg", "app-tile-groups"),
+        new("Fridge", "images/dashboard/apps/fridge.svg", "app-tile-fridge"),
+        new("Notes", "images/dashboard/apps/notes.svg", "app-tile-notes", PageRoutes.Notes, Badge: "New"),
+        new("Storage", "images/dashboard/apps/storage.svg", "app-tile-storage"),
+        new("Banking", "images/dashboard/apps/banking.svg", "app-tile-banking"),
+        new("Documents", "images/dashboard/apps/documents.svg", "app-tile-documents"),
+        new("Health", "images/dashboard/apps/health.svg", "app-tile-health", Badge: "New"),
+        new("Security", "images/dashboard/apps/security.svg", "app-tile-security")
     ];
 }

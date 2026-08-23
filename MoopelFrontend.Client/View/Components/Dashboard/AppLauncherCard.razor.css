@@ -1,179 +1,129 @@
 .app-tile {
-    position: relative;
-    min-width: var(--small-card-width);
-    min-height: calc(var(--small-card-height) + 2.4rem);
-    perspective: 900px;
+    --group-main-color: var(--group-work-items-main-color);
+    --app-gradient-main-color: var(--group-main-color);
+    list-style: none;
 }
 
-.app-tile-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--large-radius);
-    transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
-    transition: transform var(--transition-base);
-    box-shadow: 0 0 10px 1px color-mix(in srgb, var(--color-text) 28%, transparent);
-    overflow: hidden;
+.app-tile-work-items {
+    --group-main-color: var(--group-work-items-main-color);
 }
 
-.app-tile-content.is-flipped {
-    transform: rotateY(180deg);
+.app-tile-calendar {
+    --group-main-color: var(--group-calendar-main-color);
 }
 
-.app-tile-front,
-.app-tile-back {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    overflow: hidden;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    background: var(--color-surface);
-    color: var(--color-text);
+.app-tile-groups {
+    --group-main-color: var(--group-groups-main-color);
 }
 
-.app-tile-front {
-    transform: rotateY(0deg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    padding: var(--space-sm);
+.app-tile-fridge {
+    --group-main-color: var(--group-fridge-main-color);
 }
 
-.app-tile-front-media {
-    position: relative;
-    flex: 1;
-    min-height: 0;
-    border-radius: var(--radius);
-    background: var(--app-tile-background, linear-gradient(135deg, var(--color-primary), var(--color-info)));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+.app-tile-notes {
+    --group-main-color: var(--group-notes-main-color);
 }
 
-.app-tile-front-media::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    background: linear-gradient(135deg, color-mix(in srgb, var(--color-surface) 15%, transparent), transparent 55%);
-    pointer-events: none;
+.app-tile-storage {
+    --group-main-color: var(--group-storage-main-color);
 }
 
-.app-tile-image {
-    position: relative;
-    z-index: 1;
-    width: 68%;
-    height: 68%;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+.app-tile-banking {
+    --group-main-color: var(--group-banking-main-color);
 }
 
-.app-tile-badge {
-    position: absolute;
-    top: var(--space-xs);
-    left: var(--space-xs);
-    z-index: 2;
-    background: color-mix(in srgb, var(--color-text) 44%, transparent);
-    color: var(--color-surface);
-    padding: 2px 10px;
-    border-radius: var(--radius-pill);
-    width: fit-content;
-    backdrop-filter: blur(2px);
+.app-tile-documents {
+    --group-main-color: var(--group-documents-main-color);
+}
+
+.app-tile-health {
+    --group-main-color: var(--group-health-main-color);
+}
+
+.app-tile-security {
+    --group-main-color: var(--group-security-main-color);
 }
 
 .app-tile-link {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-2xs);
-    padding: 0 var(--space-xs) var(--space-2xs);
-    color: inherit;
+    gap: var(--space-md);
+    color: var(--dashboard-text);
     text-decoration: none;
 }
 
 .app-tile-link:hover {
-    color: inherit;
+    color: var(--dashboard-text);
     text-decoration: none;
 }
 
-.app-tile-label {
+.app-tile-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 1.75rem;
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--app-gradient-main-color) 88%, white 12%),
+        color-mix(in srgb, var(--app-gradient-main-color) 78%, black 22%));
+    box-shadow: 0 1rem 2rem color-mix(in srgb, var(--app-gradient-main-color) 28%, transparent);
+    transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
+}
+
+.app-tile-icon::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    border-radius: inherit;
+    background: linear-gradient(180deg, color-mix(in srgb, white 16%, transparent), transparent 55%);
+    pointer-events: none;
+}
+
+.app-tile-link:hover .app-tile-icon,
+.app-tile-link:focus-visible .app-tile-icon {
+    transform: translateY(-4px);
+    box-shadow: 0 1.25rem 2.25rem color-mix(in srgb, var(--app-gradient-main-color) 35%, transparent);
+}
+
+.app-tile-disabled .app-tile-icon {
+    box-shadow: 0 1rem 2rem color-mix(in srgb, var(--app-gradient-main-color) 24%, transparent);
+}
+
+.app-tile-image {
+    position: relative;
+    z-index: 1;
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+}
+
+.app-tile-badge {
+    position: absolute;
+    top: calc(var(--space-sm) * -1);
+    right: calc(var(--space-sm) * -1);
+    z-index: 2;
+    min-width: 2.25rem;
+    padding: 0.1875rem 0.4375rem;
+    border: 2px solid var(--dashboard-badge-border);
+    border-radius: var(--radius-pill);
+    background: var(--dashboard-badge-background);
+    color: var(--dashboard-text);
+    font-size: 0.625rem;
     font-weight: 700;
+    line-height: 1;
     text-align: center;
 }
 
-.app-tile-meta {
-    color: var(--color-text-muted);
-    font-size: 0.82rem;
+.app-tile-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.2;
     text-align: center;
 }
 
 .app-tile-disabled {
-    cursor: not-allowed;
-    opacity: 0.9;
-}
-
-.app-tile-back {
-    transform: rotateY(180deg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-md);
-}
-
-.app-tile-back-content {
-    position: absolute;
-    inset: 1%;
-    border-radius: var(--radius);
-    background: color-mix(in srgb, var(--color-text) 85%, black);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-md);
-    color: var(--color-surface);
-    text-align: center;
-}
-
-.app-tile-flip-button {
-    position: absolute;
-    right: var(--space-sm);
-    top: 50%;
-    transform: translateY(-50%) scale(0.95);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    z-index: 2;
-    width: calc(var(--space-lg) + var(--space-sm));
-    height: calc(var(--space-lg) + var(--space-sm));
-    border: 1px solid color-mix(in srgb, var(--color-surface) 40%, transparent);
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--color-text) 70%, transparent);
-    color: var(--color-surface);
-    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--color-text) 25%, transparent);
-    backdrop-filter: blur(4px);
-    cursor: pointer;
-    transition: transform var(--transition-base), opacity var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
-}
-
-.app-tile:hover .app-tile-flip-button,
-.app-tile:focus-within .app-tile-flip-button {
-    transform: translateY(-50%) scale(1);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
-.app-tile-flip-button:hover {
-    transform: translateY(-50%) scale(1.05);
-    background: color-mix(in srgb, var(--color-text) 55%, transparent);
-    border-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
-}
-
-.app-tile-flip-button:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-surface) 70%, transparent);
-    outline-offset: 2px;
+    cursor: default;
 }

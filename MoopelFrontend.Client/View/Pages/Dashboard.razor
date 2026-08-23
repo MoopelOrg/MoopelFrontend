@@ -15,8 +15,10 @@
 else if (AuthService.CurrentUser is not null)
 {
     <section class="page launcher">
-        <h1>Welcome</h1>
-        <p class="muted">Organization and productivity starts here</p>
+        <header class="launcher-copy">
+            <h1>Welcome</h1>
+            <p class="muted">Organization and productivity starts here</p>
+        </header>
 
         <ul class="app-grid">
             @foreach (AppTile tile in AppTiles)
@@ -26,7 +28,10 @@ else if (AuthService.CurrentUser is not null)
         </ul>
 
         <p class="launcher-actions">
-            <a class="btn btn-secondary" href="@PageRoutes.Settings">Settings</a>
+            <a class="launcher-settings" href="@PageRoutes.Settings">
+                <span aria-hidden="true">@UiGlyphs.Settings</span>
+                <span>Settings</span>
+            </a>
         </p>
     </section>
 }

@@ -51,6 +51,50 @@
     padding: var(--space-xl) var(--space-lg);
 }
 
+.dashboard-shell {
+    background:
+        radial-gradient(circle at top center, var(--dashboard-background-accent) 0%, var(--dashboard-background) 58%),
+        var(--dashboard-background);
+    color: var(--dashboard-text);
+}
+
+.dashboard-shell .app-header {
+    background: var(--dashboard-header-background);
+    border-bottom-color: var(--dashboard-header-border);
+}
+
+.dashboard-shell .app-brand,
+.dashboard-shell .app-nav-link,
+.dashboard-shell .drawer-toggle,
+.dashboard-shell .user-menu-name,
+.dashboard-shell .state-message {
+    color: var(--dashboard-text);
+}
+
+.dashboard-shell .app-nav {
+    display: none;
+}
+
+.dashboard-shell .drawer-toggle:hover,
+.dashboard-shell .drawer-close:hover {
+    background: var(--dashboard-settings-background);
+}
+
+.dashboard-shell .user-menu .btn {
+    border-color: var(--dashboard-settings-border);
+    background: var(--dashboard-settings-background);
+    color: var(--dashboard-text);
+}
+
+.dashboard-shell .user-menu .btn:hover {
+    border-color: var(--dashboard-settings-border-hover);
+    background: var(--dashboard-settings-background-hover);
+}
+
+.dashboard-main {
+    max-width: none;
+}
+
 .user-menu {
     display: flex;
     align-items: center;

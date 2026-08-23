@@ -52,38 +52,63 @@
     --transition-fast: 120ms ease-in-out;
     --transition-base: 200ms ease-in-out;
 
-    --note-color-primary: #f97316;
-    --note-color-secondary: #fb7185;
+    --dashboard-background: #151325;
+    --dashboard-background-accent: #1c1a2e;
+    --dashboard-header-background: color-mix(in srgb, var(--dashboard-background) 88%, transparent);
+    --dashboard-header-border: rgba(255, 255, 255, 0.06);
+    --dashboard-text: #ffffff;
+    --dashboard-text-muted: #9d99b9;
+    --dashboard-settings-background: rgba(255, 255, 255, 0.05);
+    --dashboard-settings-background-hover: rgba(255, 255, 255, 0.1);
+    --dashboard-settings-border: rgba(255, 255, 255, 0.08);
+    --dashboard-settings-border-hover: rgba(255, 255, 255, 0.14);
+    --dashboard-settings-text: #a4a0bd;
+    --dashboard-badge-background: #6a63ff;
+    --dashboard-badge-border: var(--dashboard-background);
 
-    --group-color-primary: #8b5cf6;
-    --group-color-secondary: #ec4899;
+    --group-work-items-main-color: #5b5bf7;
+    --group-calendar-main-color: #3b82f6;
+    --group-groups-main-color: #a855f7;
+    --group-fridge-main-color: #10b981;
+    --group-notes-main-color: #f59e0b;
+    --group-storage-main-color: #64748b;
+    --group-banking-main-color: #f43f5e;
+    --group-documents-main-color: #0ea5e9;
+    --group-health-main-color: #ec4899;
+    --group-security-main-color: #8b5cf6;
 
-    --fridge-color-primary: #14b8a6;
-    --fridge-color-secondary: #06b6d4;
+    --note-color-primary: var(--group-notes-main-color);
+    --note-color-secondary: color-mix(in srgb, var(--group-notes-main-color) 78%, black 22%);
 
-    --storage-color-primary: #64748b;
-    --storage-color-secondary: #334155;
+    --group-color-primary: var(--group-groups-main-color);
+    --group-color-secondary: color-mix(in srgb, var(--group-groups-main-color) 78%, black 22%);
 
-    --banking-color-primary: #16a34a;
-    --banking-color-secondary: #22c55e;
+    --fridge-color-primary: var(--group-fridge-main-color);
+    --fridge-color-secondary: color-mix(in srgb, var(--group-fridge-main-color) 78%, black 22%);
 
-    --images-color-primary: #2563eb;
-    --images-color-secondary: #60a5fa;
+    --storage-color-primary: var(--group-storage-main-color);
+    --storage-color-secondary: color-mix(in srgb, var(--group-storage-main-color) 78%, black 22%);
 
-    --settings-color-primary: #dc2626;
-    --settings-color-secondary: #f97316;
+    --banking-color-primary: var(--group-banking-main-color);
+    --banking-color-secondary: color-mix(in srgb, var(--group-banking-main-color) 78%, black 22%);
 
-    --workitems-color-primary: #4f46e5;
-    --workitems-color-secondary: #818cf8;
+    --images-color-primary: var(--group-documents-main-color);
+    --images-color-secondary: color-mix(in srgb, var(--group-documents-main-color) 78%, black 22%);
 
-    --calendar-color-primary: #0284c7;
-    --calendar-color-secondary: #22c55e;
+    --settings-color-primary: var(--group-security-main-color);
+    --settings-color-secondary: color-mix(in srgb, var(--group-security-main-color) 78%, black 22%);
 
-    --documents-color-primary: #0f766e;
-    --documents-color-secondary: #14b8a6;
+    --workitems-color-primary: var(--group-work-items-main-color);
+    --workitems-color-secondary: color-mix(in srgb, var(--group-work-items-main-color) 78%, black 22%);
 
-    --security-color-primary: #b91c1c;
-    --security-color-secondary: #f43f5e;
+    --calendar-color-primary: var(--group-calendar-main-color);
+    --calendar-color-secondary: color-mix(in srgb, var(--group-calendar-main-color) 78%, black 22%);
+
+    --documents-color-primary: var(--group-documents-main-color);
+    --documents-color-secondary: color-mix(in srgb, var(--group-documents-main-color) 78%, black 22%);
+
+    --security-color-primary: var(--group-security-main-color);
+    --security-color-secondary: color-mix(in srgb, var(--group-security-main-color) 78%, black 22%);
 }
 
 * {

@@ -6,7 +6,7 @@
 
 @if (!AuthService.IsInitialized)
 {
-    <div class="app-shell">
+    <div class="@ShellClass">
         <header class="app-header">
             <NavDrawer />
             <a class="app-brand" href="@PageRoutes.Home">Moopel</a>
@@ -19,7 +19,7 @@
 }
 else
 {
-    <div class="app-shell">
+    <div class="@ShellClass">
         <header class="app-header">
             <NavDrawer />
 
@@ -28,7 +28,7 @@ else
             <nav class="app-nav">
                 @foreach (NavItem item in AppNav.Items)
                 {
-                    if (item.Href.Equals(RouteHelper.GetBaseUri(NavigationManager)))
+                    if (item.Href.Equals(CurrentRoute, StringComparison.Ordinal))
                     {
                         <NavLink class="app-nav-link" href="@item.Href">@item.Label</NavLink>
                     }
@@ -38,7 +38,7 @@ else
             <UserMenu />
         </header>
 
-        <main class="app-main">
+        <main class="@MainClass">
             <AppErrorBoundary @ref="_errorBoundary">
                 <ChildContent>
                     @Body
@@ -65,6 +65,10 @@ else
 
 @code {
     private AppErrorBoundary? _errorBoundary;
+    private string CurrentRoute => RouteHelper.GetBaseUri(NavigationManager);
+    private bool IsDashboardRoute => CurrentRoute.Equals(PageRoutes.Dashboard, StringComparison.Ordinal);
+    private string ShellClass => IsDashboardRoute ? "app-shell dashboard-shell" : "app-shell";
+    private string MainClass => IsDashboardRoute ? "app-main dashboard-main" : "app-main";
 
     protected override async Task OnInitializedAsync()
     {
