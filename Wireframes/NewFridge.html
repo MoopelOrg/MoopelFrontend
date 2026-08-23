@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — New Fridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen w-full flex flex-col selection:bg-proton-accent/30 overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="h-16 px-6 flex items-center justify-between border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <a href="Fridge__desktop.html" class="p-2 hover:bg-white/10 rounded-lg transition-colors text-proton-muted hover:text-white">
+        <i class="ph ph-arrow-left text-2xl"></i>
+      </a>
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-refrigerator text-emerald-400"></i>
+        <span class="text-sm font-semibold">New Fridge Location</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+       <button class="px-5 py-2 rounded-xl text-sm font-bold text-proton-muted hover:text-white transition-colors">Cancel</button>
+       <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all">Save Location</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-6 py-12">
+    <div class="space-y-12">
+      
+      <!-- Identity -->
+      <section class="space-y-6">
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-proton-muted ml-1">Location Name</label>
+          <input type="text" placeholder="e.g. Main Kitchen Fridge, Garage Freezer..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-lg font-bold">
+        </div>
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-proton-muted ml-1">Area</label>
+          <select class="w-full bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium cursor-pointer">
+            <option>Kitchen</option>
+            <option>Garage</option>
+            <option>Basement</option>
+            <option>Pantry</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Configuration -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Layout & Sections</h2>
+        <div class="space-y-4">
+           <div class="flex items-center justify-between p-5 bg-white/5 border border-white/5 rounded-2xl">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-proton-muted">
+                   <i class="ph ph-layout text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-bold">Main Fridge Compartment</p>
+                  <p class="text-[10px] text-proton-muted">3 Shelves, 2 Drawers</p>
+                </div>
+              </div>
+              <button class="text-proton-muted hover:text-white"><i class="ph ph-pencil-simple text-lg"></i></button>
+           </div>
+           <div class="flex items-center justify-between p-5 bg-white/5 border border-white/5 rounded-2xl">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-proton-muted">
+                   <i class="ph ph-door text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-bold">Door Storage</p>
+                  <p class="text-[10px] text-proton-muted">4 Racks</p>
+                </div>
+              </div>
+              <button class="text-proton-muted hover:text-white"><i class="ph ph-pencil-simple text-lg"></i></button>
+           </div>
+           <button class="w-full py-4 border border-dashed border-white/10 rounded-2xl text-[10px] font-black text-proton-muted uppercase tracking-widest hover:border-proton-accent/50 hover:text-proton-accent transition-all">
+             + Add Custom Section
+           </button>
+        </div>
+      </section>
+
+      <!-- Shared Access -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Permissions</h2>
+        <div class="p-6 bg-white/[0.02] border border-white/5 rounded-[32px]">
+           <p class="text-xs text-proton-muted mb-6 leading-relaxed">Choose which groups can view and manage items in this fridge.</p>
+           <div class="space-y-3">
+              <label class="flex items-center gap-4 p-4 bg-proton-surface border border-white/10 rounded-2xl cursor-pointer">
+                 <input type="checkbox" checked class="w-5 h-5 accent-proton-accent">
+                 <span class="text-sm font-bold">Main Family</span>
+              </label>
+              <label class="flex items-center gap-4 p-4 bg-proton-surface border border-white/10 rounded-2xl cursor-pointer">
+                 <input type="checkbox" class="w-5 h-5 accent-proton-accent">
+                 <span class="text-sm font-bold">Housemates</span>
+              </label>
+           </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

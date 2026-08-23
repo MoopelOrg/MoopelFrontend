@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — Add Fridge Item</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen w-full flex flex-col selection:bg-proton-accent/30 overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="h-16 px-6 flex items-center justify-between border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <a href="Fridge__desktop.html" class="p-2 hover:bg-white/10 rounded-lg transition-colors text-proton-muted hover:text-white">
+        <i class="ph ph-arrow-left text-2xl"></i>
+      </a>
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-refrigerator text-emerald-400"></i>
+        <span class="text-sm font-semibold">Add Item to Fridge</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+       <button class="px-5 py-2 rounded-xl text-sm font-bold text-proton-muted hover:text-white transition-colors">Discard</button>
+       <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all">Add Item</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-6 py-12">
+    <div class="space-y-12">
+      
+      <!-- Basic Info -->
+      <section class="space-y-6">
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-proton-muted ml-1">Item Name</label>
+          <input type="text" placeholder="e.g. Greek Yogurt, Whole Milk, Spinach..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-lg font-bold">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Quantity</label>
+            <div class="flex gap-2">
+               <input type="number" placeholder="1" class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-bold">
+               <select class="w-32 bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+                  <option>Units</option>
+                  <option>Grams</option>
+                  <option>Litres</option>
+                  <option>Packs</option>
+               </select>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Category</label>
+            <select class="w-full bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium cursor-pointer">
+              <option>Dairy</option>
+              <option>Vegetables</option>
+              <option>Meat/Poultry</option>
+              <option>Beverages</option>
+              <option>Frozen Foods</option>
+              <option>Condiments</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Freshness & Inventory -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Freshness & Alerts</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Expiration Date</label>
+            <div class="relative">
+              <i class="ph ph-calendar-x absolute left-4 top-1/2 -translate-y-1/2 text-proton-muted"></i>
+              <input type="date" class="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Low Stock Alert at</label>
+            <div class="relative">
+              <i class="ph ph-bell absolute left-4 top-1/2 -translate-y-1/2 text-proton-muted"></i>
+              <input type="number" placeholder="2" class="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Placement -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Storage Details</h2>
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Location</label>
+            <select class="w-full bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium cursor-pointer">
+              <option>Main Kitchen Fridge</option>
+              <option>Garage Freezer</option>
+            </select>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Specific Shelf/Section</label>
+            <select class="w-full bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium cursor-pointer">
+              <option>Top Shelf</option>
+              <option>Middle Shelf</option>
+              <option>Bottom Shelf</option>
+              <option>Crisper Drawer</option>
+              <option>Door Rack</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

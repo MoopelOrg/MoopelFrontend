@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — New Transaction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    input::placeholder, textarea::placeholder { color: rgba(161, 161, 170, 0.5); }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen w-full flex flex-col selection:bg-proton-accent/30 overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="h-16 px-6 flex items-center justify-between border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <a href="Transactions__desktop.html" class="p-2 hover:bg-white/10 rounded-lg transition-colors text-proton-muted hover:text-white">
+        <i class="ph ph-arrow-left text-2xl"></i>
+      </a>
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-wallet text-emerald-400"></i>
+        <span class="text-sm font-semibold">New Transaction</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+       <button class="px-5 py-2 rounded-xl text-sm font-bold text-proton-muted hover:text-white transition-colors">Discard</button>
+       <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all">Save Transaction</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-6 py-12">
+    <div class="space-y-12">
+      
+      <!-- Basic Info Section -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Basic Information</h2>
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-proton-muted ml-1">Date</label>
+              <div class="relative">
+                <i class="ph ph-calendar absolute left-4 top-1/2 -translate-y-1/2 text-proton-muted"></i>
+                <input type="date" value="2024-10-24" class="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-proton-muted ml-1">Amount</label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-proton-muted font-bold">$</span>
+                <input type="number" placeholder="0.00" class="w-full bg-white/5 border border-white/10 rounded-2xl pl-8 pr-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-bold text-white">
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Payee / Title</label>
+            <input type="text" placeholder="e.g. Walmart, Landlord, Salary..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Account</label>
+            <select class="w-full bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium cursor-pointer">
+              <option>Primary Savings</option>
+              <option>Daily Expenses</option>
+              <option>Emergency Fund</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Classification -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Classification</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Type</label>
+            <div class="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-2xl">
+              <button class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">Expense</button>
+              <button class="flex-1 py-2.5 rounded-xl text-xs font-bold text-proton-muted hover:text-white transition-colors">Income</button>
+              <button class="flex-1 py-2.5 rounded-xl text-xs font-bold text-proton-muted hover:text-white transition-colors">Transfer</button>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Category</label>
+            <select class="w-full bg-proton-surface border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium cursor-pointer">
+              <option>Groceries</option>
+              <option>Utilities</option>
+              <option>Rent/Mortgage</option>
+              <option>Dining</option>
+              <option>Entertainment</option>
+              <option>Transport</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Details -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Additional Details</h2>
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Description / Notes</label>
+            <textarea rows="4" placeholder="Add any details about this transaction..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium resize-none"></textarea>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Tags</label>
+            <div class="flex flex-wrap gap-2 p-4 bg-white/5 border border-white/10 rounded-2xl">
+              <span class="px-3 py-1.5 rounded-lg bg-proton-accent/20 border border-proton-accent/30 text-xs font-bold text-proton-accent flex items-center gap-2">
+                Monthly <i class="ph ph-x cursor-pointer"></i>
+              </span>
+              <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-proton-muted hover:text-white transition-colors cursor-pointer flex items-center gap-2">
+                <i class="ph ph-plus"></i> Add Tag
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

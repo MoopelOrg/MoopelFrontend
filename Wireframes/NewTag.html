@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — New Tag</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+    .color-btn.active { ring: 4px; ring-offset: 4px; ring-offset-color: #0a0a14; ring-color: rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen w-full flex flex-col selection:bg-proton-accent/30 overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="h-16 px-6 flex items-center justify-between border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <a href="Tags__desktop.html" class="p-2 hover:bg-white/10 rounded-lg transition-colors text-proton-muted hover:text-white">
+        <i class="ph ph-arrow-left text-2xl"></i>
+      </a>
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-tag text-rose-400"></i>
+        <span class="text-sm font-semibold">Create New Tag</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+       <button class="px-5 py-2 rounded-xl text-sm font-bold text-proton-muted hover:text-white transition-colors">Discard</button>
+       <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all">Create Tag</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-xl mx-auto w-full px-6 py-12">
+    <div class="space-y-12">
+      
+      <!-- Tag Identity -->
+      <section class="space-y-8">
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-proton-muted ml-1">Tag Name</label>
+          <input type="text" placeholder="e.g. Urgent, Hobby, Tax Deductible..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-lg font-bold">
+        </div>
+
+        <div class="space-y-4">
+          <label class="text-xs font-bold text-proton-muted ml-1">Pick Color</label>
+          <div class="grid grid-cols-6 sm:grid-cols-10 gap-3">
+             <button class="w-10 h-10 rounded-full bg-rose-500 border border-white/10 active transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-emerald-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-sky-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-amber-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-purple-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-indigo-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-pink-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-orange-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-lime-500 border border-white/10 transition-all"></button>
+             <button class="w-10 h-10 rounded-full bg-slate-500 border border-white/10 transition-all"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scope -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Modules to enable</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label class="flex items-center gap-4 p-4 bg-white/5 border border-white/5 rounded-2xl cursor-pointer hover:bg-white/[0.08] transition-colors">
+            <input type="checkbox" checked class="w-5 h-5 accent-proton-accent">
+            <div class="flex items-center gap-3">
+              <i class="ph ph-list-checks text-proton-muted"></i>
+              <span class="text-sm font-bold">Work Items</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-4 p-4 bg-white/5 border border-white/5 rounded-2xl cursor-pointer hover:bg-white/[0.08] transition-colors">
+            <input type="checkbox" checked class="w-5 h-5 accent-proton-accent">
+            <div class="flex items-center gap-3">
+              <i class="ph ph-note-pencil text-proton-muted"></i>
+              <span class="text-sm font-bold">Notes</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-4 p-4 bg-white/5 border border-white/5 rounded-2xl cursor-pointer hover:bg-white/[0.08] transition-colors">
+            <input type="checkbox" checked class="w-5 h-5 accent-proton-accent">
+            <div class="flex items-center gap-3">
+              <i class="ph ph-wallet text-proton-muted"></i>
+              <span class="text-sm font-bold">Banking</span>
+            </div>
+          </label>
+          <label class="flex items-center gap-4 p-4 bg-white/5 border border-white/5 rounded-2xl cursor-pointer hover:bg-white/[0.08] transition-colors">
+            <input type="checkbox" class="w-5 h-5 accent-proton-accent">
+            <div class="flex items-center gap-3">
+              <i class="ph ph-package text-proton-muted"></i>
+              <span class="text-sm font-bold">Inventory</span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- Preview -->
+      <section class="p-8 bg-white/[0.02] border border-white/5 rounded-[32px] flex flex-col items-center">
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-6">Preview</h2>
+        <div class="flex items-center gap-3 px-4 py-2 bg-rose-500/10 border border-rose-500/20 rounded-xl">
+           <div class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]"></div>
+           <span class="text-sm font-bold text-white">Tag Name</span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

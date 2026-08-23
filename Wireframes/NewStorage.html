@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — New Storage Location</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen w-full flex flex-col selection:bg-proton-accent/30 overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="h-16 px-6 flex items-center justify-between border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <a href="Storage__desktop.html" class="p-2 hover:bg-white/10 rounded-lg transition-colors text-proton-muted hover:text-white">
+        <i class="ph ph-arrow-left text-2xl"></i>
+      </a>
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-package text-slate-400"></i>
+        <span class="text-sm font-semibold">New Storage Location</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+       <button class="px-5 py-2 rounded-xl text-sm font-bold text-proton-muted hover:text-white transition-colors">Cancel</button>
+       <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all">Save Location</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-6 py-12">
+    <div class="space-y-12">
+      
+      <!-- Identity -->
+      <section class="space-y-6">
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-proton-muted ml-1">Location Name</label>
+          <input type="text" placeholder="e.g. Attic (North Side), Rental Unit B, Garden Shed..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-lg font-bold">
+        </div>
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-proton-muted ml-1">Type</label>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+             <button class="flex flex-col items-center gap-2 p-4 bg-proton-accent/20 border border-proton-accent/30 rounded-2xl text-proton-accent font-bold">
+                <i class="ph ph-house text-2xl"></i>
+                <span class="text-[10px] uppercase tracking-widest">In-Home</span>
+             </button>
+             <button class="flex flex-col items-center gap-2 p-4 bg-white/5 border border-white/10 rounded-2xl text-proton-muted hover:text-white transition-all">
+                <i class="ph ph-warehouse text-2xl"></i>
+                <span class="text-[10px] uppercase tracking-widest">External</span>
+             </button>
+             <button class="flex flex-col items-center gap-2 p-4 bg-white/5 border border-white/10 rounded-2xl text-proton-muted hover:text-white transition-all">
+                <i class="ph ph-truck text-2xl"></i>
+                <span class="text-[10px] uppercase tracking-widest">Mobile</span>
+             </button>
+             <button class="flex flex-col items-center gap-2 p-4 bg-white/5 border border-white/10 rounded-2xl text-proton-muted hover:text-white transition-all">
+                <i class="ph ph-dots-three text-2xl"></i>
+                <span class="text-[10px] uppercase tracking-widest">Other</span>
+             </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Details -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Access & Capacity</h2>
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Description / Access Instructions</label>
+            <textarea rows="3" placeholder="Key location, access code, or specific instructions..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-proton-muted ml-1">Estimated Box Capacity</label>
+              <input type="number" placeholder="20" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-proton-muted ml-1">Total Square Feet (Optional)</label>
+              <input type="number" placeholder="100" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Photo -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Location Photo</h2>
+        <div class="w-full h-48 rounded-[32px] border-2 border-dashed border-white/10 flex flex-col items-center justify-center text-proton-muted hover:border-proton-accent/50 hover:text-proton-accent transition-all cursor-pointer bg-white/[0.02]">
+           <i class="ph ph-camera text-3xl mb-2"></i>
+           <p class="text-xs font-bold">Upload an overview photo of the area</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — Fridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+    .drawer-transition { transition: transform 0.3s ease-in-out; }
+    .drawer-overlay-transition { transition: opacity 0.3s ease-in-out; }
+    .inventory-card:hover { transform: translateY(-4px); background-color: rgba(255, 255, 255, 0.04); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="text-white font-sans h-screen w-full overflow-hidden flex flex-col selection:bg-proton-accent/30">
+
+  <!-- Top Navigation Bar -->
+  <header class="h-16 px-6 flex items-center justify-between z-20 flex-shrink-0 border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm">
+    <div class="flex items-center gap-4">
+      <button id="drawer-open" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+        <i class="ph ph-list text-2xl"></i>
+      </button>
+      <a href="Dashboard__desktop.html" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-lg bg-proton-accent flex items-center justify-center transition-transform group-hover:scale-105">
+          <i class="ph-fill ph-house-line text-white text-lg"></i>
+        </div>
+        <span class="text-xl font-bold tracking-tight">Moopel</span>
+      </a>
+      <div class="h-4 w-px bg-white/10 mx-2"></div>
+      <div class="flex items-center gap-2 text-proton-muted">
+        <i class="ph-fill ph-refrigerator text-emerald-400"></i>
+        <span class="text-sm font-semibold">Fridge Inventory</span>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <div class="w-8 h-8 rounded-lg bg-proton-accent/20 flex items-center justify-center text-proton-accent font-bold text-xs ring-1 ring-proton-accent/30">
+        E
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Drawer -->
+  <div id="drawer-overlay" class="fixed inset-0 bg-black/60 opacity-0 pointer-events-none z-30 drawer-overlay-transition"></div>
+  <aside id="drawer" class="fixed top-0 left-0 h-full w-[280px] bg-proton-surface border-r border-white/5 z-40 -translate-x-full drawer-transition p-6 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-proton-accent flex items-center justify-center">
+            <i class="ph-fill ph-house-line text-white text-lg"></i>
+          </div>
+          <span class="text-lg font-bold">Moopel</span>
+        </div>
+        <button id="drawer-close" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+          <i class="ph ph-x text-xl text-proton-muted"></i>
+        </button>
+      </div>
+      <nav class="space-y-1">
+        <a href="Dashboard__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-squares-four text-base"></i> Dashboard
+        </a>
+        <a href="WorkItems__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-list-checks text-base"></i> Work Items
+        </a>
+        <a href="Groups__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-users-three text-base"></i> Groups
+        </a>
+        <a href="Notes__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-note-pencil text-base"></i> Notes
+        </a>
+        <a href="Banking__desktop.html" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-proton-muted hover:bg-white/5 hover:text-white transition-colors text-sm">
+          <i class="ph ph-wallet text-base"></i> Banking
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-proton-accent text-white font-medium text-sm">
+          <i class="ph-fill ph-refrigerator text-base"></i> Fridge
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <main class="flex-1 overflow-y-auto no-scrollbar" id="main-content">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      
+      <!-- Header -->
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <h2 class="text-4xl font-extrabold tracking-tight mb-2">Fridge Inventory</h2>
+          <p class="text-proton-muted">Track groceries, expiration dates, and essential supplies.</p>
+        </div>
+        <div class="flex gap-3">
+          <button class="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-5 py-2.5 rounded-2xl font-bold text-sm transition-all flex items-center gap-2">
+            <i class="ph ph-scan"></i> Scan Barcode
+          </button>
+          <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-5 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all flex items-center gap-2">
+            <i class="ph-bold ph-plus"></i> Add Item
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Filters & Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-rose-500/10 border border-rose-500/20 rounded-[24px] p-6">
+          <p class="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-1">Expiring Soon</p>
+          <h3 class="text-2xl font-bold text-white">4 Items</h3>
+        </div>
+        <div class="bg-amber-500/10 border border-amber-500/20 rounded-[24px] p-6">
+          <p class="text-[10px] font-black text-amber-400 uppercase tracking-widest mb-1">Low Stock</p>
+          <h3 class="text-2xl font-bold text-white">12 Items</h3>
+        </div>
+        <div class="bg-white/5 border border-white/5 rounded-[24px] p-6">
+          <p class="text-[10px] font-black text-proton-muted uppercase tracking-widest mb-1">Total Items</p>
+          <h3 class="text-2xl font-bold text-white">86 Items</h3>
+        </div>
+        <div class="bg-white/5 border border-white/5 rounded-[24px] p-6">
+          <p class="text-[10px] font-black text-proton-muted uppercase tracking-widest mb-1">Last Updated</p>
+          <h3 class="text-lg font-bold text-white leading-tight">Today, 9:30 AM</h3>
+        </div>
+      </div>
+
+      <!-- Inventory Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <!-- Item 1 (Warning) -->
+        <div class="inventory-card bg-white/5 border border-rose-500/20 rounded-[32px] p-6 transition-all duration-300">
+          <div class="w-full h-40 rounded-2xl bg-white/[0.03] mb-6 overflow-hidden flex items-center justify-center">
+            <i class="ph ph-egg text-5xl text-proton-muted/30"></i>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold">Milk (Whole)</h4>
+            <span class="px-2 py-0.5 rounded-full bg-rose-500 text-[10px] font-black text-white uppercase tracking-widest">Exp. 1d</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-proton-muted mb-4">
+             <span>1 Gallon</span>
+             <span>Fridge Door</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+             <div class="flex items-center gap-2">
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-minus"></i></button>
+                <span class="font-bold">1</span>
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-plus"></i></button>
+             </div>
+             <button class="p-2 text-proton-muted hover:text-white"><i class="ph ph-dots-three-vertical-bold"></i></button>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="inventory-card bg-white/5 border border-white/5 rounded-[32px] p-6 transition-all duration-300">
+          <div class="w-full h-40 rounded-2xl bg-white/[0.03] mb-6 overflow-hidden flex items-center justify-center">
+            <i class="ph ph-bowl-food text-5xl text-proton-muted/30"></i>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold">Greek Yogurt</h4>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-widest">Fresh</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-proton-muted mb-4">
+             <span>4 Cups</span>
+             <span>Middle Shelf</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+             <div class="flex items-center gap-2">
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-minus"></i></button>
+                <span class="font-bold">4</span>
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-plus"></i></button>
+             </div>
+             <button class="p-2 text-proton-muted hover:text-white"><i class="ph ph-dots-three-vertical-bold"></i></button>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="inventory-card bg-white/5 border border-white/5 rounded-[32px] p-6 transition-all duration-300">
+          <div class="w-full h-40 rounded-2xl bg-white/[0.03] mb-6 overflow-hidden flex items-center justify-center">
+            <i class="ph ph-leaf text-5xl text-proton-muted/30"></i>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold">Spinach (Large)</h4>
+            <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-black uppercase tracking-widest">Low</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-proton-muted mb-4">
+             <span>1 Pack</span>
+             <span>Crisper Drawer</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+             <div class="flex items-center gap-2">
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-minus"></i></button>
+                <span class="font-bold">1</span>
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-plus"></i></button>
+             </div>
+             <button class="p-2 text-proton-muted hover:text-white"><i class="ph ph-dots-three-vertical-bold"></i></button>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="inventory-card bg-white/5 border border-white/5 rounded-[32px] p-6 transition-all duration-300">
+          <div class="w-full h-40 rounded-2xl bg-white/[0.03] mb-6 overflow-hidden flex items-center justify-center">
+            <i class="ph ph-pizza text-5xl text-proton-muted/30"></i>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold">Frozen Pizza</h4>
+            <span class="px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 text-[10px] font-black uppercase tracking-widest">Frozen</span>
+          </div>
+          <div class="flex items-center justify-between text-xs text-proton-muted mb-4">
+             <span>2 Units</span>
+             <span>Freezer</span>
+          </div>
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+             <div class="flex items-center gap-2">
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-minus"></i></button>
+                <span class="font-bold">2</span>
+                <button class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-white/10"><i class="ph ph-plus"></i></button>
+             </div>
+             <button class="p-2 text-proton-muted hover:text-white"><i class="ph ph-dots-three-vertical-bold"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Drawer Logic
+    const drawerOpen = document.getElementById('drawer-open');
+    const drawerClose = document.getElementById('drawer-close');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+
+    const toggleDrawer = (open) => {
+      if (open) {
+        drawer.classList.remove('-translate-x-full');
+        drawerOverlay.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        drawer.classList.add('-translate-x-full');
+        drawerOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    };
+
+    drawerOpen.addEventListener('click', () => toggleDrawer(true));
+    drawerClose.addEventListener('click', () => toggleDrawer(false));
+    drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+  </script>
+</body>
+</html>

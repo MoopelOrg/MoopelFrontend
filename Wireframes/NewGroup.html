@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest'
+        };
+      </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moopel — New Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            proton: {
+              bg: '#0a0a14',
+              surface: '#1a1a2e',
+              accent: '#6d4aff',
+              text: '#ffffff',
+              muted: '#a1a1aa'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a14 100%);
+    }
+    input::placeholder, textarea::placeholder { color: rgba(161, 161, 170, 0.5); }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen w-full flex flex-col selection:bg-proton-accent/30 overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="h-16 px-6 flex items-center justify-between border-b border-white/5 bg-proton-surface/50 backdrop-blur-sm sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+      <a href="Groups__desktop.html" class="p-2 hover:bg-white/10 rounded-lg transition-colors text-proton-muted hover:text-white">
+        <i class="ph ph-arrow-left text-2xl"></i>
+      </a>
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-users-three text-purple-400"></i>
+        <span class="text-sm font-semibold">Create New Group</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+       <button class="px-5 py-2 rounded-xl text-sm font-bold text-proton-muted hover:text-white transition-colors">Cancel</button>
+       <button class="bg-proton-accent hover:bg-proton-accent/90 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg shadow-proton-accent/20 transition-all">Create Group</button>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-2xl mx-auto w-full px-6 py-12">
+    <div class="space-y-12">
+      
+      <!-- Group Icon & Identity -->
+      <section class="flex flex-col items-center">
+        <div class="relative group cursor-pointer">
+          <div class="w-32 h-32 rounded-[40px] bg-white/5 border-2 border-dashed border-white/10 flex flex-col items-center justify-center text-proton-muted group-hover:border-proton-accent/50 group-hover:text-proton-accent transition-all">
+            <i class="ph ph-image text-3xl mb-2"></i>
+            <span class="text-[10px] font-black uppercase tracking-widest">Icon</span>
+          </div>
+          <button class="absolute -bottom-2 -right-2 w-10 h-10 rounded-2xl bg-proton-accent text-white flex items-center justify-center shadow-lg"><i class="ph ph-pencil-simple"></i></button>
+        </div>
+        
+        <div class="w-full mt-10 space-y-6">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Group Name</label>
+            <input type="text" placeholder="e.g. Dream House, Summer Trip 2024..." class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-lg font-bold">
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-proton-muted ml-1">Description</label>
+            <textarea rows="3" placeholder="What is this group for?" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm font-medium resize-none"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Invitations -->
+      <section>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em]">Invite Members</h2>
+          <span class="text-[10px] font-bold text-proton-accent">Add from contacts</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="relative">
+            <i class="ph ph-envelope-simple absolute left-4 top-1/2 -translate-y-1/2 text-proton-muted"></i>
+            <input type="email" placeholder="Email address..." class="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-32 py-3.5 focus:ring-2 focus:ring-proton-accent/50 outline-none transition-all text-sm">
+            <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-xl text-xs font-bold transition-all">Send Invite</button>
+          </div>
+
+          <div class="p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" class="w-8 h-8 rounded-full" alt="Avatar">
+                <div>
+                  <p class="text-sm font-bold">You</p>
+                  <p class="text-[10px] text-proton-muted">Admin</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy/Settings -->
+      <section>
+        <h2 class="text-[10px] font-black text-proton-muted uppercase tracking-[0.2em] mb-8">Preferences</h2>
+        <div class="space-y-4">
+          <label class="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-2xl cursor-pointer hover:bg-white/[0.08] transition-colors">
+            <div>
+              <p class="text-sm font-bold">Public Discoverability</p>
+              <p class="text-[10px] text-proton-muted mt-0.5">Allow people to find this group by name.</p>
+            </div>
+            <div class="w-10 h-6 bg-white/10 rounded-full relative transition-colors">
+              <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+            </div>
+          </label>
+          <label class="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-2xl cursor-pointer hover:bg-white/[0.08] transition-colors">
+            <div>
+              <p class="text-sm font-bold">Shared Banking</p>
+              <p class="text-[10px] text-proton-muted mt-0.5">Allow group members to link shared accounts.</p>
+            </div>
+            <div class="w-10 h-6 bg-proton-accent rounded-full relative transition-colors">
+              <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-transform"></div>
+            </div>
+          </label>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</body>
+</html>
