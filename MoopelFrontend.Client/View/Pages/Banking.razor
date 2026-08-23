@@ -1,0 +1,97 @@
+@attribute [Route(PageRoutes.Banking)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Banking - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-page banking-page">
+        <header class="module-header">
+            <div class="module-header-copy">
+                <h1>Banking</h1>
+                <p>Personal finance tracking and organization.</p>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-primary" href="#">+ New Bank Account</a>
+            </div>
+        </header>
+
+        <div class="banking-accounts-grid">
+            @foreach (BankAccountSample account in _accounts)
+            {
+                <div class="banking-account-card">
+                    <div class="banking-account-card-top">
+                        <span class="banking-account-icon" aria-hidden="true">@account.Icon</span>
+                        <span class="banking-account-type module-muted">@account.Type</span>
+                    </div>
+                    <h2 class="banking-account-name">@account.Name</h2>
+                    <p class="banking-account-desc module-muted">@account.Description</p>
+                    <p class="banking-account-balance">@account.Balance</p>
+                    <div class="banking-account-footer">
+                        <span class="banking-account-tx module-muted">@account.TransactionCount transactions this month</span>
+                        <a class="banking-account-link" href="@PageRoutes.Transactions" aria-label="View transactions for @account.Name">&#8594;</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="banking-recent-header">
+            <h2 class="banking-section-title">Recent Transactions</h2>
+            <a class="btn btn-secondary" href="@PageRoutes.Transactions">View All Transactions</a>
+        </div>
+
+        <div class="module-table-shell">
+            @foreach (RecentTxSample tx in _recentTransactions)
+            {
+                <div class="banking-tx-row">
+                    <div class="banking-tx-icon" aria-hidden="true">@tx.Icon</div>
+                    <div class="banking-tx-body">
+                        <span class="banking-tx-name">@tx.Name</span>
+                        <span class="banking-tx-meta module-muted">@tx.Account &bull; @tx.Date</span>
+                    </div>
+                    <div class="banking-tx-amount @(tx.IsDebit ? "debit" : "credit")">@tx.Amount</div>
+                </div>
+            }
+            <div class="banking-view-all-row">
+                <a href="@PageRoutes.Transactions">VIEW ALL TRANSACTIONS</a>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private sealed record BankAccountSample(string Icon, string Type, string Name, string Description, string Balance, int TransactionCount);
+    private sealed record RecentTxSample(string Icon, string Name, string Account, string Date, string Amount, bool IsDebit);
+
+    private readonly BankAccountSample[] _accounts =
+    [
+        new("🏛", "SAVINGS", "Primary Savings", "Main household savings account", "$12,450.82", 8),
+        new("💳", "CHECKING", "Daily Expenses", "Checking for daily needs and bills", "$2,104.15", 42),
+        new("⚡", "EMERGENCY", "Emergency Fund", "Strictly for unexpected home repairs", "$5,000.00", 0)
+    ];
+
+    private readonly RecentTxSample[] _recentTransactions =
+    [
+        new("🛒", "Walmart", "Primary Savings", "Oct 24, 2024", "-$84.32", true),
+        new("📈", "Monthly Interest Credit", "Primary Savings", "Oct 20, 2024", "+$12.40", false),
+        new("🖥", "Electric Bill Payment", "Daily Expenses", "Oct 18, 2024", "-$154.20", true)
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Banking)}");
+        }
+    }
+}

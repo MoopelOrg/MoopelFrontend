@@ -1,0 +1,86 @@
+--module-main-color: var(--workitems-color-primary);
+
+.new-work-item-layout {
+    display: grid;
+    grid-template-columns: 1fr 26rem;
+    gap: var(--space-xl);
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: var(--space-2xl) var(--space-lg);
+    align-items: start;
+}
+
+.new-work-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+}
+
+.new-work-item-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--dashboard-text);
+    margin: 0;
+}
+
+.new-work-item-required {
+    color: var(--color-danger);
+}
+
+.new-work-item-subtasks-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+
+.new-work-item-subtask-count {
+    font-size: 0.75rem;
+}
+
+.new-work-item-priority-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+}
+
+.new-work-item-priority-btn {
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    color: var(--dashboard-text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.new-work-item-priority-btn:hover {
+    color: var(--dashboard-text);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.new-work-item-priority-btn.active {
+    background: var(--module-main-color);
+    border-color: var(--module-main-color);
+    color: white;
+}
+
+.new-work-item-footer {
+    display: flex;
+    gap: var(--space-sm);
+    padding-top: var(--space-lg);
+    margin-top: var(--space-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 56rem) {
+    .new-work-item-layout {
+        grid-template-columns: 1fr;
+        padding: var(--space-xl) var(--space-md);
+    }
+}

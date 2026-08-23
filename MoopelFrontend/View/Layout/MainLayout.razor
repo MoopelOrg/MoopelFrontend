@@ -67,8 +67,13 @@ else
     private AppErrorBoundary? _errorBoundary;
     private string CurrentRoute => RouteHelper.GetBaseUri(NavigationManager);
     private bool UsesDarkShell => CurrentRoute.Equals(PageRoutes.Dashboard, StringComparison.Ordinal)
-        || CurrentRoute.Equals(PageRoutes.Tags, StringComparison.Ordinal)
-        || CurrentRoute.Equals(PageRoutes.NewTag, StringComparison.Ordinal);
+        || CurrentRoute.StartsWith(PageRoutes.Tags, StringComparison.Ordinal)
+        || CurrentRoute.StartsWith(PageRoutes.Notes, StringComparison.Ordinal)
+        || CurrentRoute.StartsWith(PageRoutes.WorkItems, StringComparison.Ordinal)
+        || CurrentRoute.StartsWith(PageRoutes.Banking, StringComparison.Ordinal)
+        || CurrentRoute.StartsWith(PageRoutes.Groups, StringComparison.Ordinal)
+        || CurrentRoute.StartsWith(PageRoutes.Fridges, StringComparison.Ordinal)
+        || CurrentRoute.StartsWith(PageRoutes.Storage, StringComparison.Ordinal);
     private string ShellClass => UsesDarkShell ? "app-shell dashboard-shell" : "app-shell";
     private string MainClass => UsesDarkShell ? "app-main dashboard-main" : "app-main";
 

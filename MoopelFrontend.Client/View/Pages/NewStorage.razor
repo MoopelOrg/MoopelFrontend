@@ -1,0 +1,63 @@
+@attribute [Route(PageRoutes.NewStorage)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>New Storage Location - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-form-page">
+        <header class="new-note-header">
+            <div class="new-note-header-left">
+                <a class="module-icon-btn" href="@PageRoutes.Storage" aria-label="Back to storage">&#8592;</a>
+                <div class="new-note-kicker">
+                    <span style="color: var(--storage-color-primary);">📦</span>
+                    <span>New Storage Location</span>
+                </div>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="@PageRoutes.Storage">Cancel</a>
+                <button type="button" class="btn btn-primary" @onclick="Save">Save Location</button>
+            </div>
+        </header>
+
+        <div class="module-form-section">
+            <div class="module-field">
+                <label for="storage-name">Location Name</label>
+                <input id="storage-name" type="text" class="large" placeholder="e.g. Attic, Garage, Basement Shelving..." @bind="_name" />
+            </div>
+            <div class="module-field">
+                <label for="storage-description">Description</label>
+                <textarea id="storage-description" placeholder="What type of items are stored here? Any notes about access..." rows="3" @bind="_description"></textarea>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string _name = string.Empty;
+    private string _description = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewStorage)}");
+        }
+    }
+
+    private void Save()
+    {
+        // TODO: Persist via API when Storage service is available.
+        NavigationManager.NavigateTo(PageRoutes.Storage);
+    }
+}

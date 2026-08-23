@@ -1,0 +1,137 @@
+@attribute [Route(PageRoutes.NewWorkItem)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>New Work Item - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="new-work-item-layout">
+        <div class="new-work-item-main">
+            <header class="new-work-item-header">
+                <h1 class="new-work-item-title">New Work Item</h1>
+                <button type="button" class="module-icon-btn" aria-label="Cancel" @onclick="Cancel">&#10005;</button>
+            </header>
+
+            <div class="module-field">
+                <label for="wi-title">
+                    Title <span class="new-work-item-required" aria-hidden="true">*</span>
+                </label>
+                <input id="wi-title" type="text" class="large" placeholder="e.g. Call Plumber for Kitchen Leak" @bind="_title" />
+            </div>
+
+            <div class="module-field">
+                <label for="wi-description">Description</label>
+                <textarea id="wi-description" rows="8" placeholder="Describe the work item..." @bind="_description"></textarea>
+            </div>
+
+            <div class="new-work-item-subtasks-header">
+                <span class="module-form-section-label">Subtasks</span>
+                <span class="new-work-item-subtask-count module-muted">0 of 0</span>
+            </div>
+            <button type="button" class="module-form-dashed-add" @onclick="() => { }">+ Add Subtask</button>
+        </div>
+
+        <aside class="new-work-item-sidebar">
+            <div class="module-field">
+                <label for="wi-group">Group <span class="new-work-item-required" aria-hidden="true">*</span></label>
+                <select id="wi-group" @bind="_group">
+                    <option value="">Select group...</option>
+                    <option>Main Family</option>
+                    <option>Garden &amp; Yard</option>
+                    <option>Home Repairs</option>
+                </select>
+            </div>
+
+            <div class="module-field">
+                <label for="wi-type">Type</label>
+                <select id="wi-type" @bind="_type">
+                    <option>General</option>
+                    <option>Maintenance</option>
+                    <option>Shopping</option>
+                    <option>Finance</option>
+                    <option>Garden</option>
+                </select>
+            </div>
+
+            <div class="module-field">
+                <label>Priority</label>
+                <div class="new-work-item-priority-grid" role="group" aria-label="Priority">
+                    @foreach (string p in _priorities)
+                    {
+                        <button type="button"
+                                class="new-work-item-priority-btn @(_priority == p ? "active" : string.Empty)"
+                                aria-pressed="@(_priority == p)"
+                                @onclick="() => _priority = p">@p</button>
+                    }
+                </div>
+            </div>
+
+            <div class="module-field">
+                <label for="wi-due">Due Date</label>
+                <input id="wi-due" type="datetime-local" @bind="_dueDate" />
+            </div>
+
+            <div class="module-field">
+                <label for="wi-parent">Parent Item</label>
+                <select id="wi-parent">
+                    <option value="">Select parent item (optional)</option>
+                </select>
+            </div>
+
+            <label class="module-form-setting-row">
+                <div>
+                    <p class="module-form-setting-title">Add to my personal items</p>
+                    <p class="module-form-setting-desc">Also show this item in your personal work list.</p>
+                </div>
+                <label class="module-toggle" aria-label="Add to personal items">
+                    <input type="checkbox" @bind="_addPersonal" />
+                    <span class="module-toggle-track"></span>
+                    <span class="module-toggle-thumb"></span>
+                </label>
+            </label>
+
+            <div class="new-work-item-footer">
+                <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" @onclick="Save">Save Item</button>
+            </div>
+        </aside>
+    </div>
+}
+
+@code {
+    private string _title = string.Empty;
+    private string _description = string.Empty;
+    private string _group = string.Empty;
+    private string _type = "General";
+    private string _priority = "HIGH";
+    private DateTime? _dueDate;
+    private bool _addPersonal;
+
+    private static readonly string[] _priorities = ["LOW", "MEDIUM", "HIGH", "URGENT"];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewWorkItem)}");
+        }
+    }
+
+    private void Cancel() => NavigationManager.NavigateTo(PageRoutes.WorkItems);
+
+    private void Save()
+    {
+        // TODO: Persist via API when Work Items service is available.
+        NavigationManager.NavigateTo(PageRoutes.WorkItems);
+    }
+}

@@ -16,109 +16,120 @@
 }
 else if (AuthService.CurrentUser is not null)
 {
-<section class="page">
-    <h1>Notes</h1>
+    <div class="notes-layout">
+        <aside class="notes-sidebar" aria-label="Notes library">
+            <header class="notes-sidebar-header">
+                <h1 class="notes-sidebar-title">Library</h1>
+                <a class="notes-sidebar-new-btn" href="@PageRoutes.NewNote" aria-label="Create new note">+</a>
+            </header>
 
-    <EditForm Model="_newNote" OnValidSubmit="CreateNoteAsync" FormName="create-note">
-        <DataAnnotationsValidator />
-
-        <div class="form-field">
-            <label for="note-title">Title</label>
-            <InputText id="note-title" @bind-Value="_newNote.Title" />
-            <ValidationMessage For="() => _newNote.Title" />
-        </div>
-
-        <div class="form-field">
-            <label for="note-type">Type</label>
-            <InputSelect id="note-type" @bind-Value="_newNote.Type">
+            <div class="notes-type-filters" role="group" aria-label="Filter by type">
+                <button type="button"
+                        class="notes-type-filter @(_activeFilter == null ? "active" : string.Empty)"
+                        @onclick="() => SetFilter(null)">All</button>
                 @foreach (NoteType type in Enum.GetValues<NoteType>())
                 {
-                    <option value="@type">@type</option>
+                    <button type="button"
+                            class="notes-type-filter @(_activeFilter == type ? "active" : string.Empty)"
+                            @onclick="() => SetFilter(type)">@type</button>
                 }
-            </InputSelect>
-        </div>
-
-        <div class="form-field">
-            <label for="note-content">Content</label>
-            <InputTextArea id="note-content" @bind-Value="_newNote.Content" rows="4" />
-            <ValidationMessage For="() => _newNote.Content" />
-        </div>
-
-        <div class="form-field note-tags-field">
-            <label>Tags</label>
-            <div class="note-tags-entry">
-                <div>
-                    <p class="muted">Create and reuse tags for notes and other objects.</p>
-                </div>
-                <a class="btn btn-secondary note-tags-create" href="@CreateTagHref">Create tag</a>
             </div>
-        </div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary" disabled="@_isSaving">
-                @(_isSaving ? "Saving\u2026" : "Add note")
-            </button>
-        </div>
-    </EditForm>
-
-    @if (!string.IsNullOrWhiteSpace(_errorMessage))
-    {
-        <p class="form-error" role="alert">@_errorMessage</p>
-    }
-
-    @if (_isLoading)
-    {
-        <p class="state-message" role="status">Loading notes&hellip;</p>
-    }
-    else if (_notes is null)
-    {
-        <p class="state-message">Your notes could not be loaded right now.</p>
-    }
-    else if (_notes.Count == 0)
-    {
-        <p class="state-message">You have no notes yet. Add your first one above.</p>
-    }
-    else
-    {
-        <ul class="card-list">
-            @foreach (Note note in _notes)
+            @if (_isLoading)
             {
-                <li class="card">
-                    <div class="card-header">
-                        <h2>@note.Title</h2>
-                        <span class="tag">@note.Type</span>
+                <div class="module-state"><p role="status">Loading notes&hellip;</p></div>
+            }
+            else if (_notes is null)
+            {
+                <div class="module-state"><p>Could not load notes.</p></div>
+            }
+            else if (FilteredNotes.Count == 0)
+            {
+                <div class="module-state">
+                    <p>No notes yet.</p>
+                    <a class="btn btn-primary" href="@PageRoutes.NewNote">Create your first note</a>
+                </div>
+            }
+            else
+            {
+                <ul class="notes-list" role="list">
+                    @foreach (Note listNote in FilteredNotes)
+                    {
+                        <li>
+                            <button type="button"
+                                    class="notes-list-item @(_selectedNote?.NoteId == listNote.NoteId ? "active" : string.Empty)"
+                                    @onclick="() => SelectNote(listNote)">
+                                <div class="notes-list-item-header">
+                                    <span class="notes-list-item-type">@listNote.Type</span>
+                                    <span class="notes-list-item-date">@listNote.CreatedAtUtc.ToString("MMM d")</span>
+                                </div>
+                                <p class="notes-list-item-title">@listNote.Title</p>
+                                <p class="notes-list-item-preview">@listNote.Content</p>
+                            </button>
+                        </li>
+                    }
+                </ul>
+            }
+        </aside>
+
+        <section class="notes-detail" aria-label="Note detail">
+            @if (_selectedNote is { } note)
+            {
+                <header class="notes-detail-header">
+                    <div class="notes-detail-meta">
+                        <span class="notes-detail-type-badge">@note.Type</span>
+                        <span class="notes-detail-edited module-muted">Last edited @note.CreatedAtUtc.ToString("MMM d, yyyy")</span>
                     </div>
-                    <p>@note.Content</p>
-                    <div class="card-footer">
-                        <span class="muted">@note.CreatedAtUtc.ToString("yyyy-MM-dd")</span>
+                    <div class="notes-detail-actions">
                         @if (_pendingDeleteId == note.NoteId)
                         {
-                            <span>
-                                Delete this note?
-                                <button type="button" class="btn btn-danger" @onclick="() => DeleteNoteAsync(note.NoteId)">Delete</button>
+                            <span class="notes-delete-confirm">
+                                Delete?
+                                <button type="button" class="btn btn-danger" @onclick="() => DeleteNoteAsync(note.NoteId)">Yes, delete</button>
                                 <button type="button" class="btn btn-secondary" @onclick="() => _pendingDeleteId = null">Cancel</button>
                             </span>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-secondary" @onclick="() => _pendingDeleteId = note.NoteId">Delete</button>
+                            <button type="button" class="module-icon-btn module-icon-btn--danger" aria-label="Delete note" @onclick="() => _pendingDeleteId = note.NoteId">🗑</button>
                         }
+                        <a class="btn btn-primary notes-edit-btn" href="@PageRoutes.Notes">✏ Edit Note</a>
                     </div>
-                </li>
+                </header>
+
+                @if (!string.IsNullOrWhiteSpace(_errorMessage))
+                {
+                    <p class="form-error" role="alert">@_errorMessage</p>
+                }
+
+                <article class="notes-detail-body">
+                    <h2 class="notes-detail-title">@note.Title</h2>
+                    <p class="notes-detail-content">@note.Content</p>
+                </article>
             }
-        </ul>
-    }
-</section>
+            else if (!_isLoading)
+            {
+                <div class="notes-detail-empty module-state">
+                    <p>Select a note from the library, or create a new one.</p>
+                    <a class="btn btn-primary" href="@PageRoutes.NewNote">New note</a>
+                </div>
+            }
+        </section>
+    </div>
 }
 
 @code {
-    private NoteCreateForm _newNote = new();
     private List<Note>? _notes;
+    private Note? _selectedNote;
+    private NoteType? _activeFilter;
     private bool _isLoading = true;
-    private bool _isSaving;
     private string? _errorMessage;
     private int? _pendingDeleteId;
-    private string CreateTagHref => $"{PageRoutes.NewTag}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Notes)}";
+
+    private List<Note> FilteredNotes =>
+        _notes is null ? [] :
+        _activeFilter is null ? _notes :
+        _notes.Where(n => n.Type == _activeFilter).ToList();
 
     protected override async Task OnInitializedAsync()
     {
@@ -141,35 +152,20 @@ else if (AuthService.CurrentUser is not null)
         ApiResult<List<Note>> result = await NotesApi.GetMyNotesAsync();
         _notes = result.Success ? result.Value : null;
         if (!result.Success)
-        {
             _errorMessage = result.Message;
-        }
+
+        if (_selectedNote is not null && _notes is not null)
+            _selectedNote = _notes.FirstOrDefault(n => n.NoteId == _selectedNote.NoteId);
 
         _isLoading = false;
     }
 
-    private async Task CreateNoteAsync()
-    {
-        _isSaving = true;
-        _errorMessage = null;
+    private void SelectNote(Note note) => _selectedNote = note;
 
-        try
-        {
-            ApiResult<Note> result = await NotesApi.CreateNoteAsync(_newNote.ToRequest());
-            if (result.Success)
-            {
-                _newNote = new NoteCreateForm();
-                await LoadNotesAsync();
-            }
-            else
-            {
-                _errorMessage = result.Message;
-            }
-        }
-        finally
-        {
-            _isSaving = false;
-        }
+    private void SetFilter(NoteType? type)
+    {
+        _activeFilter = type;
+        _selectedNote = null;
     }
 
     private async Task DeleteNoteAsync(int noteId)
@@ -180,6 +176,7 @@ else if (AuthService.CurrentUser is not null)
         ApiResult<bool> result = await NotesApi.DeleteNoteAsync(noteId);
         if (result.Success)
         {
+            _selectedNote = null;
             await LoadNotesAsync();
         }
         else
@@ -188,3 +185,4 @@ else if (AuthService.CurrentUser is not null)
         }
     }
 }
+

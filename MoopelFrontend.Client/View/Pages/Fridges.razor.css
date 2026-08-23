@@ -1,0 +1,5 @@
+--module-main-color: var(--fridge-color-primary);
+
+.fridges-page {
+    --module-accent: var(--module-main-color);
+}

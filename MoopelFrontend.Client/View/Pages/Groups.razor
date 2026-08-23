@@ -1,0 +1,79 @@
+@attribute [Route(PageRoutes.Groups)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Groups - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-page groups-page">
+        <header class="module-header">
+            <div class="module-header-copy">
+                <h1>Groups</h1>
+                <p>Organize your home life by coordinating with family and housemates.</p>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-primary" href="@PageRoutes.NewGroup">+ Create New Group</a>
+            </div>
+        </header>
+
+        <div class="module-groups-grid">
+            @foreach (GroupSample group in _groups)
+            {
+                <div class="module-group-card">
+                    <div class="module-group-card-top">
+                        <div class="module-icon-wrap @group.IconClass" aria-hidden="true">@group.Icon</div>
+                        <div class="groups-member-stack" aria-label="@group.MemberCount members">
+                            @for (int i = 0; i < Math.Min(group.MemberCount, 3); i++)
+                            {
+                                <span class="groups-member-avatar" aria-hidden="true">@((char)('A' + i))</span>
+                            }
+                            @if (group.MemberCount > 3)
+                            {
+                                <span class="groups-member-avatar groups-member-overflow" aria-hidden="true">+@(group.MemberCount - 3)</span>
+                            }
+                        </div>
+                    </div>
+                    <h2 class="module-group-card-title">@group.Name</h2>
+                    <p class="module-group-card-desc">@group.Description</p>
+                    <div class="module-group-card-footer">
+                        <div class="module-group-card-stats">
+                            <span>@group.ActiveTasks Active Tasks</span>
+                            <span>&bull;</span>
+                            <span>@group.MemberCount Members</span>
+                        </div>
+                        <span aria-hidden="true">&#8594;</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private sealed record GroupSample(string Icon, string IconClass, string Name, string Description, int ActiveTasks, int MemberCount);
+
+    private readonly GroupSample[] _groups =
+    [
+        new("🏠", "module-icon-wrap--purple", "Main Family", "Central coordination for all household chores and common events.", 8, 5),
+        new("🌱", "module-icon-wrap--emerald", "Garden & Yard", "Coordination for seasonal landscaping, watering schedules, and planting.", 3, 2),
+        new("🔧", "module-icon-wrap--amber", "Home Repairs", "Tracking maintenance issues and contractor coordination for the attic project.", 12, 3)
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Groups)}");
+        }
+    }
+}

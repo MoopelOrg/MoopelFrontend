@@ -1,0 +1,81 @@
+@attribute [Route(PageRoutes.NewStorageItem)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Add Storage Item - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-form-page">
+        <header class="new-note-header">
+            <div class="new-note-header-left">
+                <a class="module-icon-btn" href="@PageRoutes.Storage" aria-label="Back to storage">&#8592;</a>
+                <div class="new-note-kicker">
+                    <span style="color: var(--storage-color-primary);">📦</span>
+                    <span>Add Storage Item</span>
+                </div>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="@PageRoutes.Storage">Discard</a>
+                <button type="button" class="btn btn-primary" @onclick="Save">Add Item</button>
+            </div>
+        </header>
+
+        <div class="module-form-section">
+            <div class="module-field">
+                <label for="storage-item-name">Item Name</label>
+                <input id="storage-item-name" type="text" class="large" placeholder="e.g. Holiday Lights, Camping Tent..." @bind="_name" />
+            </div>
+
+            <div class="module-field-row">
+                <div class="module-field">
+                    <label for="storage-item-location">Storage Location</label>
+                    <select id="storage-item-location" @bind="_location">
+                        <option>Attic</option>
+                        <option>Garage</option>
+                        <option>Basement</option>
+                    </select>
+                </div>
+                <div class="module-field">
+                    <label for="storage-item-quantity">Quantity</label>
+                    <input id="storage-item-quantity" type="text" placeholder="e.g. 3 boxes, 1 bag..." @bind="_quantity" />
+                </div>
+            </div>
+
+            <div class="module-field">
+                <label for="storage-item-notes">Notes (optional)</label>
+                <textarea id="storage-item-notes" placeholder="Box numbers, exact shelf, description..." rows="3" @bind="_notes"></textarea>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string _name = string.Empty;
+    private string _location = "Attic";
+    private string _quantity = string.Empty;
+    private string _notes = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewStorageItem)}");
+        }
+    }
+
+    private void Save()
+    {
+        // TODO: Persist via API when Storage service is available.
+        NavigationManager.NavigateTo(PageRoutes.Storage);
+    }
+}

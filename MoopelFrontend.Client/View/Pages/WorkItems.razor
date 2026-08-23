@@ -1,0 +1,140 @@
+@attribute [Route(PageRoutes.WorkItems)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Work Items - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-page work-items-page">
+        <header class="module-header">
+            <div class="module-header-copy">
+                <h1>Work Items</h1>
+                <p>Manage tasks, track progress, and stay on top of your household work.</p>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="#">&#9776; Filters</a>
+                <a class="btn btn-primary" href="@PageRoutes.NewWorkItem">+ New Item</a>
+            </div>
+        </header>
+
+        <div class="work-items-tabs" role="tablist">
+            @foreach (string tab in _tabs)
+            {
+                <button type="button"
+                        role="tab"
+                        class="work-items-tab @(_activeTab == tab ? "active" : string.Empty)"
+                        aria-selected="@(_activeTab == tab)"
+                        @onclick="() => _activeTab = tab">@tab</button>
+            }
+        </div>
+
+        <div class="module-toolbar">
+            <div class="module-search">
+                <span class="module-search-icon" aria-hidden="true">&#128269;</span>
+                <input type="search" placeholder="Search work items..." aria-label="Search work items" />
+            </div>
+            <select class="module-filter-select" aria-label="Filter by status">
+                <option value="">Status</option>
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Done</option>
+                <option>Blocked</option>
+            </select>
+            <select class="module-filter-select" aria-label="Filter by priority">
+                <option value="">Priority</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Urgent</option>
+            </select>
+            <select class="module-filter-select" aria-label="Filter by due date">
+                <option value="">Due Date</option>
+                <option>Today</option>
+                <option>This Week</option>
+                <option>Overdue</option>
+            </select>
+        </div>
+
+        <div class="work-items-list" role="list" aria-label="Work items">
+            @foreach (WorkItemSample item in _sampleItems)
+            {
+                <div class="work-item-row @(item.Done ? "work-item-row--done" : string.Empty)" role="listitem">
+                    <label class="work-item-check-label" aria-label="@(item.Done ? "Mark incomplete" : "Mark complete")">
+                        <input type="checkbox" checked="@item.Done" @onchange="() => item.Done = !item.Done" />
+                        <span class="work-item-checkbox" aria-hidden="true"></span>
+                    </label>
+                    <div class="work-item-body">
+                        <div class="work-item-title-row">
+                            <span class="work-item-title">@item.Title</span>
+                            <span class="module-badge @item.PriorityClass">@item.Priority</span>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(item.Description))
+                        {
+                            <p class="work-item-desc">@item.Description</p>
+                        }
+                        @if (item.Done)
+                        {
+                            <p class="work-item-done-label module-muted">Completed @item.DoneLabel</p>
+                        }
+                        else
+                        {
+                            <div class="work-item-meta">
+                                @if (!string.IsNullOrWhiteSpace(item.DueDate))
+                                {
+                                    <span class="work-item-meta-item">&#128197; @item.DueDate</span>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(item.Tag))
+                                {
+                                    <span class="work-item-meta-item work-item-tag">&#127991; @item.Tag</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private readonly string[] _tabs = ["All Tasks", "Today", "Upcoming", "Completed"];
+    private string _activeTab = "All Tasks";
+
+    private sealed class WorkItemSample
+    {
+        public required string Title { get; init; }
+        public string Description { get; init; } = string.Empty;
+        public required string Priority { get; init; }
+        public required string PriorityClass { get; init; }
+        public string DueDate { get; init; } = string.Empty;
+        public string Tag { get; init; } = string.Empty;
+        public bool Done { get; set; }
+        public string DoneLabel { get; init; } = string.Empty;
+    }
+
+    private readonly List<WorkItemSample> _sampleItems =
+    [
+        new() { Title = "Call Plumber for Kitchen Leak", Description = "The faucet in the kitchen island has been dripping steadily for 48 hours.", Priority = "HIGH", PriorityClass = "module-badge--open", DueDate = "Today, 4:00 PM", Tag = "Maintenance" },
+        new() { Title = "Renew Car Insurance", Description = "Check Geico vs Progressive for better rates this year before the Dec 1st deadline.", Priority = "URGENT", PriorityClass = "module-badge--blocked", DueDate = "Dec 1", Tag = "Finance" },
+        new() { Title = "Buy Dog Food", Priority = "MED", PriorityClass = "module-badge--done", Done = true, DoneLabel = "Yesterday" },
+        new() { Title = "Winterize Backyard Hose", Description = "Disconnect hoses and cover faucets for the winter season.", Priority = "MED", PriorityClass = "module-badge--in-progress", DueDate = "Nov 15", Tag = "Garden" }
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.WorkItems)}");
+        }
+    }
+}

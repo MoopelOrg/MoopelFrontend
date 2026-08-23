@@ -1,0 +1,123 @@
+@attribute [Route(PageRoutes.NewGroup)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Group - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-form-page">
+        <header class="new-note-header">
+            <div class="new-note-header-left">
+                <a class="module-icon-btn" href="@PageRoutes.Groups" aria-label="Back to groups">&#8592;</a>
+                <div class="new-note-kicker">
+                    <span style="color: var(--group-color-primary);">👥</span>
+                    <span>Create New Group</span>
+                </div>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="@PageRoutes.Groups">Cancel</a>
+                <button type="button" class="btn btn-primary" @onclick="Save">Create Group</button>
+            </div>
+        </header>
+
+        <div class="module-form-section">
+            <div class="new-group-icon-picker" aria-label="Group icon">
+                <div class="new-group-icon-placeholder" aria-hidden="true">🖼</div>
+                <button type="button" class="new-group-icon-edit" aria-label="Edit group icon">✏</button>
+            </div>
+
+            <div class="module-field" style="margin-top: var(--space-xl);">
+                <label for="group-name">Group Name</label>
+                <input id="group-name" type="text" class="large" placeholder="e.g. Dream House, Summer Trip 2024..." @bind="_name" />
+            </div>
+
+            <div class="module-field">
+                <label for="group-desc">Description</label>
+                <textarea id="group-desc" rows="3" placeholder="What is this group for?" @bind="_description"></textarea>
+            </div>
+        </div>
+
+        <div class="module-form-section">
+            <span class="module-form-section-label">Invite Members</span>
+
+            <div class="module-field new-group-invite-field">
+                <span class="module-search-icon" aria-hidden="true">&#9993;</span>
+                <input type="email" placeholder="Email address..." @bind="_inviteEmail" />
+                <button type="button" class="btn btn-secondary new-group-invite-btn" @onclick="SendInvite">Send Invite</button>
+            </div>
+
+            @if (AuthService.CurrentUser is { } user)
+            {
+                <div class="new-group-member-row">
+                    <span class="new-group-member-avatar" aria-hidden="true">@(user.Username.Length > 0 ? char.ToUpper(user.Username[0]) : '?')</span>
+                    <div>
+                        <p class="new-group-member-name">You</p>
+                        <p class="module-muted" style="font-size:0.75rem; margin:0;">Admin</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="module-form-section">
+            <span class="module-form-section-label">Preferences</span>
+            <div class="module-form-settings-list">
+                <label class="module-form-setting-row">
+                    <div>
+                        <p class="module-form-setting-title">Public Discoverability</p>
+                        <p class="module-form-setting-desc">Allow people to find this group by name.</p>
+                    </div>
+                    <label class="module-toggle" aria-label="Public discoverability">
+                        <input type="checkbox" @bind="_publicDiscoverability" />
+                        <span class="module-toggle-track"></span>
+                        <span class="module-toggle-thumb"></span>
+                    </label>
+                </label>
+                <label class="module-form-setting-row">
+                    <div>
+                        <p class="module-form-setting-title">Shared Banking</p>
+                        <p class="module-form-setting-desc">Allow group members to link shared accounts.</p>
+                    </div>
+                    <label class="module-toggle" aria-label="Shared banking">
+                        <input type="checkbox" @bind="_sharedBanking" />
+                        <span class="module-toggle-track"></span>
+                        <span class="module-toggle-thumb"></span>
+                    </label>
+                </label>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string _name = string.Empty;
+    private string _description = string.Empty;
+    private string _inviteEmail = string.Empty;
+    private bool _publicDiscoverability;
+    private bool _sharedBanking = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewGroup)}");
+        }
+    }
+
+    private void SendInvite() => _inviteEmail = string.Empty;
+
+    private void Save()
+    {
+        // TODO: Persist via API when Groups service is available.
+        NavigationManager.NavigateTo(PageRoutes.Groups);
+    }
+}

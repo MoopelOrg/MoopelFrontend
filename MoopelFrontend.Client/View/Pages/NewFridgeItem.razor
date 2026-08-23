@@ -1,0 +1,109 @@
+@attribute [Route(PageRoutes.NewFridgeItem)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Add Fridge Item - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-form-page">
+        <header class="new-note-header">
+            <div class="new-note-header-left">
+                <a class="module-icon-btn" href="@PageRoutes.Fridges" aria-label="Back to fridge">&#8592;</a>
+                <div class="new-note-kicker">
+                    <span style="color: var(--fridge-color-primary);">🧊</span>
+                    <span>Add Item to Fridge</span>
+                </div>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="@PageRoutes.Fridges">Discard</a>
+                <button type="button" class="btn btn-primary" @onclick="Save">Add Item</button>
+            </div>
+        </header>
+
+        <div class="module-form-section">
+            <div class="module-field">
+                <label for="fridge-item-name">Item Name</label>
+                <input id="fridge-item-name" type="text" class="large" placeholder="e.g. Milk (Whole), Greek Yogurt..." @bind="_name" />
+            </div>
+
+            <div class="module-field-row">
+                <div class="module-field">
+                    <label for="fridge-item-qty">Quantity</label>
+                    <input id="fridge-item-qty" type="text" placeholder="e.g. 1 Gallon, 4 Cups..." @bind="_quantity" />
+                </div>
+                <div class="module-field">
+                    <label for="fridge-item-location">Location</label>
+                    <select id="fridge-item-location" @bind="_location">
+                        <option>Fridge Door</option>
+                        <option>Top Shelf</option>
+                        <option>Middle Shelf</option>
+                        <option>Bottom Shelf</option>
+                        <option>Crisper Drawer</option>
+                        <option>Freezer</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="module-field">
+                <label for="fridge-item-expiry">Expiry Date (optional)</label>
+                <input id="fridge-item-expiry" type="date" @bind="_expiryDate" />
+            </div>
+
+            <div class="module-field">
+                <label for="fridge-item-fridge">Fridge Location</label>
+                <select id="fridge-item-fridge" @bind="_fridgeId">
+                    <option value="">Main Kitchen Fridge</option>
+                    <option>Garage Freezer</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="module-form-section">
+            <span class="module-form-section-label">Status</span>
+            <div class="module-form-settings-list">
+                @foreach (string status in _statuses)
+                {
+                    <label class="module-form-setting-row" style="cursor:pointer;">
+                        <p class="module-form-setting-title">@status</p>
+                        <input type="radio" name="fridge-status" value="@status" checked="@(_status == status)" @onchange="() => _status = status" />
+                    </label>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string _name = string.Empty;
+    private string _quantity = string.Empty;
+    private string _location = "Middle Shelf";
+    private DateTime? _expiryDate;
+    private string _fridgeId = string.Empty;
+    private string _status = "Fresh";
+
+    private static readonly string[] _statuses = ["Fresh", "Low", "Expiring Soon", "Frozen"];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewFridgeItem)}");
+        }
+    }
+
+    private void Save()
+    {
+        // TODO: Persist via API when Fridge service is available.
+        NavigationManager.NavigateTo(PageRoutes.Fridges);
+    }
+}

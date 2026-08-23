@@ -1,0 +1,75 @@
+--module-main-color: var(--banking-color-primary);
+
+.transactions-page {
+    --module-accent: var(--module-main-color);
+}
+
+.transactions-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-lg) var(--space-xl);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--transition-fast);
+}
+
+.transactions-row:last-of-type {
+    border-bottom: none;
+}
+
+.transactions-row:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.transactions-date-row {
+    padding: var(--space-sm) var(--space-xl);
+    font-size: 0.625rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dashboard-text-muted);
+}
+
+.transactions-amount-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2xs);
+}
+
+.transactions-item-count {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.transactions-detail-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.transactions-add-item-btn {
+    background: none;
+    border: none;
+    color: #6d4aff;
+    font-size: 0.625rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.transactions-add-item-btn:hover {
+    text-decoration: underline;
+    background: none;
+    border: none;
+}

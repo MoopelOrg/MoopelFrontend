@@ -1,0 +1,5 @@
+--module-main-color: var(--storage-color-primary);
+
+.storage-page {
+    --module-accent: var(--module-main-color);
+}

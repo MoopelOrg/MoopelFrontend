@@ -1,0 +1,114 @@
+@attribute [Route(PageRoutes.NewFridge)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>New Fridge Location - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-form-page">
+        <header class="new-note-header">
+            <div class="new-note-header-left">
+                <a class="module-icon-btn" href="@PageRoutes.Fridges" aria-label="Back to fridge">&#8592;</a>
+                <div class="new-note-kicker">
+                    <span style="color: var(--fridge-color-primary);">🧊</span>
+                    <span>New Fridge Location</span>
+                </div>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="@PageRoutes.Fridges">Cancel</a>
+                <button type="button" class="btn btn-primary" @onclick="Save">Save Location</button>
+            </div>
+        </header>
+
+        <div class="module-form-section">
+            <div class="module-field">
+                <label for="fridge-name">Location Name</label>
+                <input id="fridge-name" type="text" class="large" placeholder="e.g. Main Kitchen Fridge, Garage Freezer..." @bind="_name" />
+            </div>
+            <div class="module-field">
+                <label for="fridge-area">Area</label>
+                <select id="fridge-area" @bind="_area">
+                    <option>Kitchen</option>
+                    <option>Garage</option>
+                    <option>Basement</option>
+                    <option>Pantry</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="module-form-section">
+            <span class="module-form-section-label">Layout &amp; Sections</span>
+            <div class="module-form-config-list">
+                <div class="module-form-config-row">
+                    <div class="module-form-config-identity">
+                        <span class="module-form-config-icon">&#9700;</span>
+                        <div>
+                            <p class="module-form-config-title">Main Fridge Compartment</p>
+                            <p class="module-form-config-sub">3 Shelves, 2 Drawers</p>
+                        </div>
+                    </div>
+                    <button type="button" class="module-icon-btn" aria-label="Edit Main Fridge Compartment">&#9998;</button>
+                </div>
+                <div class="module-form-config-row">
+                    <div class="module-form-config-identity">
+                        <span class="module-form-config-icon">&#128682;</span>
+                        <div>
+                            <p class="module-form-config-title">Door Storage</p>
+                            <p class="module-form-config-sub">4 Racks</p>
+                        </div>
+                    </div>
+                    <button type="button" class="module-icon-btn" aria-label="Edit Door Storage">&#9998;</button>
+                </div>
+                <button type="button" class="module-form-dashed-add">+ Add Custom Section</button>
+            </div>
+        </div>
+
+        <div class="module-form-section">
+            <span class="module-form-section-label">Permissions</span>
+            <div class="module-form-permission-list">
+                <p class="module-form-permission-note">Choose which groups can view and manage items in this fridge.</p>
+                <div class="module-form-permission-checks">
+                    <label class="module-form-permission-check">
+                        <input type="checkbox" @bind="_permMainFamily" />
+                        <span>Main Family</span>
+                    </label>
+                    <label class="module-form-permission-check">
+                        <input type="checkbox" @bind="_permHousemates" />
+                        <span>Housemates</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string _name = string.Empty;
+    private string _area = "Kitchen";
+    private bool _permMainFamily = true;
+    private bool _permHousemates;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewFridge)}");
+        }
+    }
+
+    private void Save()
+    {
+        // TODO: Persist via API when Fridge service is available.
+        NavigationManager.NavigateTo(PageRoutes.Fridges);
+    }
+}

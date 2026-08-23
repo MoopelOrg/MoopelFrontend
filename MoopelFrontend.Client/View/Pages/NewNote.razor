@@ -1,0 +1,124 @@
+@using NoteType = MoopelObjects.Enums.NoteType
+
+@attribute [Route(PageRoutes.NewNote)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject INotesService NotesApi
+@inject NavigationManager NavigationManager
+
+<PageTitle>New Note - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-form-page">
+        <header class="new-note-header">
+            <div class="new-note-header-left">
+                <a class="module-icon-btn" href="@PageRoutes.Notes" aria-label="Back to notes">&#8592;</a>
+                <div class="new-note-kicker">
+                    <span class="new-note-module-icon">&#x1F4DD;</span>
+                    <span>New Note</span>
+                </div>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="@PageRoutes.Notes">Discard</a>
+                <button type="button" class="btn btn-primary" disabled="@_isSaving" @onclick="CreateNoteAsync">
+                    @(_isSaving ? "Saving\u2026" : "Save Note")
+                </button>
+            </div>
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(_errorMessage))
+        {
+            <p class="form-error" role="alert">@_errorMessage</p>
+        }
+
+        <EditForm Model="_draft" OnValidSubmit="CreateNoteAsync" FormName="new-note">
+            <DataAnnotationsValidator />
+
+            <div class="module-form-section">
+                <div class="module-field">
+                    <label for="note-title">Note Title</label>
+                    <InputText id="note-title" class="large" placeholder="What is this note about?" @bind-Value="_draft.Title" />
+                    <ValidationMessage For="() => _draft.Title" />
+                </div>
+
+                <div class="module-field">
+                    <label for="note-type">Type</label>
+                    <InputSelect id="note-type" @bind-Value="_draft.Type">
+                        @foreach (NoteType type in Enum.GetValues<NoteType>())
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </InputSelect>
+                </div>
+
+                <div class="module-field">
+                    <label for="note-content">Content</label>
+                    <InputTextArea id="note-content" rows="12" placeholder="Write your note here..." @bind-Value="_draft.Content" />
+                    <ValidationMessage For="() => _draft.Content" />
+                </div>
+            </div>
+
+            <div class="module-form-section">
+                <span class="module-form-section-label">Tags</span>
+                <div class="module-form-config-row">
+                    <div class="module-form-config-identity">
+                        <span class="module-form-config-icon">&#x1F3F7;</span>
+                        <div>
+                            <p class="module-form-config-title">Add Tags</p>
+                            <p class="module-form-config-sub">Create and reuse tags for notes and other objects.</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary" href="@CreateTagHref">Create tag</a>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+}
+
+@code {
+    private readonly NoteCreateForm _draft = new();
+    private bool _isSaving;
+    private string? _errorMessage;
+
+    private string CreateTagHref => $"{PageRoutes.NewTag}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewNote)}";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.NewNote)}");
+        }
+    }
+
+    private async Task CreateNoteAsync()
+    {
+        _isSaving = true;
+        _errorMessage = null;
+
+        try
+        {
+            ApiResult<Note> result = await NotesApi.CreateNoteAsync(_draft.ToRequest());
+            if (result.Success)
+            {
+                NavigationManager.NavigateTo(PageRoutes.Notes);
+            }
+            else
+            {
+                _errorMessage = result.Message;
+            }
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+}

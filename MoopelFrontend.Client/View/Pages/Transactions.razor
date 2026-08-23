@@ -1,0 +1,190 @@
+@attribute [Route(PageRoutes.Transactions)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Transactions - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-page transactions-page">
+        <header class="module-header">
+            <div class="module-header-copy">
+                <h1>Transactions</h1>
+                <p>Comprehensive history of your household financial activity.</p>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-primary" href="@PageRoutes.NewTransaction">+ New Transaction</a>
+            </div>
+        </header>
+
+        <div class="module-toolbar">
+            <div class="module-search">
+                <span class="module-search-icon" aria-hidden="true">&#128269;</span>
+                <input type="search" placeholder="Search transactions..." aria-label="Search transactions" />
+            </div>
+            <select class="module-filter-select" aria-label="Filter by account">
+                <option value="">All Accounts</option>
+                <option>Primary Savings</option>
+                <option>Daily Expenses</option>
+                <option>Emergency Fund</option>
+            </select>
+            <select class="module-filter-select" aria-label="Filter by category">
+                <option value="">All Categories</option>
+                <option>Groceries</option>
+                <option>Bills</option>
+                <option>Income</option>
+                <option>Transport</option>
+                <option>Dining</option>
+            </select>
+        </div>
+
+        <div class="module-table-shell">
+            @foreach (TxGroup group in _groups)
+            {
+                <div class="module-table-date-header" role="rowgroup">
+                    <div class="transactions-date-row">
+                        <span>@group.Date</span>
+                    </div>
+                </div>
+
+                @foreach (TxSample txEntry in group.Items)
+                {
+                    <button type="button" class="transactions-row" @onclick="() => OpenDetail(txEntry)" aria-label="View @txEntry.Name details">
+                        <div class="banking-tx-icon" aria-hidden="true">@txEntry.Icon</div>
+                        <div class="banking-tx-body">
+                            <span class="banking-tx-name">@txEntry.Name</span>
+                            <div class="banking-tx-meta module-muted">
+                                <span>@txEntry.Account</span>
+                                <span> &bull; </span>
+                                <span>@txEntry.Category</span>
+                            </div>
+                        </div>
+                        <div class="transactions-amount-col">
+                            <span class="banking-tx-amount @(txEntry.IsDebit ? "debit" : "credit")">@txEntry.Amount</span>
+                            <span class="transactions-item-count module-muted">@txEntry.ItemCount @(txEntry.ItemCount == 1 ? "Item" : "Items")</span>
+                        </div>
+                    </button>
+                }
+            }
+
+            <div class="module-pagination">
+                <span class="module-pagination-info">Showing <strong>1–20</strong> of 156 transactions</span>
+                <div class="module-pagination-actions">
+                    <button type="button" class="btn btn-secondary" disabled>Previous</button>
+                    <button type="button" class="btn btn-primary">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail drawer -->
+    <div class="module-detail-overlay @(_detailOpen ? "open" : string.Empty)"
+         @onclick="CloseDetail"
+         aria-hidden="@(!_detailOpen)"></div>
+    <aside class="module-detail-drawer @(_detailOpen ? "open" : string.Empty)"
+           aria-label="Transaction detail"
+           aria-hidden="@(!_detailOpen)">
+        @if (_selectedTx is { } tx)
+        {
+            <div class="module-detail-top">
+                <button type="button" class="module-icon-btn" aria-label="Close detail" @onclick="CloseDetail">&#8592;</button>
+                <div>
+                    <button type="button" class="module-icon-btn" aria-label="Edit transaction">&#9998;</button>
+                    <button type="button" class="module-icon-btn module-icon-btn--danger" aria-label="Delete transaction">&#128465;</button>
+                </div>
+            </div>
+
+            <header>
+                <div class="transactions-detail-meta">
+                    <span class="module-badge module-badge--open">@tx.Account</span>
+                    <span class="module-muted" style="font-size: 0.75rem; font-weight: 700;">@tx.Date</span>
+                </div>
+                <h2 class="module-detail-heading">@tx.Name</h2>
+                <p class="module-detail-amount @(tx.IsDebit ? "module-detail-amount--debit" : "module-detail-amount--credit")">@tx.Amount</p>
+            </header>
+
+            <div class="module-detail-section" style="margin-top: var(--space-xl);">
+                <p class="module-detail-section-label">Description</p>
+                <p class="module-muted" style="line-height: 1.6;">Weekly shopping for groceries and household supplies.</p>
+            </div>
+
+            <div class="module-detail-section">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-md);">
+                    <p class="module-detail-section-label" style="margin:0;">Transaction Items</p>
+                    <button type="button" class="transactions-add-item-btn">+ Add Item</button>
+                </div>
+                <div class="module-nested-items">
+                    <div class="module-nested-item">
+                        <div class="module-nested-item-card">
+                            <div>
+                                <p style="font-size:0.875rem; font-weight:700; margin:0; color: var(--dashboard-text);">Groceries</p>
+                                <p style="font-size:0.625rem; color: var(--dashboard-text-muted); margin:0.25rem 0 0;">@tx.Date</p>
+                            </div>
+                            <p style="font-size:0.875rem; font-weight:700; color: var(--dashboard-text); margin:0;">$62.10</p>
+                        </div>
+                    </div>
+                    <div class="module-nested-item">
+                        <div class="module-nested-item-card">
+                            <div>
+                                <p style="font-size:0.875rem; font-weight:700; margin:0; color: var(--dashboard-text);">Household</p>
+                                <p style="font-size:0.625rem; color: var(--dashboard-text-muted); margin:0.25rem 0 0;">@tx.Date</p>
+                            </div>
+                            <p style="font-size:0.875rem; font-weight:700; color: var(--dashboard-text); margin:0;">$22.22</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="module-nested-total">
+                    <span class="module-detail-section-label" style="margin:0;">Calculated Total</span>
+                    <span style="font-size:1.125rem; font-weight:700; color:var(--dashboard-text);">$84.32</span>
+                </div>
+            </div>
+        }
+    </aside>
+}
+
+@code {
+    private bool _detailOpen;
+    private TxSample? _selectedTx;
+
+    private sealed record TxSample(string Icon, string Name, string Account, string Category, string Date, string Amount, bool IsDebit, int ItemCount);
+    private sealed record TxGroup(string Date, TxSample[] Items);
+
+    private readonly TxGroup[] _groups =
+    [
+        new("Today, Oct 24, 2024",
+        [
+            new("🛒", "Walmart", "Primary Savings", "Groceries", "Oct 24, 2024", "-$84.32", true, 2),
+            new("☕", "Starbucks", "Daily Expenses", "Dining", "Oct 24, 2024", "-$5.50", true, 1)
+        ]),
+        new("Oct 23, 2024",
+        [
+            new("💼", "Salary Deposit", "Primary Savings", "Income", "Oct 23, 2024", "+$3,400.00", false, 1),
+            new("⚡", "Pacific Power", "Daily Expenses", "Utilities", "Oct 23, 2024", "-$112.90", true, 1)
+        ])
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Transactions)}");
+        }
+    }
+
+    private void OpenDetail(TxSample tx)
+    {
+        _selectedTx = tx;
+        _detailOpen = true;
+    }
+
+    private void CloseDetail() => _detailOpen = false;
+}

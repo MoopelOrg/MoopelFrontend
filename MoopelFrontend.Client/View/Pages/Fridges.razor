@@ -1,0 +1,114 @@
+@attribute [Route(PageRoutes.Fridges)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Fridge Inventory - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-page fridges-page">
+        <header class="module-header">
+            <div class="module-header-copy">
+                <h1>Fridge Inventory</h1>
+                <p>Track groceries, expiration dates, and essential supplies.</p>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-secondary" href="#">&#9107; Scan Barcode</a>
+                <a class="btn btn-primary" href="@PageRoutes.NewFridgeItem">+ Add Item</a>
+            </div>
+        </header>
+
+        <div class="module-stats">
+            <div class="module-stat-card module-stat-card--warning">
+                <p class="module-stat-label">Expiring Soon</p>
+                <p class="module-stat-value">4 Items</p>
+            </div>
+            <div class="module-stat-card module-stat-card--caution">
+                <p class="module-stat-label">Low Stock</p>
+                <p class="module-stat-value">12 Items</p>
+            </div>
+            <div class="module-stat-card module-stat-card--default">
+                <p class="module-stat-label">Total Items</p>
+                <p class="module-stat-value">86 Items</p>
+            </div>
+            <div class="module-stat-card module-stat-card--default">
+                <p class="module-stat-label">Last Updated</p>
+                <p class="module-stat-value" style="font-size: 1.125rem;">Today, 9:30 AM</p>
+            </div>
+        </div>
+
+        <div class="module-card-grid">
+            @foreach (FridgeItemSample item in _items)
+            {
+                <div class="module-card @(item.Status == "Exp. 1d" ? "module-card--warning" : string.Empty)">
+                    <div class="module-card-image" role="img" aria-label="@item.Name">
+                        <span aria-hidden="true">@item.Emoji</span>
+                    </div>
+                    <div class="module-card-title-row">
+                        <h2 class="module-card-title">@item.Name</h2>
+                        <span class="module-badge @item.BadgeClass">@item.Status</span>
+                    </div>
+                    <div class="module-card-meta">
+                        <span>@item.Quantity</span>
+                        <span>@item.Location</span>
+                    </div>
+                    <div class="module-card-footer">
+                        <div class="module-card-stepper" aria-label="Quantity for @item.Name">
+                            <button type="button" class="module-card-stepper-btn" aria-label="Decrease" @onclick="() => Adjust(item, -1)">&#8722;</button>
+                            <span class="module-card-stepper-count">@item.Count</span>
+                            <button type="button" class="module-card-stepper-btn" aria-label="Increase" @onclick="() => Adjust(item, 1)">+</button>
+                        </div>
+                        <button type="button" class="module-icon-btn" aria-label="More options for @item.Name">&#8942;</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="module-state" style="padding-top: 0;">
+            <a class="btn btn-primary" href="@PageRoutes.NewFridge">+ Add Fridge Location</a>
+        </div>
+    </div>
+}
+
+@code {
+    private sealed class FridgeItemSample
+    {
+        public required string Emoji { get; init; }
+        public required string Name { get; init; }
+        public required string Status { get; init; }
+        public required string BadgeClass { get; init; }
+        public required string Quantity { get; init; }
+        public required string Location { get; init; }
+        public int Count { get; set; }
+    }
+
+    private readonly List<FridgeItemSample> _items =
+    [
+        new() { Emoji = "🥛", Name = "Milk (Whole)", Status = "Exp. 1d", BadgeClass = "module-badge--expiring", Quantity = "1 Gallon", Location = "Fridge Door", Count = 1 },
+        new() { Emoji = "🥣", Name = "Greek Yogurt", Status = "Fresh", BadgeClass = "module-badge--fresh", Quantity = "4 Cups", Location = "Middle Shelf", Count = 4 },
+        new() { Emoji = "🌿", Name = "Spinach (Large)", Status = "Low", BadgeClass = "module-badge--low", Quantity = "1 Pack", Location = "Crisper Drawer", Count = 1 },
+        new() { Emoji = "🍕", Name = "Frozen Pizza", Status = "Frozen", BadgeClass = "module-badge--frozen", Quantity = "2 Units", Location = "Freezer", Count = 2 }
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Fridges)}");
+        }
+    }
+
+    private static void Adjust(FridgeItemSample item, int delta)
+    {
+        item.Count = Math.Max(0, item.Count + delta);
+    }
+}

@@ -35,8 +35,13 @@ public static class AppNav
     [
         new("Home", PageRoutes.Home, RequiresAuth: false),
         new("Dashboard", PageRoutes.Dashboard, RequiresAuth: true),
+        new("Work Items", PageRoutes.WorkItems, RequiresAuth: true),
+        new("Banking", PageRoutes.Banking, RequiresAuth: true),
         new("Notes", PageRoutes.Notes, RequiresAuth: true),
         new("Tags", PageRoutes.Tags, RequiresAuth: true),
+        new("Groups", PageRoutes.Groups, RequiresAuth: true),
+        new("Fridge", PageRoutes.Fridges, RequiresAuth: true),
+        new("Storage", PageRoutes.Storage, RequiresAuth: true),
         new("Settings", PageRoutes.Settings, RequiresAuth: true)
     ];
 }
@@ -63,15 +68,15 @@ public static class AppLauncher
 {
     public static readonly IReadOnlyList<AppTile> Tiles =
     [
-        new("Work Items", "images/dashboard/apps/work-items.svg", "app-tile-work-items"),
+        new("Work Items", "images/dashboard/apps/work-items.svg", "app-tile-work-items", PageRoutes.WorkItems),
         new("Calendar", "images/dashboard/apps/calendar.svg", "app-tile-calendar"),
-        new("Groups", "images/dashboard/apps/groups.svg", "app-tile-groups"),
-        new("Fridge", "images/dashboard/apps/fridge.svg", "app-tile-fridge"),
-        new("Notes", "images/dashboard/apps/notes.svg", "app-tile-notes", PageRoutes.Notes, Badge: "New"),
-        new("Storage", "images/dashboard/apps/storage.svg", "app-tile-storage"),
-        new("Banking", "images/dashboard/apps/banking.svg", "app-tile-banking"),
+        new("Groups", "images/dashboard/apps/groups.svg", "app-tile-groups", PageRoutes.Groups),
+        new("Fridge", "images/dashboard/apps/fridge.svg", "app-tile-fridge", PageRoutes.Fridges),
+        new("Notes", "images/dashboard/apps/notes.svg", "app-tile-notes", PageRoutes.Notes),
+        new("Storage", "images/dashboard/apps/storage.svg", "app-tile-storage", PageRoutes.Storage),
+        new("Banking", "images/dashboard/apps/banking.svg", "app-tile-banking", PageRoutes.Banking),
         new("Documents", "images/dashboard/apps/documents.svg", "app-tile-documents"),
-        new("Health", "images/dashboard/apps/health.svg", "app-tile-health", Badge: "New"),
+        new("Health", "images/dashboard/apps/health.svg", "app-tile-health"),
         new("Security", "images/dashboard/apps/security.svg", "app-tile-security")
     ];
 }

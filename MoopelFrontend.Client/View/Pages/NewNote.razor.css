@@ -1,0 +1,27 @@
+.new-note-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+    flex-wrap: wrap;
+}
+
+.new-note-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.new-note-kicker {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--dashboard-text-muted);
+}
+
+.new-note-module-icon {
+    color: var(--note-color-primary);
+}

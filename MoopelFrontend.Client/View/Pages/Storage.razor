@@ -1,0 +1,104 @@
+@attribute [Route(PageRoutes.Storage)]
+@attribute [AllowAnonymous]
+@rendermode RenderModes.AutoNoPrerender
+@inherits AuthInitializingComponentBase
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Storage - Moopel</PageTitle>
+
+@if (!IsAuthReady)
+{
+    <p class="state-message" role="status">Loading&hellip;</p>
+}
+else if (AuthService.CurrentUser is not null)
+{
+    <div class="module-page storage-page">
+        <header class="module-header">
+            <div class="module-header-copy">
+                <h1>Storage &amp; Inventory</h1>
+                <p>Manage items stored in the basement, attic, and long-term storage.</p>
+            </div>
+            <div class="module-header-actions">
+                <a class="btn btn-primary" href="@PageRoutes.NewStorage">+ Add New Location</a>
+            </div>
+        </header>
+
+        <div class="module-toolbar">
+            <div class="module-search">
+                <span class="module-search-icon" aria-hidden="true">&#128269;</span>
+                <input type="search" placeholder="Find an item (e.g. &lsquo;Holiday lights&rsquo;, &lsquo;Camping gear&rsquo;)..." aria-label="Search storage items" />
+            </div>
+        </div>
+
+        <div class="module-location-list">
+            @foreach (StorageLocationSample location in _locations)
+            {
+                <div class="module-location-card">
+                    <div class="module-location-card-top">
+                        <div class="module-location-identity">
+                            <div class="module-location-icon module-icon-wrap @location.IconClass" aria-hidden="true">@location.Icon</div>
+                            <div>
+                                <h2 class="module-location-title">@location.Name</h2>
+                                <p class="module-location-desc">@location.Description</p>
+                            </div>
+                        </div>
+                        <div class="module-location-badges">
+                            <div class="module-location-badge"><strong>Boxes</strong> @location.Boxes</div>
+                            <div class="module-location-badge"><strong>Total Items</strong> @location.TotalItems</div>
+                            <a class="btn btn-secondary" href="@PageRoutes.NewStorageItem" aria-label="Add item to @location.Name" style="padding: 0.4rem 0.6rem;">+</a>
+                        </div>
+                    </div>
+
+                    <div class="module-location-items-grid">
+                        @foreach (StorageItemSample item in location.PreviewItems)
+                        {
+                            <div class="module-location-item">
+                                <span class="module-location-item-name">
+                                    <span aria-hidden="true">@item.Icon</span>
+                                    @item.Name
+                                </span>
+                                <span class="module-location-item-slot" aria-label="Location: @item.Slot">@item.Slot</span>
+                            </div>
+                        }
+                    </div>
+
+                    <button type="button" class="module-location-view-all">
+                        View All @location.TotalItems Items in @location.Name
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private sealed record StorageItemSample(string Icon, string Name, string Slot);
+    private sealed record StorageLocationSample(string Icon, string IconClass, string Name, string Description, int Boxes, int TotalItems, StorageItemSample[] PreviewItems);
+
+    private readonly StorageLocationSample[] _locations =
+    [
+        new("🚗", "module-icon-wrap--slate", "Garage", "Main floor storage, tools, and automotive.", 12, 48,
+        [
+            new("🔧", "Power Tool Set", "Shelf A1"),
+            new("🚲", "Mountain Bikes (2)", "Wall Mount"),
+            new("❄", "Winter Tires", "Rack 4")
+        ]),
+        new("⬆", "module-icon-wrap--amber", "Attic", "Seasonal items, holiday decorations, and archives.", 24, 156,
+        [
+            new("🎄", "Xmas Decorations", "Box #12"),
+            new("👻", "Halloween Props", "Box #4"),
+            new("⛺", "Camping Equipment", "North Corner")
+        ])
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (AuthService.CurrentUser is null)
+        {
+            NavigationManager.NavigateTo($"{PageRoutes.Login}?{PageRoutes.ReturnUrlParameter}={Uri.EscapeDataString(PageRoutes.Storage)}");
+        }
+    }
+}
