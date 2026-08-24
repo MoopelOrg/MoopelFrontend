@@ -16,4 +16,5 @@ public static class PageRoutes
     public const string NewTag = Shared.PageRoutes.NewTag;
     public const string Settings = Shared.PageRoutes.Settings;
     public const string NotFound = Shared.PageRoutes.NotFound;
+    public const string ReturnUrlParameter = Shared.PageRoutes.ReturnUrlParameter;
 }

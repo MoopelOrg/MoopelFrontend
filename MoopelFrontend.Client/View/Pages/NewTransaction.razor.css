@@ -1,1 +1,6 @@
 --module-main-color: var(--banking-color-primary);
+
+.new-transaction-items-help {
+    font-size: 0.875rem;
+    margin-bottom: var(--space-md);
+}

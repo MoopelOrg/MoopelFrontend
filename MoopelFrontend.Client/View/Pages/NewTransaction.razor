@@ -18,7 +18,7 @@ else if (AuthService.CurrentUser is not null)
             <div class="new-note-header-left">
                 <a class="module-icon-btn" href="@PageRoutes.Transactions" aria-label="Back to transactions">&#8592;</a>
                 <div class="new-note-kicker">
-                    <span style="color: var(--banking-color-primary);">💳</span>
+                    <span class="module-kicker-icon">💳</span>
                     <span>New Transaction</span>
                 </div>
             </div>
@@ -85,7 +85,7 @@ else if (AuthService.CurrentUser is not null)
 
         <div class="module-form-section">
             <span class="module-form-section-label">Transaction Items</span>
-            <p class="module-muted" style="font-size:0.875rem; margin-bottom: var(--space-md);">Break this transaction into line items for detailed tracking.</p>
+            <p class="module-muted new-transaction-items-help">Break this transaction into line items for detailed tracking.</p>
             <button type="button" class="module-form-dashed-add">+ Add Item</button>
         </div>
     </div>

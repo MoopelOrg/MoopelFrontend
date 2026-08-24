@@ -45,7 +45,7 @@ else if (AuthService.CurrentUser is not null)
                     {
                         <tr class="tags-table-row">
                             <td>
-                                <div class="tag-name-cell" style="@($"--tag-accent: var({tag.ColorVariable});")">
+                                <div class="tag-name-cell @TagAccentClass(tag.ColorVariable)">
                                     <span class="tag-color-dot" aria-hidden="true"></span>
                                     <span class="tag-name">@tag.Name</span>
                                 </div>
@@ -107,6 +107,20 @@ else if (AuthService.CurrentUser is not null)
     {
         // TODO: Confirm and delete the selected tag when tag APIs exist.
     }
+
+    private static string TagAccentClass(string colorVariable) => colorVariable switch
+    {
+        "--tag-color-rose" => "tag-accent-rose",
+        "--tag-color-emerald" => "tag-accent-emerald",
+        "--tag-color-sky" => "tag-accent-sky",
+        "--tag-color-amber" => "tag-accent-amber",
+        "--tag-color-purple" => "tag-accent-purple",
+        "--tag-color-indigo" => "tag-accent-indigo",
+        "--tag-color-pink" => "tag-accent-pink",
+        "--tag-color-orange" => "tag-accent-orange",
+        "--tag-color-lime" => "tag-accent-lime",
+        _ => "tag-accent-slate"
+    };
 
     private sealed record TagSummary(string Name, string ColorVariable, string LastUsed, IReadOnlyList<TagUsage> Usage);
 

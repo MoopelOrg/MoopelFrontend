@@ -104,45 +104,45 @@ else if (AuthService.CurrentUser is not null)
             <header>
                 <div class="transactions-detail-meta">
                     <span class="module-badge module-badge--open">@tx.Account</span>
-                    <span class="module-muted" style="font-size: 0.75rem; font-weight: 700;">@tx.Date</span>
+                    <span class="module-muted transactions-detail-date">@tx.Date</span>
                 </div>
                 <h2 class="module-detail-heading">@tx.Name</h2>
                 <p class="module-detail-amount @(tx.IsDebit ? "module-detail-amount--debit" : "module-detail-amount--credit")">@tx.Amount</p>
             </header>
 
-            <div class="module-detail-section" style="margin-top: var(--space-xl);">
+            <div class="module-detail-section module-detail-section--mt-xl">
                 <p class="module-detail-section-label">Description</p>
-                <p class="module-muted" style="line-height: 1.6;">Weekly shopping for groceries and household supplies.</p>
+                <p class="module-muted module-muted-reading">Weekly shopping for groceries and household supplies.</p>
             </div>
 
             <div class="module-detail-section">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-md);">
-                    <p class="module-detail-section-label" style="margin:0;">Transaction Items</p>
+                <div class="module-detail-header-row">
+                    <p class="module-detail-section-label module-detail-section-label--inline">Transaction Items</p>
                     <button type="button" class="transactions-add-item-btn">+ Add Item</button>
                 </div>
                 <div class="module-nested-items">
                     <div class="module-nested-item">
                         <div class="module-nested-item-card">
                             <div>
-                                <p style="font-size:0.875rem; font-weight:700; margin:0; color: var(--dashboard-text);">Groceries</p>
-                                <p style="font-size:0.625rem; color: var(--dashboard-text-muted); margin:0.25rem 0 0;">@tx.Date</p>
+                                <p class="module-detail-item-title">Groceries</p>
+                                <p class="module-detail-item-subtitle">@tx.Date</p>
                             </div>
-                            <p style="font-size:0.875rem; font-weight:700; color: var(--dashboard-text); margin:0;">$62.10</p>
+                            <p class="module-detail-item-amount">$62.10</p>
                         </div>
                     </div>
                     <div class="module-nested-item">
                         <div class="module-nested-item-card">
                             <div>
-                                <p style="font-size:0.875rem; font-weight:700; margin:0; color: var(--dashboard-text);">Household</p>
-                                <p style="font-size:0.625rem; color: var(--dashboard-text-muted); margin:0.25rem 0 0;">@tx.Date</p>
+                                <p class="module-detail-item-title">Household</p>
+                                <p class="module-detail-item-subtitle">@tx.Date</p>
                             </div>
-                            <p style="font-size:0.875rem; font-weight:700; color: var(--dashboard-text); margin:0;">$22.22</p>
+                            <p class="module-detail-item-amount">$22.22</p>
                         </div>
                     </div>
                 </div>
                 <div class="module-nested-total">
-                    <span class="module-detail-section-label" style="margin:0;">Calculated Total</span>
-                    <span style="font-size:1.125rem; font-weight:700; color:var(--dashboard-text);">$84.32</span>
+                    <span class="module-detail-section-label module-detail-section-label--inline">Calculated Total</span>
+                    <span class="module-detail-total">$84.32</span>
                 </div>
             </div>
         }

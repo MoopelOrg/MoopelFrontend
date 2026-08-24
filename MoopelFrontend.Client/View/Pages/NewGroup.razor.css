@@ -10,9 +10,9 @@
 .new-group-icon-placeholder {
     width: 100%;
     height: 100%;
-    border-radius: 2.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--module-panel-radius);
+    background: var(--dashboard-settings-background);
+    border: 2px dashed var(--dashboard-border-strong);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,7 +23,7 @@
 }
 
 .new-group-icon-placeholder:hover {
-    border-color: rgba(109, 74, 255, 0.5);
+    border-color: var(--dashboard-accent-border);
 }
 
 .new-group-icon-edit {
@@ -33,9 +33,9 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: var(--large-radius);
-    background: #6d4aff;
+    background: var(--dashboard-accent);
     border: none;
-    color: white;
+    color: var(--dashboard-text);
     font-size: 0.875rem;
     display: flex;
     align-items: center;
@@ -76,8 +76,8 @@
     align-items: center;
     gap: var(--space-md);
     padding: var(--space-md) var(--space-lg);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--dashboard-surface-02);
+    border: 1px solid var(--dashboard-border-soft);
     border-radius: var(--large-radius);
     margin-top: var(--space-sm);
 }
@@ -86,7 +86,7 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: rgba(109, 74, 255, 0.2);
+    background: var(--dashboard-accent-soft);
     display: flex;
     align-items: center;
     justify-content: center;

@@ -20,6 +20,8 @@ public static class AuthConstants
 public static class UiGlyphs
 {
     public const string Settings = "⚙";
+    public const string Menu = "☰";
+    public const string Close = "×";
 }
 
 /// <summary>A single navigation entry rendered by the layout.</summary>

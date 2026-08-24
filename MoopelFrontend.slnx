@@ -8,10 +8,10 @@
   <Folder Name="/Github/AI/">
     <File Path=".github/agents/css-theme-agent.md" />
     <File Path=".github/copilot-instructions.md" />
+    <File Path=".github/skills/css-theme-enforcer/SKILL.md" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
-    <File Path=".github/agents/css-theme-agent.md" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/WireFrames/">

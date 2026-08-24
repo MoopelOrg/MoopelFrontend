@@ -18,7 +18,7 @@ else if (AuthService.CurrentUser is not null)
             <div class="new-note-header-left">
                 <a class="module-icon-btn" href="@PageRoutes.Groups" aria-label="Back to groups">&#8592;</a>
                 <div class="new-note-kicker">
-                    <span style="color: var(--group-color-primary);">👥</span>
+                    <span class="module-kicker-icon">👥</span>
                     <span>Create New Group</span>
                 </div>
             </div>
@@ -34,7 +34,7 @@ else if (AuthService.CurrentUser is not null)
                 <button type="button" class="new-group-icon-edit" aria-label="Edit group icon">✏</button>
             </div>
 
-            <div class="module-field" style="margin-top: var(--space-xl);">
+            <div class="module-field module-field--mt-xl">
                 <label for="group-name">Group Name</label>
                 <input id="group-name" type="text" class="large" placeholder="e.g. Dream House, Summer Trip 2024..." @bind="_name" />
             </div>
@@ -60,7 +60,7 @@ else if (AuthService.CurrentUser is not null)
                     <span class="new-group-member-avatar" aria-hidden="true">@(user.Username.Length > 0 ? char.ToUpper(user.Username[0]) : '?')</span>
                     <div>
                         <p class="new-group-member-name">You</p>
-                        <p class="module-muted" style="font-size:0.75rem; margin:0;">Admin</p>
+                        <p class="module-muted module-muted-caption">Admin</p>
                     </div>
                 </div>
             }

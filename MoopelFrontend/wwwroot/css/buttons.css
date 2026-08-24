@@ -15,7 +15,7 @@
 
 .btn-primary {
     background: var(--color-primary);
-    color: #ffffff;
+    color: var(--color-primary-text);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -34,7 +34,7 @@
 
 .btn-danger {
     background: var(--color-danger);
-    color: #ffffff;
+    color: var(--color-danger-text);
 }
 
 .btn-danger:hover:not(:disabled) {

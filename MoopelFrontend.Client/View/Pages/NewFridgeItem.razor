@@ -18,7 +18,7 @@ else if (AuthService.CurrentUser is not null)
             <div class="new-note-header-left">
                 <a class="module-icon-btn" href="@PageRoutes.Fridges" aria-label="Back to fridge">&#8592;</a>
                 <div class="new-note-kicker">
-                    <span style="color: var(--fridge-color-primary);">🧊</span>
+                    <span class="module-kicker-icon">🧊</span>
                     <span>Add Item to Fridge</span>
                 </div>
             </div>
@@ -71,7 +71,7 @@ else if (AuthService.CurrentUser is not null)
             <div class="module-form-settings-list">
                 @foreach (string status in _statuses)
                 {
-                    <label class="module-form-setting-row" style="cursor:pointer;">
+                    <label class="module-form-setting-row">
                         <p class="module-form-setting-title">@status</p>
                         <input type="radio" name="fridge-status" value="@status" checked="@(_status == status)" @onchange="() => _status = status" />
                     </label>

@@ -16,6 +16,36 @@
     <link rel="stylesheet" href="@Assets["css/keyframes.css"]" />
     <link rel="stylesheet" href="@Assets["css/modules.css"]" />
     <link rel="stylesheet" href="@Assets["MoopelFrontend.styles.css"]" />
+    <script>
+        (() => {
+            try {
+                const raw = localStorage.getItem('moopel-theme');
+                if (!raw) {
+                    return;
+                }
+
+                const theme = JSON.parse(raw);
+                if (!theme || typeof theme !== 'object') {
+                    return;
+                }
+
+                const entries = Object.entries(theme).filter(([key, value]) => typeof key === 'string' && typeof value === 'string' && key.startsWith('--'));
+                if (entries.length === 0) {
+                    return;
+                }
+
+                let style = document.getElementById('moopel-theme-overrides');
+                if (!style) {
+                    style = document.createElement('style');
+                    style.id = 'moopel-theme-overrides';
+                    document.head.appendChild(style);
+                }
+
+                style.textContent = `:root { ${entries.map(([key, value]) => `${key}: ${value};`).join(' ')} }`;
+            } catch {
+            }
+        })();
+    </script>
     <ImportMap />
     <HeadOutlet @rendermode="RenderModes.AutoNoPrerender" />
 </head>
@@ -24,6 +54,7 @@
     <Routes @rendermode="RenderModes.ServerNoPrerender" />
     <ReconnectModal />
     <script src="@Assets["js/authCookies.js"]"></script>
+    <script src="@Assets["js/theme.js"]"></script>
     <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 

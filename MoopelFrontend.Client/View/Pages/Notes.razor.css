@@ -10,7 +10,7 @@
 /* ---------- Sidebar ---------- */
 
 .notes-sidebar {
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: 1px solid var(--dashboard-header-border);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -34,7 +34,7 @@
 .notes-sidebar-new-btn {
     width: 2.25rem;
     height: 2.25rem;
-    background: #6d4aff;
+    background: var(--dashboard-accent);
     border-radius: var(--large-radius);
     display: flex;
     align-items: center;
@@ -42,15 +42,15 @@
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1;
-    color: white;
+    color: var(--dashboard-text);
     text-decoration: none;
     transition: background var(--transition-fast);
 }
 
 .notes-sidebar-new-btn:hover {
-    background: #5a38e0;
+    background: var(--dashboard-accent-hover);
     text-decoration: none;
-    color: white;
+    color: var(--dashboard-text);
 }
 
 .notes-type-filters {
@@ -66,8 +66,8 @@
     border-radius: var(--radius-pill);
     font-size: 0.75rem;
     font-weight: 700;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--dashboard-settings-background);
+    border: 1px solid var(--dashboard-settings-border);
     color: var(--dashboard-text-muted);
     cursor: pointer;
     transition: background var(--transition-fast), color var(--transition-fast);
@@ -75,8 +75,8 @@
 
 .notes-type-filter.active,
 .notes-type-filter:hover {
-    background: rgba(109, 74, 255, 0.2);
-    border-color: rgba(109, 74, 255, 0.4);
+    background: var(--dashboard-accent-soft);
+    border-color: var(--dashboard-accent-border);
     color: var(--dashboard-text);
 }
 
@@ -93,7 +93,7 @@
     text-align: left;
     background: none;
     border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--dashboard-surface-04);
     padding: var(--space-md) var(--space-lg);
     cursor: pointer;
     transition: background var(--transition-fast);
@@ -101,12 +101,12 @@
 }
 
 .notes-list-item:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--dashboard-surface-04);
 }
 
 .notes-list-item.active {
-    background: rgba(109, 74, 255, 0.12);
-    border-right: 2px solid #6d4aff;
+    background: var(--dashboard-accent-softer);
+    border-right: 2px solid var(--dashboard-accent);
 }
 
 .notes-list-item-header {
@@ -182,8 +182,8 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    background: rgba(245, 158, 11, 0.15);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: color-mix(in srgb, var(--tag-color-amber) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--tag-color-amber) 30%, transparent);
     color: var(--note-color-primary);
 }
 
@@ -254,7 +254,7 @@
 
     .notes-sidebar {
         border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid var(--dashboard-header-border);
         max-height: 60vh;
     }
 

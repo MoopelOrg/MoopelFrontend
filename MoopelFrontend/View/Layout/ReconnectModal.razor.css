@@ -21,16 +21,16 @@
 
 
 #components-reconnect-modal {
-    background-color: white;
+    background-color: var(--color-surface);
     width: 20rem;
     margin: 20vh auto;
-    padding: 2rem;
+    padding: var(--space-xl);
     border: 0;
-    border-radius: 0.5rem;
-    box-shadow: 0 3px 6px 2px rgba(0, 0, 0, 0.3);
+    border-radius: var(--space-sm);
+    box-shadow: 0 3px 6px 2px var(--color-shadow-modal);
     opacity: 0;
-    transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
-    animation: components-reconnect-modal-fadeOutOpacity 0.5s both;
+    transition: display var(--transition-slow) allow-discrete, overlay var(--transition-slow) allow-discrete;
+    animation: components-reconnect-modal-fadeOutOpacity var(--transition-slow) both;
     &[open]
 
 {
@@ -41,46 +41,17 @@
 }
 
 #components-reconnect-modal::backdrop {
-    background-color: rgba(0, 0, 0, 0.4);
-    animation: components-reconnect-modal-fadeInOpacity 0.5s ease-in-out;
+    background-color: var(--color-overlay);
+    animation: components-reconnect-modal-fadeInOpacity var(--transition-slow);
     opacity: 1;
 }
 
-@keyframes components-reconnect-modal-slideUp {
-    0% {
-        transform: translateY(30px) scale(0.95);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes components-reconnect-modal-fadeInOpacity {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes components-reconnect-modal-fadeOutOpacity {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
 
 .components-reconnect-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-md);
 }
 
 #components-reconnect-modal p {
@@ -90,18 +61,18 @@
 
 #components-reconnect-modal button {
     border: 0;
-    background-color: #6b9ed2;
-    color: white;
+    background-color: var(--color-reconnect-primary);
+    color: var(--dashboard-text);
     padding: 4px 24px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 }
 
     #components-reconnect-modal button:hover {
-        background-color: #3b6ea2;
+        background-color: var(--color-reconnect-primary-hover);
     }
 
     #components-reconnect-modal button:active {
-        background-color: #6b9ed2;
+        background-color: var(--color-reconnect-primary);
     }
 
 .components-rejoining-animation {
@@ -112,7 +83,7 @@
 
     .components-rejoining-animation div {
         position: absolute;
-        border: 3px solid #0087ff;
+        border: 3px solid var(--color-reconnect-accent);
         opacity: 1;
         border-radius: 50%;
         animation: components-rejoining-animation 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
@@ -122,36 +93,3 @@
             animation-delay: -0.5s;
         }
 
-@keyframes components-rejoining-animation {
-    0% {
-        top: 40px;
-        left: 40px;
-        width: 0;
-        height: 0;
-        opacity: 0;
-    }
-
-    4.9% {
-        top: 40px;
-        left: 40px;
-        width: 0;
-        height: 0;
-        opacity: 0;
-    }
-
-    5% {
-        top: 40px;
-        left: 40px;
-        width: 0;
-        height: 0;
-        opacity: 1;
-    }
-
-    100% {
-        top: 0px;
-        left: 0px;
-        width: 80px;
-        height: 80px;
-        opacity: 0;
-    }
-}

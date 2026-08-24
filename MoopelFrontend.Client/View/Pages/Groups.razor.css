@@ -13,8 +13,8 @@
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: rgba(109, 74, 255, 0.25);
-    border: 2px solid #1a1a2e;
+    background: color-mix(in srgb, var(--dashboard-accent) 25%, transparent);
+    border: 2px solid var(--dashboard-background-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,6 +29,6 @@
 }
 
 .groups-member-overflow {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--dashboard-settings-background);
     font-size: 0.625rem;
 }

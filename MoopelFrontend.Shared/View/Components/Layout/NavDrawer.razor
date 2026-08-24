@@ -9,7 +9,7 @@
         aria-expanded="@(_isOpen ? "true" : "false")"
         aria-controls="app-drawer"
         @onclick="Open">
-    &#9776;
+    @UiGlyphs.Menu
 </button>
 
 @if (_isOpen)
@@ -20,7 +20,7 @@
 <aside id="app-drawer" class="drawer @(_isOpen ? "drawer-open" : string.Empty)" aria-hidden="@(_isOpen ? "false" : "true")">
     <div class="drawer-header">
         <span class="app-brand">Moopel</span>
-        <button type="button" class="drawer-close" aria-label="Close navigation" @onclick="Close">&times;</button>
+        <button type="button" class="drawer-close" aria-label="Close navigation" @onclick="Close">@UiGlyphs.Close</button>
     </div>
 
     <nav class="drawer-nav">

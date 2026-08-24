@@ -1,8 +1,8 @@
 #blazor-error-ui {
     color-scheme: light only;
-    background: lightyellow;
+    background: var(--color-blazor-error-bg);
     bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 calc(var(--space-2xs) * -1) var(--space-sm) var(--color-shadow-strong);
     box-sizing: border-box;
     display: none;
     left: 0;
@@ -20,8 +20,8 @@
     }
 
 .error-boundary {
-    background: #fdecea;
-    border: 1px solid #f5c2c0;
-    border-radius: 0.25rem;
-    padding: 1rem;
+    background: var(--color-error-boundary-bg);
+    border: 1px solid var(--color-error-boundary-border);
+    border-radius: var(--space-xs);
+    padding: var(--space-md);
 }

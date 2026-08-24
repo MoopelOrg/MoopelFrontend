@@ -48,8 +48,8 @@
 
 .new-work-item-priority-btn {
     padding: var(--space-sm);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--dashboard-settings-background);
+    border: 1px solid var(--dashboard-border-strong);
     border-radius: var(--radius);
     color: var(--dashboard-text-muted);
     font-size: 0.75rem;
@@ -60,14 +60,14 @@
 
 .new-work-item-priority-btn:hover {
     color: var(--dashboard-text);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: var(--dashboard-settings-background-hover);
+    border-color: var(--dashboard-surface-15);
 }
 
 .new-work-item-priority-btn.active {
     background: var(--module-main-color);
     border-color: var(--module-main-color);
-    color: white;
+    color: var(--dashboard-text);
 }
 
 .new-work-item-footer {
@@ -75,7 +75,7 @@
     gap: var(--space-sm);
     padding-top: var(--space-lg);
     margin-top: var(--space-lg);
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--dashboard-header-border);
 }
 
 @media (max-width: 56rem) {

@@ -51,7 +51,7 @@
 }
 
 .tag-editor-submit:hover {
-    background: color-mix(in srgb, var(--dashboard-badge-background) 86%, white 14%);
+    background: color-mix(in srgb, var(--dashboard-badge-background) 86%, var(--dashboard-text) 14%);
 }
 
 .tag-editor-body {
@@ -177,6 +177,17 @@
     background: var(--tag-preview-color);
     box-shadow: 0 0 0.75rem color-mix(in srgb, var(--tag-preview-color) 50%, transparent);
 }
+
+.tag-token-rose { --tag-option-color: var(--tag-color-rose); --tag-preview-color: var(--tag-color-rose); }
+.tag-token-emerald { --tag-option-color: var(--tag-color-emerald); --tag-preview-color: var(--tag-color-emerald); }
+.tag-token-sky { --tag-option-color: var(--tag-color-sky); --tag-preview-color: var(--tag-color-sky); }
+.tag-token-amber { --tag-option-color: var(--tag-color-amber); --tag-preview-color: var(--tag-color-amber); }
+.tag-token-purple { --tag-option-color: var(--tag-color-purple); --tag-preview-color: var(--tag-color-purple); }
+.tag-token-indigo { --tag-option-color: var(--tag-color-indigo); --tag-preview-color: var(--tag-color-indigo); }
+.tag-token-pink { --tag-option-color: var(--tag-color-pink); --tag-preview-color: var(--tag-color-pink); }
+.tag-token-orange { --tag-option-color: var(--tag-color-orange); --tag-preview-color: var(--tag-color-orange); }
+.tag-token-lime { --tag-option-color: var(--tag-color-lime); --tag-preview-color: var(--tag-color-lime); }
+.tag-token-slate { --tag-option-color: var(--tag-color-slate); --tag-preview-color: var(--tag-color-slate); }
 
 @media (max-width: 40rem) {
     .tag-editor-header,

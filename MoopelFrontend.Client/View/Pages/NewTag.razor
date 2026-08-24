@@ -40,8 +40,7 @@ else if (AuthService.CurrentUser is not null)
                     @foreach (TagColorOption color in TagColors)
                     {
                         <button type="button"
-                                class="tag-color-button @(color.VariableName == _draft.ColorVariableName ? "tag-color-button-selected" : string.Empty)"
-                                style="@($"--tag-option-color: var({color.VariableName});")"
+                                class="tag-color-button @color.CssClass @(color.VariableName == _draft.ColorVariableName ? "tag-color-button-selected" : string.Empty)"
                                 aria-label="@color.Label"
                                 aria-pressed="@(color.VariableName == _draft.ColorVariableName)"
                                 @onclick="() => SelectColor(color.VariableName)">
@@ -65,7 +64,7 @@ else if (AuthService.CurrentUser is not null)
 
             <section class="tag-preview-panel">
                 <h2 class="tag-editor-heading">Preview</h2>
-                <div class="tag-preview-chip" style="@($"--tag-preview-color: var({_draft.ColorVariableName});")">
+                <div class="tag-preview-chip @PreviewColorClass">
                     <span class="tag-preview-dot" aria-hidden="true"></span>
                     <span>@PreviewName</span>
                 </div>
@@ -86,16 +85,16 @@ else if (AuthService.CurrentUser is not null)
 
     private static readonly IReadOnlyList<TagColorOption> TagColors =
     [
-        new("Rose", "--tag-color-rose"),
-        new("Emerald", "--tag-color-emerald"),
-        new("Sky", "--tag-color-sky"),
-        new("Amber", "--tag-color-amber"),
-        new("Purple", "--tag-color-purple"),
-        new("Indigo", "--tag-color-indigo"),
-        new("Pink", "--tag-color-pink"),
-        new("Orange", "--tag-color-orange"),
-        new("Lime", "--tag-color-lime"),
-        new("Slate", "--tag-color-slate")
+        new("Rose", "--tag-color-rose", "tag-token-rose"),
+        new("Emerald", "--tag-color-emerald", "tag-token-emerald"),
+        new("Sky", "--tag-color-sky", "tag-token-sky"),
+        new("Amber", "--tag-color-amber", "tag-token-amber"),
+        new("Purple", "--tag-color-purple", "tag-token-purple"),
+        new("Indigo", "--tag-color-indigo", "tag-token-indigo"),
+        new("Pink", "--tag-color-pink", "tag-token-pink"),
+        new("Orange", "--tag-color-orange", "tag-token-orange"),
+        new("Lime", "--tag-color-lime", "tag-token-lime"),
+        new("Slate", "--tag-color-slate", "tag-token-slate")
     ];
 
     [SupplyParameterFromQuery(Name = PageRoutes.ReturnUrlParameter)]
@@ -103,6 +102,19 @@ else if (AuthService.CurrentUser is not null)
 
     private string BackHref => string.IsNullOrWhiteSpace(ReturnUrl) ? PageRoutes.Tags : ReturnUrl;
     private string PreviewName => string.IsNullOrWhiteSpace(_draft.Name) ? "Tag Name" : _draft.Name.Trim();
+    private string PreviewColorClass => _draft.ColorVariableName switch
+    {
+        "--tag-color-rose" => "tag-token-rose",
+        "--tag-color-emerald" => "tag-token-emerald",
+        "--tag-color-sky" => "tag-token-sky",
+        "--tag-color-amber" => "tag-token-amber",
+        "--tag-color-purple" => "tag-token-purple",
+        "--tag-color-indigo" => "tag-token-indigo",
+        "--tag-color-pink" => "tag-token-pink",
+        "--tag-color-orange" => "tag-token-orange",
+        "--tag-color-lime" => "tag-token-lime",
+        _ => "tag-token-slate"
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -133,7 +145,7 @@ else if (AuthService.CurrentUser is not null)
         public string ColorVariableName { get; set; } = "--tag-color-rose";
     }
 
-    private sealed record TagColorOption(string Label, string VariableName);
+    private sealed record TagColorOption(string Label, string VariableName, string CssClass);
 
     private sealed class TagModuleOption(string name, bool enabled)
     {

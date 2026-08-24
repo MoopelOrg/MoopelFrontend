@@ -67,8 +67,8 @@
     height: 5rem;
     border-radius: 1.75rem;
     background: linear-gradient(135deg,
-        color-mix(in srgb, var(--app-gradient-main-color) 88%, white 12%),
-        color-mix(in srgb, var(--app-gradient-main-color) 78%, black 22%));
+        color-mix(in srgb, var(--app-gradient-main-color) 88%, var(--dashboard-text) 12%),
+        color-mix(in srgb, var(--app-gradient-main-color) 78%, var(--dashboard-background) 22%));
     box-shadow: 0 1rem 2rem color-mix(in srgb, var(--app-gradient-main-color) 28%, transparent);
     transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
 }
@@ -78,7 +78,7 @@
     inset: 0;
     content: "";
     border-radius: inherit;
-    background: linear-gradient(180deg, color-mix(in srgb, white 16%, transparent), transparent 55%);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-text) 16%, transparent), transparent 55%);
     pointer-events: none;
 }
 

@@ -5,15 +5,15 @@
     left: 0;
     right: 0;
     padding: var(--space-md);
-    background: #fff3cd;
+    background: var(--color-blazor-error-bg);
     border-top: 1px solid var(--color-border);
-    z-index: 1000;
+    z-index: var(--z-dropdown);
 }
 
 .blazor-error-boundary {
     background: var(--color-danger);
     padding: var(--space-md);
-    color: #ffffff;
+    color: var(--color-danger-text);
     border-radius: var(--radius);
 }
 

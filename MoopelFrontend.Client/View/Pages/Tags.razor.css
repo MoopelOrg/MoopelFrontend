@@ -32,7 +32,7 @@
 }
 
 .tags-create-link:hover {
-    background: color-mix(in srgb, var(--dashboard-badge-background) 86%, white 14%);
+    background: color-mix(in srgb, var(--dashboard-badge-background) 86%, var(--dashboard-text) 14%);
     color: var(--dashboard-text);
 }
 
@@ -161,6 +161,17 @@
 .tag-usage-count {
     font-weight: 700;
 }
+
+.tag-accent-rose { --tag-accent: var(--tag-color-rose); }
+.tag-accent-emerald { --tag-accent: var(--tag-color-emerald); }
+.tag-accent-sky { --tag-accent: var(--tag-color-sky); }
+.tag-accent-amber { --tag-accent: var(--tag-color-amber); }
+.tag-accent-purple { --tag-accent: var(--tag-color-purple); }
+.tag-accent-indigo { --tag-accent: var(--tag-color-indigo); }
+.tag-accent-pink { --tag-accent: var(--tag-color-pink); }
+.tag-accent-orange { --tag-accent: var(--tag-color-orange); }
+.tag-accent-lime { --tag-accent: var(--tag-color-lime); }
+.tag-accent-slate { --tag-accent: var(--tag-color-slate); }
 
 .tags-actions-heading,
 .tags-actions-cell {
