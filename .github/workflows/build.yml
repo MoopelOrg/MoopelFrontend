@@ -1,0 +1,35 @@
+name: BuildAndTest
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '11.0.x'
+
+      - name: Restore
+        run: dotnet restore MoopelFrontend.slnx
+
+      - name: Build
+        run: dotnet build MoopelFrontend.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test MoopelFrontend.slnx --configuration Release --no-build
