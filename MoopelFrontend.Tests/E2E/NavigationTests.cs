@@ -58,14 +58,14 @@ public sealed class NavigationTests
     public async Task HomePage_RedirectsAnonymousUserToLogin()
     {
         await _page.GotoAsync($"{_host.BaseUrl}/");
-        await Assertions.Expect(_page).ToHaveURLAsync($"{_host.BaseUrl}/{PageRoutes.Login}");
+        await Assertions.Expect(_page).ToHaveURLAsync($"{_host.BaseUrl}{PageRoutes.Login}");
         await Assertions.Expect(_page.Locator("h1")).ToHaveTextAsync("Log in");
     }
 
     [Test]
     public async Task LoginPage_ShowsCredentialsForm()
     {
-        await _page.GotoAsync($"{_host.BaseUrl}/{PageRoutes.Login}");
+        await _page.GotoAsync($"{_host.BaseUrl}{PageRoutes.Login}");
         await Assertions.Expect(_page.Locator("#username")).ToBeVisibleAsync();
         await Assertions.Expect(_page.Locator("#password")).ToBeVisibleAsync();
     }
