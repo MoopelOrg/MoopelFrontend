@@ -5,6 +5,7 @@ using MoopelFrontend.Tests.Infrastructure;
 namespace MoopelFrontend.Tests.E2E;
 
 [TestFixture]
+[Category("Integration")]
 public sealed class NavigationTests
 {
     private AppHostFixture _host = null!;
