@@ -1,0 +1,53 @@
+using System.Net;
+using System.Net.Sockets;
+
+using Microsoft.AspNetCore.Builder;
+
+namespace MoopelFrontend.Tests.Infrastructure;
+
+public sealed class AppHostFixture : IAsyncDisposable
+{
+    private readonly WebApplication _app;
+
+    private AppHostFixture(WebApplication app, string baseUrl)
+    {
+        _app = app;
+        BaseUrl = baseUrl;
+    }
+
+    public string BaseUrl { get; }
+
+    public static async Task<AppHostFixture> StartAsync()
+    {
+        int port = GetAvailablePort();
+        string baseUrl = $"http://127.0.0.1:{port}";
+        string contentRoot = Path.GetFullPath(
+            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "MoopelFrontend"));
+
+        Startup startup = new(
+        [
+            "--applicationName", typeof(Program).Assembly.GetName().Name!,
+            "--contentRoot", contentRoot,
+            "--environment", "Development",
+            "--urls", baseUrl
+        ]);
+        startup.CreateBuilder();
+        WebApplication app = startup.BuildApp();
+        await app.StartAsync();
+
+        return new AppHostFixture(app, baseUrl);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _app.StopAsync();
+        await _app.DisposeAsync();
+    }
+
+    private static int GetAvailablePort()
+    {
+        using TcpListener listener = new(IPAddress.Loopback, 0);
+        listener.Start();
+        return ((IPEndPoint)listener.LocalEndpoint).Port;
+    }
+}
