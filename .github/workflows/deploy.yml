@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: [self-hosted, Windows, X64, moopel-server]
+
+    steps:
+      - name: Verify runner
+        shell: pwsh
+        run: |
+          Write-Host "Runner: $env:RUNNER_NAME"
+          Write-Host "OS: $env:RUNNER_OS"
+          Write-Host "Architecture: $env:RUNNER_ARCH"
+          Write-Host "Machine: $env:COMPUTERNAME"
+
+      - name: Verify deployment directory
+        shell: pwsh
+        run: |
+          Write-Host "User: $env:USERNAME"
+          Write-Host "Working directory: $PWD"
+          Write-Host "Deployment test successful."
