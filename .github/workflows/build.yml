@@ -28,8 +28,26 @@ jobs:
       - name: Restore
         run: dotnet restore MoopelFrontend.slnx
 
+      - name: Check vulnerable packages
+        run: dotnet list MoopelFrontend.slnx package --vulnerable --include-transitive
+
       - name: Build
-        run: dotnet build MoopelFrontend.slnx --configuration Release --no-restore
+        run: dotnet build MoopelFrontend.slnx --configuration Release --no-restore --warnaserror
+
+      - name: Check formatting
+        run: dotnet format MoopelFrontend.slnx --verify-no-changes --no-restore
 
       - name: Test
-        run: dotnet test MoopelFrontend.slnx --configuration Release --no-build
+        continue-on-error: true
+        run: >
+          dotnet test MoopelFrontend.slnx
+          --configuration Release
+          --no-build
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: TestResults/
