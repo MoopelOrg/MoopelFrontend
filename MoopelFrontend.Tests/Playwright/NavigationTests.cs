@@ -2,7 +2,7 @@ using Microsoft.Playwright;
 
 using MoopelFrontend.Tests.Infrastructure;
 
-namespace MoopelFrontend.Tests.E2E;
+namespace MoopelFrontend.Tests.Playwright;
 
 [TestFixture]
 public sealed class NavigationTests
