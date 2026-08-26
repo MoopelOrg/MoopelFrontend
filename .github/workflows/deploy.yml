@@ -12,6 +12,11 @@ on:
           - Development
           - Production
 
+      build_number:
+        description: "Build number to deploy"
+        required: true
+        type: string
+
       run_id:
         description: "BuildAndTest run ID to deploy"
         required: true
