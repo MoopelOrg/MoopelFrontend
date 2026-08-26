@@ -78,6 +78,18 @@ jobs:
             --tag moopelfrontend:${{ env.BUILD_NUMBER }}-${{ env.COMMIT_SHA }} \
             .
 
+      - name: Save Docker image
+        run: |
+          docker save \
+            moopelfrontend:${{ env.BUILD_NUMBER }}-${{ env.COMMIT_SHA }} \
+            --output ./moopelfrontend.tar
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v7
+        with:
+          name: MoopelFrontend-Docker-${{ env.BUILD_NUMBER }}-${{ env.COMMIT_SHA }}
+          path: ./moopelfrontend.tar
+
       - name: Upload application artifact
         uses: actions/upload-artifact@v7
         with:
