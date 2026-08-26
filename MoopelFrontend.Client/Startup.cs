@@ -15,15 +15,30 @@ namespace MoopelFrontend.Client;
 public sealed class Startup
 {
     private WebAssemblyHostBuilder _builder;
-    private readonly MoopelAppSettings _appSettings;
 
     public Startup(string[] args)
     {
         _builder = WebAssemblyHostBuilder.CreateDefault(args);
+    }
 
+    public async Task LoadRuntimeConfigurationAsync(CancellationToken cancellationToken = default)
+    {
+        using HttpClient httpClient = new()
+        {
+            BaseAddress = new Uri(_builder.HostEnvironment.BaseAddress, UriKind.Absolute)
+        };
+
+        await RuntimeConfigurationLoader.LoadAsync(
+            _builder.Configuration,
+            httpClient,
+            cancellationToken);
+    }
+
+    private MoopelAppSettings CreateAppSettings()
+    {
         string env = _builder.Configuration["Environment"]
             ?? throw new("Could not find environment");
-        MoopelEnvironment Environment = env.ToUpper() switch
+        MoopelEnvironment environment = env.ToUpperInvariant() switch
         {
             "TEST" => MoopelEnvironment.Test,
             "DEVELOPMENT" => MoopelEnvironment.Test,
@@ -31,9 +46,9 @@ public sealed class Startup
             _ => throw new($"Invalid environment {env}")
         };
 
-        _appSettings = new()
+        return new()
         {
-            Environment = Environment
+            Environment = environment
         };
     }
 
@@ -73,7 +88,7 @@ public sealed class Startup
 
     public WebAssemblyHostBuilder AddLifetimeServices()
     {
-        _builder.Services.AddSingleton<MoopelAppSettings>(_appSettings);
+        _builder.Services.AddSingleton(CreateAppSettings());
 
         _builder.Services.AddOptions<MoopelApiOptions>()
             .Bind(_builder.Configuration.GetRequiredSection(nameof(MoopelApiOptions)))

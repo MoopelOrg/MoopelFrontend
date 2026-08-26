@@ -155,6 +155,18 @@ public sealed class Startup
             return Results.NoContent();
         });
 
+        app.MapGet("/app-config.json", (HttpContext context, IOptions<MoopelApiOptions> apiOptions) =>
+        {
+            context.Response.Headers.CacheControl = "no-store";
+
+            return Results.Ok(new ClientRuntimeConfiguration
+            {
+                Environment = app.Configuration["Environment"]
+                    ?? throw new InvalidOperationException("Could not find environment"),
+                MoopelApiOptions = apiOptions.Value
+            });
+        });
+
         app.MapStaticAssets();
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode()

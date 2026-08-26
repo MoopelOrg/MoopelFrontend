@@ -17,20 +17,38 @@ public sealed class AppHostFixture : IAsyncDisposable
 
     public string BaseUrl { get; }
 
-    public static async Task<AppHostFixture> StartAsync()
+    public HttpClient CreateClient()
+    {
+        return new HttpClient
+        {
+            BaseAddress = new Uri(BaseUrl, UriKind.Absolute)
+        };
+    }
+
+    public static async Task<AppHostFixture> StartAsync(
+        string environment = "Development",
+        string? apiBaseUrl = null)
     {
         int port = GetAvailablePort();
         string baseUrl = $"http://127.0.0.1:{port}";
         string contentRoot = Path.GetFullPath(
             Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "MoopelFrontend"));
 
-        Startup startup = new(
+        List<string> arguments =
         [
             "--applicationName", typeof(Program).Assembly.GetName().Name!,
             "--contentRoot", contentRoot,
-            "--environment", "Development",
+            "--environment", environment,
             "--urls", baseUrl
-        ]);
+        ];
+
+        if (apiBaseUrl is not null)
+        {
+            arguments.Add("--MoopelApiOptions:BaseUrl");
+            arguments.Add(apiBaseUrl);
+        }
+
+        Startup startup = new([.. arguments]);
         startup.CreateBuilder();
         WebApplication app = startup.BuildApp();
         await app.StartAsync();
