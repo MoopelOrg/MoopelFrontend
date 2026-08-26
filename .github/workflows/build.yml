@@ -72,6 +72,12 @@ jobs:
           }
           EOF
 
+      - name: Build Docker image
+        run: |
+          docker build \
+            --tag moopelfrontend:${{ env.BUILD_NUMBER }}-${{ env.COMMIT_SHA }} \
+            .
+
       - name: Upload application artifact
         uses: actions/upload-artifact@v7
         with:
