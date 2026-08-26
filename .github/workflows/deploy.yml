@@ -44,6 +44,11 @@ jobs:
           repository: ${{ github.repository }}
           run-id: ${{ inputs.run_id }}
 
+      - name: Load Docker image
+        shell: pwsh
+        run: |
+          docker load --input ./moopelfrontend.tar
+
       - name: Verify deployment directory
         shell: pwsh
         run: |
