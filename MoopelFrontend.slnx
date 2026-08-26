@@ -10,6 +10,12 @@
     <File Path=".github/copilot-instructions.md" />
     <File Path=".github/skills/css-theme-enforcer/SKILL.md" />
   </Folder>
+  <Folder Name="/Github/Workflows/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/Deploy-Development.yml" />
+    <File Path=".github/workflows/Deploy-Production.yml" />
+    <File Path=".github/workflows/Deploy-Test.yml" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".dockerignore" />
     <File Path=".editorconfig" />
