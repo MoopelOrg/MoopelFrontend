@@ -47,6 +47,7 @@ jobs:
       - name: Load Docker image
         shell: pwsh
         run: |
+          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
           docker load --input ./moopelfrontend.tar
 
       - name: Verify deployment directory
