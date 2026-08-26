@@ -12,7 +12,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: deploy-development-${{ github.event.workflow_run.head_branch }}
+  group: deploy-development
   cancel-in-progress: false
 
 jobs:
@@ -27,6 +27,12 @@ jobs:
 
     environment: Development
 
+    env:
+      CONTAINER_NAME: moopelfrontend-development
+      HOST_PORT: '8082'
+      IMAGE_TAG: moopelfrontend:${{ github.event.workflow_run.id }}
+      DOCKER_CONFIG: C:\Users\MoopelRunner\.docker
+
     steps:
       - name: Verify runner
         shell: pwsh
@@ -39,10 +45,16 @@ jobs:
           Write-Host "Build number: ${{ github.event.workflow_run.run_number }}"
           Write-Host "Build run ID: ${{ github.event.workflow_run.id }}"
 
+      - name: Checkout trusted deployment scripts
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+
       - name: Download Docker image
         uses: actions/download-artifact@v7
         with:
-          name: MoopelFrontend-Docker-${{ github.event.workflow_run.run_number }}
+          name: MoopelFrontend-Docker-${{ github.event.workflow_run.id }}
           path: .
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
@@ -50,29 +62,16 @@ jobs:
 
       - name: Load Docker image
         shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
-
-          docker load --input ./moopelfrontend.tar
+        run: docker load --input ./moopelfrontend.tar
 
       - name: Deploy container
         shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
-
-          docker rm -f moopelfrontend-development 2>$null
-
-          docker run -d `
-            --name moopelfrontend-development `
-            -p 8080:8080 `
-            -e "Environment=${{ vars.ENVIRONMENT }}" `
-            -e "MoopelApiOptions__BaseUrl=${{ secrets.MOOPEL_API_BASE_URL }}" `
-            moopelfrontend:${{ github.event.workflow_run.run_number }}
-
-      - name: Verify container
-        shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
-
-          docker ps --filter "name=moopelfrontend-development"
-          docker inspect moopelfrontend --format '{{.State.Status}}'
+        env:
+          DEPLOY_API_BASE_URL: ${{ secrets.MOOPEL_API_BASE_URL }}
+        run: >
+          ./.github/scripts/Deploy-Container.ps1
+          -ContainerName $env:CONTAINER_NAME
+          -ImageTag $env:IMAGE_TAG
+          -HostPort $env:HOST_PORT
+          -EnvironmentName '${{ vars.ENVIRONMENT }}'
+          -ApiBaseUrl $env:DEPLOY_API_BASE_URL
