@@ -11,7 +11,9 @@
     <File Path=".github/skills/css-theme-enforcer/SKILL.md" />
   </Folder>
   <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
     <File Path=".editorconfig" />
+    <File Path="Dockerfile" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/WireFrames/">
