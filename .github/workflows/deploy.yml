@@ -3,8 +3,8 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      build_number:
-        description: "Build number to deploy"
+      run_id:
+        description: "BuildAndTest run ID to deploy"
         required: true
         type: string
 
@@ -34,6 +34,9 @@ jobs:
         with:
           name: MoopelFrontend-Docker-${{ inputs.build_number }}
           path: .
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.build_number }}
 
       - name: Verify deployment directory
         shell: pwsh
