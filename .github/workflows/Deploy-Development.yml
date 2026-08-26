@@ -60,10 +60,10 @@ jobs:
         run: |
           $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
 
-          docker rm -f moopelfrontend 2>$null
+          docker rm -f moopelfrontend-development 2>$null
 
           docker run -d `
-            --name moopelfrontend `
+            --name moopelfrontend-development `
             -p 8080:8080 `
             -e "Environment=${{ vars.ENVIRONMENT }}" `
             -e "MoopelApiOptions__BaseUrl=${{ secrets.MOOPEL_API_BASE_URL }}" `
@@ -74,5 +74,5 @@ jobs:
         run: |
           $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
 
-          docker ps --filter "name=moopelfrontend"
+          docker ps --filter "name=moopelfrontend-development"
           docker inspect moopelfrontend --format '{{.State.Status}}'
