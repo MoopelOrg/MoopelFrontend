@@ -3,10 +3,14 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      build_number:
-        description: "Build number to deploy"
+      environment:
+        description: "Environment to deploy to"
         required: true
-        type: string
+        type: choice
+        options:
+          - Test
+          - Development
+          - Production
 
       run_id:
         description: "BuildAndTest run ID to deploy"
