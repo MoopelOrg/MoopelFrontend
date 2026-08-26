@@ -50,9 +50,14 @@ jobs:
           $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
           docker load --input ./moopelfrontend.tar
 
-      - name: Verify deployment directory
+      - name: Deploy container
         shell: pwsh
         run: |
-          Write-Host "User: $env:USERNAME"
-          Write-Host "Working directory: $PWD"
-          Write-Host "Deployment test successful."
+          docker rm -f moopelfrontend 2>$null
+          
+          docker run -d `
+            --name moopelfrontend `
+            -p 8080:8080 `
+            -e "Environment=Production" `
+            -e "MoopelApiOptions__BaseUrl=https://api.example.com/" `
+            moopelfrontend:${{ inputs.build_number }}
