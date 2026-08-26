@@ -58,6 +58,6 @@ jobs:
           docker run -d `
             --name moopelfrontend `
             -p 8080:8080 `
-            -e "Environment=Production" `
-            -e "MoopelApiOptions__BaseUrl=https://api.example.com/" `
+            -e "Environment=${{ vars.ENVIRONMENT }}" `
+            -e "MoopelApiOptions__BaseUrl=${{ secrets.MOOPEL_API_BASE_URL }}" `
             moopelfrontend:${{ inputs.build_number }}
