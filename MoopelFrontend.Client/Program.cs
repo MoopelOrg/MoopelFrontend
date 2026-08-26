@@ -3,6 +3,7 @@ using MoopelFrontend.Client;
 try
 {
     Startup startup = new(args);
+    await startup.LoadRuntimeConfigurationAsync();
     startup.CreateBuilder();
     await startup.BuildHost().RunAsync();
 

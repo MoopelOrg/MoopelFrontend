@@ -1,0 +1,14 @@
+.git
+.github
+.vs
+.idea
+.vscode
+
+**/bin
+**/obj
+
+TestResults
+publish
+
+*.user
+*.suo
