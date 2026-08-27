@@ -18,8 +18,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy Production
+  deploy-staging:
+    name: Deploy Staging
     if: >
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
@@ -27,7 +27,13 @@ jobs:
 
     runs-on: [self-hosted, Windows, X64, moopel-server]
 
-    environment: Production
+    environment: Staging
+
+    env:
+      CONTAINER_NAME: moopelfrontend-staging
+      HOST_PORT: '8083'
+      IMAGE_TAG: moopelfrontend:${{ github.event.workflow_run.id }}
+      DOCKER_CONFIG: C:\Users\MoopelRunner\.docker
 
     steps:
       - name: Verify runner
@@ -41,10 +47,16 @@ jobs:
           Write-Host "Build number: ${{ github.event.workflow_run.run_number }}"
           Write-Host "Build run ID: ${{ github.event.workflow_run.id }}"
 
+      - name: Checkout trusted deployment scripts
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+
       - name: Download Docker image
         uses: actions/download-artifact@v7
         with:
-          name: MoopelFrontend-Docker-${{ github.event.workflow_run.run_number }}
+          name: MoopelFrontend-Docker-${{ github.event.workflow_run.id }}
           path: .
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
@@ -52,29 +64,61 @@ jobs:
 
       - name: Load Docker image
         shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
+        run: docker load --input ./moopelfrontend.tar
 
-          docker load --input ./moopelfrontend.tar
-
-      - name: Deploy container
+      - name: Deploy and smoke test Staging
         shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
+        env:
+          DEPLOY_API_BASE_URL: ${{ secrets.MOOPEL_API_BASE_URL }}
+        run: >
+          ./.github/scripts/Deploy-Container.ps1
+          -ContainerName $env:CONTAINER_NAME
+          -ImageTag $env:IMAGE_TAG
+          -HostPort $env:HOST_PORT
+          -EnvironmentName '${{ vars.ENVIRONMENT }}'
+          -ApiBaseUrl $env:DEPLOY_API_BASE_URL
 
-          docker rm -f moopelfrontend-production 2>$null
+  deploy-production:
+    name: Deploy Production
+    needs: deploy-staging
+    runs-on: [self-hosted, Windows, X64, moopel-server]
+    environment: Production
 
-          docker run -d `
-            --name moopelfrontend-production `
-            -p 8080:8080 `
-            -e "Environment=${{ vars.ENVIRONMENT }}" `
-            -e "MoopelApiOptions__BaseUrl=${{ secrets.MOOPEL_API_BASE_URL }}" `
-            moopelfrontend:${{ github.event.workflow_run.run_number }}
+    env:
+      CONTAINER_NAME: moopelfrontend-production
+      HOST_PORT: '8080'
+      IMAGE_TAG: moopelfrontend:${{ github.event.workflow_run.id }}
+      DOCKER_CONFIG: C:\Users\MoopelRunner\.docker
 
-      - name: Verify container
+    steps:
+      - name: Checkout trusted deployment scripts
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Download Docker image
+        uses: actions/download-artifact@v7
+        with:
+          name: MoopelFrontend-Docker-${{ github.event.workflow_run.id }}
+          path: .
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Load Docker image
         shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
+        run: docker load --input ./moopelfrontend.tar
 
-          docker ps --filter "name=moopelfrontend-production"
-          docker inspect moopelfrontend --format '{{.State.Status}}'
+      - name: Deploy and smoke test Production
+        shell: pwsh
+        env:
+          DEPLOY_API_BASE_URL: ${{ secrets.MOOPEL_API_BASE_URL }}
+        run: >
+          ./.github/scripts/Deploy-Container.ps1
+          -ContainerName $env:CONTAINER_NAME
+          -ImageTag $env:IMAGE_TAG
+          -HostPort $env:HOST_PORT
+          -EnvironmentName '${{ vars.ENVIRONMENT }}'
+          -ApiBaseUrl $env:DEPLOY_API_BASE_URL
+          -LegacyContainerName moopelfrontend

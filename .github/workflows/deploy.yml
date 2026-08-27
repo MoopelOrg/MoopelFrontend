@@ -10,7 +10,7 @@ on:
         options:
           - Test
           - Development
-          - Production
+          - Staging
 
       build_number:
         description: "Build number to deploy"
@@ -27,7 +27,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: deploy-${{ github.ref }}
+  group: deploy-${{ inputs.environment }}
   cancel-in-progress: false
 
 jobs:
@@ -35,6 +35,9 @@ jobs:
     name: Deploy
     runs-on: [self-hosted, Windows, X64, moopel-server]
     environment: ${{ inputs.environment }}
+
+    env:
+      DOCKER_CONFIG: C:\Users\MoopelRunner\.docker
 
     steps:
       - name: Verify runner
@@ -45,10 +48,66 @@ jobs:
           Write-Host "Architecture: $env:RUNNER_ARCH"
           Write-Host "Machine: $env:COMPUTERNAME"
 
+      - name: Validate build provenance
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $headers = @{
+            Accept = "application/vnd.github+json"
+            Authorization = "Bearer $env:GH_TOKEN"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+          $run = Invoke-RestMethod `
+            -Headers $headers `
+            -Uri "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ inputs.run_id }}"
+
+          if ($run.name -ne "BuildAndTest" -or $run.conclusion -ne "success") {
+            throw "The selected run must be a successful BuildAndTest run."
+          }
+          if ($run.run_number.ToString() -ne "${{ inputs.build_number }}") {
+            throw "The build number does not match the selected run."
+          }
+
+          switch ("${{ inputs.environment }}") {
+            "Development" {
+              if ($run.event -ne "push" -or $run.head_branch -eq "main") {
+                throw "Development requires a non-main push build."
+              }
+              $containerName = "moopelfrontend-development"
+              $hostPort = 8082
+            }
+            "Test" {
+              if ($run.event -ne "pull_request" -or
+                  $run.head_repository.full_name -ne "${{ github.repository }}") {
+                throw "Test requires a same-repository pull request build."
+              }
+              $containerName = "moopelfrontend-test"
+              $hostPort = 8081
+            }
+            "Staging" {
+              if ($run.event -ne "push" -or $run.head_branch -ne "main") {
+                throw "Staging requires a main push build."
+              }
+              $containerName = "moopelfrontend-staging"
+              $hostPort = 8083
+            }
+          }
+
+          "CONTAINER_NAME=$containerName" >> $env:GITHUB_ENV
+          "HOST_PORT=$hostPort" >> $env:GITHUB_ENV
+          "IMAGE_TAG=moopelfrontend:${{ inputs.run_id }}" >> $env:GITHUB_ENV
+
+      - name: Checkout trusted deployment scripts
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+
       - name: Download Docker image
         uses: actions/download-artifact@v7
         with:
-          name: MoopelFrontend-Docker-${{ inputs.build_number }}
+          name: MoopelFrontend-Docker-${{ inputs.run_id }}
           path: .
           github-token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
@@ -56,18 +115,16 @@ jobs:
 
       - name: Load Docker image
         shell: pwsh
-        run: |
-          $env:DOCKER_CONFIG = "C:\Users\MoopelRunner\.docker"
-          docker load --input ./moopelfrontend.tar
+        run: docker load --input ./moopelfrontend.tar
 
       - name: Deploy container
         shell: pwsh
-        run: |
-          docker rm -f moopelfrontend 2>$null
-          
-          docker run -d `
-            --name moopelfrontend `
-            -p 8080:8080 `
-            -e "Environment=${{ vars.ENVIRONMENT }}" `
-            -e "MoopelApiOptions__BaseUrl=${{ secrets.MOOPEL_API_BASE_URL }}" `
-            moopelfrontend:${{ inputs.build_number }}
+        env:
+          DEPLOY_API_BASE_URL: ${{ secrets.MOOPEL_API_BASE_URL }}
+        run: >
+          ./.github/scripts/Deploy-Container.ps1
+          -ContainerName $env:CONTAINER_NAME
+          -ImageTag $env:IMAGE_TAG
+          -HostPort $env:HOST_PORT
+          -EnvironmentName '${{ vars.ENVIRONMENT }}'
+          -ApiBaseUrl $env:DEPLOY_API_BASE_URL
