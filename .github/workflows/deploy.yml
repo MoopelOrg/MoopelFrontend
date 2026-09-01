@@ -105,7 +105,7 @@ jobs:
           persist-credentials: false
 
       - name: Download Docker image
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: MoopelFrontend-Docker-${{ inputs.run_id }}
           path: .
