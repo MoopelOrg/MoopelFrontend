@@ -34,6 +34,11 @@ public sealed class AppHostFixture : IAsyncDisposable
         string contentRoot = Path.GetFullPath(
             Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "MoopelFrontend"));
 
+        if (!Directory.Exists(contentRoot) || !File.Exists(Path.Combine(contentRoot, "appsettings.json")))
+        {
+            contentRoot = AppContext.BaseDirectory;
+        }
+
         List<string> arguments =
         [
             "--applicationName", typeof(Program).Assembly.GetName().Name!,
@@ -42,11 +47,12 @@ public sealed class AppHostFixture : IAsyncDisposable
             "--urls", baseUrl
         ];
 
-        if (apiBaseUrl is not null)
-        {
-            arguments.Add("--MoopelApiOptions:BaseUrl");
-            arguments.Add(apiBaseUrl);
-        }
+        string effectiveApiBaseUrl = !string.IsNullOrWhiteSpace(apiBaseUrl)
+            ? apiBaseUrl
+            : "https://localhost:7176";
+
+        arguments.Add("--MoopelApiOptions:BaseUrl");
+        arguments.Add(effectiveApiBaseUrl);
 
         Startup startup = new([.. arguments]);
         startup.CreateBuilder();
