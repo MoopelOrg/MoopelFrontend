@@ -10,10 +10,12 @@ param(
     [string]$ImageTag,
 
     [Parameter(Mandatory = $true)]
-    [string]$HostPort,
+    [ValidateRange(1, 65535)]
+    [int]$HostPort,
 
     [Parameter(Mandatory = $true)]
-    [string]$ContainerPort,
+    [ValidateRange(1, 65535)]
+    [int]$ContainerPort,
 
     [Parameter(Mandatory = $true)]
     [string]$EnvironmentName,
@@ -167,4 +169,3 @@ if (-not $healthy) {
 }
 
 Write-Host "Successfully deployed '$ContainerName' running $targetImage on host port $HostPort."
-
