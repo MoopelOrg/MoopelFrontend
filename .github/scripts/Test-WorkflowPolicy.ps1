@@ -55,8 +55,8 @@ Assert-Match $deploy "DEFAULT_DEVELOPMENT_HOST_PORT:\s*'8084'" `
     '_deploy.yml must configure development host port 8084 to avoid collision with backend.'
 Assert-Match $deploy "DEFAULT_STAGING_HOST_PORT:\s*'8085'" `
     '_deploy.yml must configure staging host port 8085 to avoid collision with backend.'
-Assert-Match $deploy "DEFAULT_TEST_HOST_PORT:\s*'8085'" `
-    '_deploy.yml must configure test host port 8085 to avoid collision with backend.'
+Assert-Match $deploy "DEFAULT_TEST_HOST_PORT:\s*'8086'" `
+    '_deploy.yml must configure test host port 8086 to avoid collision with backend.'
 Assert-Match $deploy "DEFAULT_PRODUCTION_HOST_PORT:\s*'8081'" `
     '_deploy.yml must configure production host port 8081 to avoid collision with backend.'
 Assert-Match $deploy 'HOST_PORT:\s*\$\{\{\s*vars\.HOST_PORT\s*\}\}' `
