@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\MoopelFrontend\appsettings.json" Link="appsettings.json">
+    <None Include="..\MoopelFrontend\appsettings.json" Link="appsettings.json" Condition="Exists('..\MoopelFrontend\appsettings.json')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\MoopelFrontend\appsettings.Development.json" Link="appsettings.Development.json">
+    <None Include="..\MoopelFrontend\appsettings.Development.json" Link="appsettings.Development.json" Condition="Exists('..\MoopelFrontend\appsettings.Development.json')">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
