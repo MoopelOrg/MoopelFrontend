@@ -53,6 +53,9 @@ $scriptContent = Get-Content $scriptPath -Raw
 Assert-True ($scriptContent -match 'function Remove-ContainerGracefully') `
     "Deploy-Container.ps1 must define Remove-ContainerGracefully."
 
+Assert-True ($scriptContent -match 'if \(-not \[string\]::IsNullOrWhiteSpace\(\$LegacyContainerName\)\)\s*\{\s*Remove-ContainerGracefully -Name \$LegacyContainerName') `
+    "Deploy-Container.ps1 must skip legacy container removal when no legacy container name is provided."
+
 Assert-True ($scriptContent -match 'stop.*--time.*10') `
     "Deploy-Container.ps1 must gracefully stop containers with a timeout."
 
