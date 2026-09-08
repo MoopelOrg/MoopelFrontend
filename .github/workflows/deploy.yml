@@ -1,4 +1,4 @@
-name: Deploy
+﻿name: Deploy
 
 on:
   workflow_dispatch:
@@ -31,24 +31,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: [self-hosted, Windows, X64, moopel-server]
-    environment: ${{ inputs.environment }}
-
-    env:
-      DOCKER_CONFIG: C:\Users\MoopelRunner\.docker
-
+  validate:
+    name: Validate build provenance
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.provenance.outputs.environment }}
+      container_name: ${{ steps.provenance.outputs.container_name }}
+      image_tag: ${{ steps.provenance.outputs.image_tag }}
     steps:
-      - name: Verify runner
-        shell: pwsh
-        run: |
-          Write-Host "Runner: $env:RUNNER_NAME"
-          Write-Host "OS: $env:RUNNER_OS"
-          Write-Host "Architecture: $env:RUNNER_ARCH"
-          Write-Host "Machine: $env:COMPUTERNAME"
-
       - name: Validate build provenance
+        id: provenance
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +67,6 @@ jobs:
                 throw "Development requires a non-main push build."
               }
               $containerName = "moopelfrontend-development"
-              $hostPort = 8082
             }
             "Test" {
               if ($run.event -ne "pull_request" -or
@@ -83,48 +74,27 @@ jobs:
                 throw "Test requires a same-repository pull request build."
               }
               $containerName = "moopelfrontend-test"
-              $hostPort = 8081
             }
             "Staging" {
               if ($run.event -ne "push" -or $run.head_branch -ne "main") {
                 throw "Staging requires a main push build."
               }
               $containerName = "moopelfrontend-staging"
-              $hostPort = 8083
             }
           }
 
-          "CONTAINER_NAME=$containerName" >> $env:GITHUB_ENV
-          "HOST_PORT=$hostPort" >> $env:GITHUB_ENV
-          "IMAGE_TAG=moopelfrontend:${{ inputs.run_id }}" >> $env:GITHUB_ENV
+          "environment=${{ inputs.environment }}" >> $env:GITHUB_OUTPUT
+          "container_name=$containerName" >> $env:GITHUB_OUTPUT
+          "image_tag=$($run.head_sha)" >> $env:GITHUB_OUTPUT
 
-      - name: Checkout trusted deployment scripts
-        uses: actions/checkout@v7
-        with:
-          ref: main
-          persist-credentials: false
-
-      - name: Download Docker image
-        uses: actions/download-artifact@v7
-        with:
-          name: MoopelFrontend-Docker-${{ inputs.run_id }}
-          path: .
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: ${{ inputs.run_id }}
-
-      - name: Load Docker image
-        shell: pwsh
-        run: docker load --input ./moopelfrontend.tar
-
-      - name: Deploy container
-        shell: pwsh
-        env:
-          DEPLOY_API_BASE_URL: ${{ secrets.MOOPEL_API_BASE_URL }}
-        run: >
-          ./.github/scripts/Deploy-Container.ps1
-          -ContainerName $env:CONTAINER_NAME
-          -ImageTag $env:IMAGE_TAG
-          -HostPort $env:HOST_PORT
-          -EnvironmentName '${{ vars.ENVIRONMENT }}'
-          -ApiBaseUrl $env:DEPLOY_API_BASE_URL
+  deploy:
+    name: Deploy
+    needs: validate
+    uses: ./.github/workflows/_deploy.yml
+    with:
+      environment_name: ${{ needs.validate.outputs.environment }}
+      container_name: ${{ needs.validate.outputs.container_name }}
+      image_tag: ${{ needs.validate.outputs.image_tag }}
+      run_id: ${{ inputs.run_id }}
+      run_smoke_tests: true
+    secrets: inherit

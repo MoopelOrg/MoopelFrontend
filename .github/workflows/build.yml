@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Validate workflow policy
         shell: pwsh
@@ -42,7 +42,7 @@ jobs:
           echo "GIT_TAG=${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}" >> "$GITHUB_ENV"
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '11.0.x'
 
@@ -54,6 +54,9 @@ jobs:
 
       - name: Check formatting
         run: dotnet format MoopelFrontend.slnx --verify-no-changes --no-restore
+
+      - name: Install Playwright browsers
+        run: pwsh MoopelFrontend.Tests/bin/Release/net11.0/playwright.ps1 install --with-deps chromium
 
       - name: Test
         run: >
@@ -80,26 +83,38 @@ jobs:
           EOF
 
       - name: Build Docker image
+        env:
+          IMAGE_NAME: ghcr.io/moopelorg/moopelfrontend
         run: |
-          docker build \
-            --tag moopelfrontend:${{ github.run_id }} \
-            .
+          TAG_ARGS=("--tag" "$IMAGE_NAME:${{ github.sha }}" "--tag" "moopelfrontend:${{ github.sha }}")
+          TAG_ARGS+=("--tag" "moopelfrontend:${{ github.run_id }}")
+
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            TAG_ARGS+=("--tag" "$IMAGE_NAME:latest" "--tag" "moopelfrontend:latest")
+          fi
+
+          if [ -n "$GIT_TAG" ]; then
+            TAG_ARGS+=("--tag" "$IMAGE_NAME:$GIT_TAG" "--tag" "moopelfrontend:$GIT_TAG")
+          fi
+
+          docker build "${TAG_ARGS[@]}" .
 
       - name: Save Docker image
         run: |
           docker save \
-            moopelfrontend:${{ github.run_id }} \
+            ghcr.io/moopelorg/moopelfrontend:${{ github.sha }} \
+            moopelfrontend:${{ github.sha }} \
             --output ./moopelfrontend.tar
 
       - name: Upload Docker image
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
-          name: MoopelFrontend-Docker-${{ github.run_id }}
+          name: moopelfrontend-docker-${{ github.sha }}
           path: ./moopelfrontend.tar
           retention-days: 7
 
       - name: Upload application artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: MoopelFrontend-${{ github.run_id }}
           path: ./publish/
@@ -107,7 +122,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ github.run_id }}
           path: TestResults/
