@@ -101,7 +101,9 @@ if ($LASTEXITCODE -ne 0) {
     throw "Expected deployment image '$imageReference' is not loaded on the runner."
 }
 
-Remove-ContainerGracefully -Name $LegacyContainerName
+if (-not [string]::IsNullOrWhiteSpace($LegacyContainerName)) {
+    Remove-ContainerGracefully -Name $LegacyContainerName
+}
 Remove-ContainerGracefully -Name $ContainerName
 
 $deployedAt = (Get-Date).ToUniversalTime().ToString('o')
