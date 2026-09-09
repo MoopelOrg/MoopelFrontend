@@ -46,8 +46,10 @@ Assert-Match $build '(?ms)pull_request:\s+types:\s+- opened\s+- synchronize\s+- 
     'BuildAndTest must run when PRs to main are opened, synchronized, or reopened.'
 Assert-NotMatch $build 'continue-on-error:\s*true' `
     'BuildAndTest must not allow tests to fail.'
-Assert-Match $build 'moopelfrontend-docker-\$\{\{\s*github\.sha\s*\}\}' `
-    'BuildAndTest must upload Docker artifact tagged with commit SHA.'
+Assert-Match $build 'DOCKER_IMAGE_TAG:\s*\$\{\{\s*github\.event\.pull_request\.head\.sha\s*\|\|\s*github\.sha\s*\}\}' `
+    'BuildAndTest must resolve Docker image tags from PR head SHA or push SHA.'
+Assert-Match $build 'moopelfrontend-docker-\$\{\{\s*env\.DOCKER_IMAGE_TAG\s*\}\}' `
+    'BuildAndTest must upload Docker artifact using the resolved Docker image tag.'
 
 Assert-Match $deploy 'workflow_call:' `
     '_deploy.yml must be a reusable workflow called via workflow_call.'
